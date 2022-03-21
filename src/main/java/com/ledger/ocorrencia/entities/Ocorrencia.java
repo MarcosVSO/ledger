@@ -28,7 +28,7 @@ public class Ocorrencia {
     private Integer idInstInformada;
 
     @Column(name="cod_cobrade")
-    private String idCobrade;
+    private String codCobrade;
 
     @Column(name="data_ocorrencia")
     private Date dataOcorrencia;

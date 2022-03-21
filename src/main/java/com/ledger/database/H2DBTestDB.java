@@ -17,8 +17,8 @@ public class H2DBTestDB implements CommandLineRunner {
 
     @Override
     public void run (String... args) throws Exception{
-        Ocorrencia o1 = Ocorrencia.builder().dataOcorrencia(new Date()).idCobrade("11110").uf("GO").municipio("Goiânia").build();
-        Ocorrencia o2 = Ocorrencia.builder().dataOcorrencia(new Date()).idCobrade("11120").uf("MS").municipio("Barra do Garças").build();
+        Ocorrencia o1 = Ocorrencia.builder().dataOcorrencia(new Date()).codCobrade("11110").uf("GO").municipio("Goiânia").build();
+        Ocorrencia o2 = Ocorrencia.builder().dataOcorrencia(new Date()).codCobrade("11120").uf("MS").municipio("Barra do Garças").build();
         ocorrenciaRepository.saveAll(Arrays.asList(o1,o2));
     }
 
