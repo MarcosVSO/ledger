@@ -1,6 +1,7 @@
 package com.ledger.ocorrencia.dto;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ledger.danos.entities.DanosAmbientais;
 import com.ledger.danos.entities.DanosHumanos;
 import com.ledger.danos.entities.DanosMateriais;
@@ -30,4 +31,6 @@ public class FideDTO {
     private List<DanosAmbientais> danosAmbientais;
     private List<DanosHumanos> danosHumanos;
     private List<DanosMateriais> danosMateriais;
+
+
 }

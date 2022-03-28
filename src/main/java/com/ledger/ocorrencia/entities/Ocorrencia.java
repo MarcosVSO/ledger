@@ -1,6 +1,7 @@
 package com.ledger.ocorrencia.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.ledger.areasAfetadas.entities.AreaAfetada;
 import com.ledger.danos.entities.DanosAmbientais;
 import com.ledger.danos.entities.DanosHumanos;
 import com.ledger.danos.entities.DanosMateriais;
@@ -70,5 +71,9 @@ public class Ocorrencia {
     @OneToMany(mappedBy = "ocorrencia")
     @JsonManagedReference
     private List<DanosMateriais> danosMateriais;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "area_afetada_id", referencedColumnName = "id")
+    private AreaAfetada areaAfetada;
 
 }

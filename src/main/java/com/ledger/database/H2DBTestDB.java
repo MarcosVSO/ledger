@@ -1,5 +1,7 @@
 package com.ledger.database;
 
+import com.ledger.areasAfetadas.entities.AreaAfetada;
+import com.ledger.areasAfetadas.repositories.AreaAfetadaRepository;
 import com.ledger.cobrade.Cobrade;
 import com.ledger.cobrade.CobradeRepository;
 import com.ledger.danos.entities.DanosAmbientais;
@@ -42,6 +44,9 @@ public class H2DBTestDB implements CommandLineRunner {
     @Autowired
     private CobradeRepository cobradeRepository;
 
+    @Autowired
+    private AreaAfetadaRepository areaAfetadaRepository;
+
     @Override
     public void run (String... args) throws Exception{
         /****  COBRADES ****/
@@ -73,8 +78,10 @@ public class H2DBTestDB implements CommandLineRunner {
         listT2.add(t2);
 
         /****  Ocorrências ****/
-        Ocorrencia o1 = Ocorrencia.builder().dataOcorrencia(new Date()).codCobrade("11110").uf("GO").municipio("Goiânia").build();
-        Ocorrencia o2 = Ocorrencia.builder().dataOcorrencia(new Date()).codCobrade("11120").uf("MS").municipio("Barra do Garças").build();
+        Ocorrencia o1 = Ocorrencia.builder().dataOcorrencia(new Date()).codCobrade("11110").uf("GO").municipio("Goiânia").latitude("-16.716666613612432").longitude("-49.252455389736646").instInformadaOrgaoEstadual(true)
+                .instituicaoInformadaSedec(true).build();
+        Ocorrencia o2 = Ocorrencia.builder().dataOcorrencia(new Date()).codCobrade("11120").uf("MS").municipio("Barra do Garças").latitude("-15.894243863201739").longitude("-52.26307143229597").instInformadaOrgaoEstadual(true)
+                .instituicaoInformadaSedec(false).build();
 
         o1.setInstInformanteTelefones(listT1);
         o2.setInstInformanteTelefones(listT2);
@@ -127,6 +134,14 @@ public class H2DBTestDB implements CommandLineRunner {
         o1.setDanosMateriais(danosMateriais1);
         o2.setDanosMateriais(danosMateriais2);
 
+        /****  Areas Afetadas ****/
+        AreaAfetada a1 = AreaAfetada.builder().residencial("Não Afetada").comercial("Urbana").industrial("Rural").agricola("Urbana e Rural").pecuaria("Urbana e Rural").extrativismoVegetal("Urbana").reservaFlorestal("Rural").mineracao("Não Afetada").build();
+        AreaAfetada a2 = AreaAfetada.builder().residencial("Urbana").comercial("Urbana").industrial("Rural").agricola("Rural").pecuaria("Rural").extrativismoVegetal("Não Afetada").reservaFlorestal("Urbana").mineracao("Não Afetada").build();
+
+        o1.setAreaAfetada(a1);
+        o2.setAreaAfetada(a2);
+
+
         /**** Saving ****/
         ocorrenciaRepository.saveAll(Arrays.asList(o1,o2));
         telefoneRepository.saveAll(Arrays.asList(t1,t2));
@@ -134,6 +149,7 @@ public class H2DBTestDB implements CommandLineRunner {
         danosAmbientaisRepository.saveAll(Arrays.asList(dA1,dA2));
         danosMateriaisRepository.saveAll(Arrays.asList(dM1,dM2));
         cobradeRepository.saveAll(cobrades);
+        areaAfetadaRepository.saveAll(Arrays.asList(a1,a2));
 
 
     }
