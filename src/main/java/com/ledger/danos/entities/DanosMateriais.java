@@ -1,6 +1,7 @@
 package com.ledger.danos.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ledger.ocorrencia.entities.Ocorrencia;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,8 +21,10 @@ public class DanosMateriais {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
+    @JsonIgnore
     private Integer id;
 
+    @JsonIgnore
     @Column(name="foto")
     private Blob foto;
 

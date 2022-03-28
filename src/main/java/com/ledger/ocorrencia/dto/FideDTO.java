@@ -10,8 +10,8 @@ import lombok.Data;
 
 
 import javax.persistence.OneToMany;
-import java.util.Date;
-import java.util.List;
+import java.lang.reflect.Array;
+import java.util.*;
 
 @Data
 public class FideDTO {
@@ -28,9 +28,14 @@ public class FideDTO {
     private List<Telefone> instInformanteTelefones;
     private Boolean instInformadaOrgaoEstadual;
     private Boolean instituicaoInformadaSedec;
-    private List<DanosAmbientais> danosAmbientais;
-    private List<DanosHumanos> danosHumanos;
-    private List<DanosMateriais> danosMateriais;
+
+    @JsonProperty("danos_ambientais")
+    private Map<String, Integer> danosAmbientaisMapped = new HashMap<String, Integer>();
+    @JsonProperty("danos_humanos")
+    private Map<String, Integer> danosHumanosMapped = new HashMap<String, Integer>();
+    @JsonProperty("danos_materiais")
+    private List<DanosMateriais> danosMateriais = new ArrayList<DanosMateriais>();
+
 
 
 }
