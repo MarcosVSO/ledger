@@ -1,5 +1,6 @@
 package com.ledger.ocorrencia.rest;
 
+import com.ledger.ocorrencia.dto.FideDTO;
 import com.ledger.ocorrencia.entities.Ocorrencia;
 import com.ledger.ocorrencia.service.OcorrenciaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +36,23 @@ public class OcorrenciaRest {
         return ocorrenciaService.findAllByMunicipio(municipio);
     }
 
+    @GetMapping("/gerar-fide/{idOcorrencia}")
+    public ResponseEntity<FideDTO> gerarFIDEOcorrencia(@PathVariable Integer idOcorrencia) {
+        return ocorrenciaService.gerarFIDEOcorrencia(idOcorrencia);
+    }
+
+    @GetMapping("/{idOcorrencia}")
+    public ResponseEntity<Ocorrencia> findById(@PathVariable Integer idOcorrencia) {
+        return ocorrenciaService.findById(idOcorrencia);
+    }
+
     @PostMapping("/add")
     public ResponseEntity<String> findAllByMunicipio(@RequestBody Ocorrencia ocorrencia) {
         return ocorrenciaService.save(ocorrencia);
     }
+
+    //TODO  update, delete
+
 
 
 }

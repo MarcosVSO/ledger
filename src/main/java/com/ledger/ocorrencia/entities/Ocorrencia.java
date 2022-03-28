@@ -1,16 +1,20 @@
 package com.ledger.ocorrencia.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.ledger.danos.entities.DanosAmbientais;
+import com.ledger.danos.entities.DanosHumanos;
+import com.ledger.danos.entities.DanosMateriais;
+import com.ledger.telefones.entities.Telefone;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "ocorrencia")
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,12 +24,6 @@ public class Ocorrencia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private Integer id;
-
-    @Column(name="id_inst_informante")
-    private Integer idInstInformante;
-
-    @Column(name="id_inst_informadas")
-    private Integer idInstInformada;
 
     @Column(name="cod_cobrade")
     private String codCobrade;
@@ -44,5 +42,33 @@ public class Ocorrencia {
 
     @Column(name="uf")
     private String uf;
+
+    @Column(name="instituicao_informante_nome")
+    private String instInformanteNome;
+
+    @Column(name="instituicao_informante_responsavel")
+    private String instInformanteResponsavel;
+
+    @OneToMany(mappedBy="ocorrencia")
+    @JsonManagedReference
+    private List<Telefone> instInformanteTelefones;
+
+    @Column(name="inst_informada_orgao_estadual_defesa_civil")
+    private Boolean instInformadaOrgaoEstadual;
+
+    @Column(name="inst_informada_sedec")
+    private Boolean instituicaoInformadaSedec;
+
+    @OneToMany(mappedBy = "ocorrencia")
+    @JsonManagedReference
+    private List<DanosAmbientais> danosAmbientais;
+
+    @OneToMany(mappedBy = "ocorrencia")
+    @JsonManagedReference
+    private List<DanosHumanos> danosHumanos;
+
+    @OneToMany(mappedBy = "ocorrencia")
+    @JsonManagedReference
+    private List<DanosMateriais> danosMateriais;
 
 }

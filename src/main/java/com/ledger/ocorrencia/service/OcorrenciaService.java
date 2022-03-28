@@ -1,18 +1,24 @@
 package com.ledger.ocorrencia.service;
 
+import com.ledger.ocorrencia.dto.FideDTO;
 import com.ledger.ocorrencia.entities.Ocorrencia;
 import com.ledger.ocorrencia.repositories.OcorrenciaRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OcorrenciaService {
     @Autowired
     private OcorrenciaRepository ocorrenciaRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     public ResponseEntity<List<Ocorrencia>> findAll(){
         List<Ocorrencia> ocorrencias = ocorrenciaRepository.findAll();
@@ -37,6 +43,17 @@ public class OcorrenciaService {
     public ResponseEntity<String> save(Ocorrencia ocorrencia){
         ocorrenciaRepository.save(ocorrencia);
         return new ResponseEntity<String>("Ocorrência registrada com sucesso",HttpStatus.OK);
+    }
+
+    public ResponseEntity<Ocorrencia> findById(Integer idOcorrencia){
+        Optional<Ocorrencia> ocorrencia = ocorrenciaRepository.findById(idOcorrencia);
+        return new ResponseEntity<Ocorrencia>(ocorrencia.get(), HttpStatus.OK);
+    }
+
+    public ResponseEntity<FideDTO> gerarFIDEOcorrencia(Integer idOcorrencia){
+        Optional<Ocorrencia> ocorrencia = ocorrenciaRepository.findById(idOcorrencia);
+        FideDTO fideDTO = modelMapper.map(ocorrencia.get(), FideDTO.class );
+        return new ResponseEntity<FideDTO>(fideDTO, HttpStatus.OK);
     }
 
 }
