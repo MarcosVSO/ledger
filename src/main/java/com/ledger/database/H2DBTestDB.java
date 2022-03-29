@@ -7,9 +7,15 @@ import com.ledger.cobrade.CobradeRepository;
 import com.ledger.danos.entities.DanosAmbientais;
 import com.ledger.danos.entities.DanosHumanos;
 import com.ledger.danos.entities.DanosMateriais;
+import com.ledger.danos.entities.tipos.DanosAmbientaisTipo;
+import com.ledger.danos.entities.tipos.DanosHumanosTipo;
+import com.ledger.danos.entities.tipos.DanosMateriaisTipo;
 import com.ledger.danos.repositories.DanosAmbientaisRepository;
 import com.ledger.danos.repositories.DanosHumanosRepository;
 import com.ledger.danos.repositories.DanosMateriaisRepository;
+import com.ledger.danos.repositories.tipos.DanosAmbientaisTipoRepository;
+import com.ledger.danos.repositories.tipos.DanosHumanosTipoRepository;
+import com.ledger.danos.repositories.tipos.DanosMateriaisTipoRepository;
 import com.ledger.ocorrencia.entities.Ocorrencia;
 import com.ledger.telefones.entities.Telefone;
 import com.ledger.ocorrencia.repositories.OcorrenciaRepository;
@@ -46,6 +52,16 @@ public class H2DBTestDB implements CommandLineRunner {
 
     @Autowired
     private AreaAfetadaRepository areaAfetadaRepository;
+
+    @Autowired
+    private DanosAmbientaisTipoRepository danosAmbientaisTipoRepository;
+
+    @Autowired
+    private DanosHumanosTipoRepository danosHumanosTipoRepository;
+
+    @Autowired
+    private DanosMateriaisTipoRepository danosMateriaisTipoRepository;
+
 
     @Override
     public void run (String... args) throws Exception{
@@ -93,12 +109,15 @@ public class H2DBTestDB implements CommandLineRunner {
         List<DanosHumanos> danosHumanos1 = new ArrayList<DanosHumanos>();
         List<DanosHumanos> danosHumanos2 = new ArrayList<DanosHumanos>();
 
-        DanosHumanos dH1 = DanosHumanos.builder().danoHumanoTipo("Mortos").numeroPessoas(10).build();
-        DanosHumanos dH2 = DanosHumanos.builder().danoHumanoTipo("Feridos").numeroPessoas(20).build();
+        DanosHumanos dH1 = DanosHumanos.builder().danoHumanoTipo(1).numeroPessoas(10).build();
+        DanosHumanos dH2 = DanosHumanos.builder().danoHumanoTipo(2).numeroPessoas(20).build();
+        DanosHumanos dH3 = DanosHumanos.builder().danoHumanoTipo(1).numeroPessoas(20).build();
 
         dH1.setOcorrencia(o1);
         dH2.setOcorrencia(o2);
+        dH3.setOcorrencia(o1);
         danosHumanos1.add(dH1);
+        danosHumanos1.add(dH3);
         danosHumanos2.add(dH2);
 
         o1.setDanosHumanos(danosHumanos1);
@@ -108,8 +127,8 @@ public class H2DBTestDB implements CommandLineRunner {
         List<DanosAmbientais> danosAmbientais1 = new ArrayList<DanosAmbientais>();
         List<DanosAmbientais> danosAmbientais2 = new ArrayList<DanosAmbientais>();
 
-        DanosAmbientais dA1 = DanosAmbientais.builder().danoAmbientalTipo("Contaminação do Ar").populacaoAtingida(47).build();
-        DanosAmbientais dA2 = DanosAmbientais.builder().danoAmbientalTipo("Contaminação da Água").populacaoAtingida(23).build();
+        DanosAmbientais dA1 = DanosAmbientais.builder().danoAmbientalTipo(1).populacaoAtingida(47).build();
+        DanosAmbientais dA2 = DanosAmbientais.builder().danoAmbientalTipo(2).populacaoAtingida(23).build();
 
         dA1.setOcorrencia(o1);
         dA2.setOcorrencia(o2);
@@ -123,8 +142,8 @@ public class H2DBTestDB implements CommandLineRunner {
         List<DanosMateriais> danosMateriais1 = new ArrayList<DanosMateriais>();
         List<DanosMateriais> danosMateriais2 = new ArrayList<DanosMateriais>();
 
-        DanosMateriais dM1 = DanosMateriais.builder().danoMaterialTipo("Unidades Habitacionais").quantidadeDestruida(10).quantidadeDanificada(20).valor(1500.83).build();
-        DanosMateriais dM2 = DanosMateriais.builder().danoMaterialTipo("Instalações públicas de saúde").quantidadeDestruida(2).quantidadeDanificada(3).valor(958.45).build();
+        DanosMateriais dM1 = DanosMateriais.builder().danoMaterialTipo(1).quantidadeDestruida(10).quantidadeDanificada(20).valor(1500.83).build();
+        DanosMateriais dM2 = DanosMateriais.builder().danoMaterialTipo(2).quantidadeDestruida(2).quantidadeDanificada(3).valor(958.45).build();
 
         dM1.setOcorrencia(o1);
         dM2.setOcorrencia(o2);
@@ -141,11 +160,59 @@ public class H2DBTestDB implements CommandLineRunner {
         o1.setAreaAfetada(a1);
         o2.setAreaAfetada(a2);
 
+        /**** inserindo tipos danos ****/
+        List<DanosAmbientaisTipo> danosAmbientaisTipos = new ArrayList<DanosAmbientaisTipo>();
+        List<DanosMateriaisTipo> danosMateriaisTipos = new ArrayList<DanosMateriaisTipo>();
+        List<DanosHumanosTipo> danosHumanosTipos = new ArrayList<DanosHumanosTipo>();
+
+        DanosAmbientaisTipo dAT1 = DanosAmbientaisTipo.builder().descricao("Contminação do Ar").build();
+        DanosAmbientaisTipo dAT2 = DanosAmbientaisTipo.builder().descricao("Contminação do Água").build();
+        DanosAmbientaisTipo dAT3 = DanosAmbientaisTipo.builder().descricao("Contminação do Solo").build();
+        DanosAmbientaisTipo dAT4 = DanosAmbientaisTipo.builder().descricao("Diminuição ou Exaurimento Hídrico").build();
+        DanosAmbientaisTipo dAT5 = DanosAmbientaisTipo.builder().descricao("Incêndio em Parques, APA's ou APP's").build();
+        danosAmbientaisTipos.add(dAT1);
+        danosAmbientaisTipos.add(dAT2);
+        danosAmbientaisTipos.add(dAT3);
+        danosAmbientaisTipos.add(dAT4);
+        danosAmbientaisTipos.add(dAT5);
+
+        DanosMateriaisTipo dMT1 = DanosMateriaisTipo.builder().descricao("Unidade Habitacionais").build();
+        DanosMateriaisTipo dMT2 = DanosMateriaisTipo.builder().descricao("Instalações Públicas de Saúde").build();
+        DanosMateriaisTipo dMT3 = DanosMateriaisTipo.builder().descricao("Instalações Públicas de Ensino").build();
+        DanosMateriaisTipo dMT4 = DanosMateriaisTipo.builder().descricao("Instalações Públicas Prestadoras de Outros Serviços").build();
+        DanosMateriaisTipo dMT5 = DanosMateriaisTipo.builder().descricao("Instalações Públicas Prestadoras de Uso Comunitário").build();
+        DanosMateriaisTipo dMT6 = DanosMateriaisTipo.builder().descricao("Obras de Infra Estrutura Públicas").build();
+        danosMateriaisTipos.add(dMT1);
+        danosMateriaisTipos.add(dMT2);
+        danosMateriaisTipos.add(dMT3);
+        danosMateriaisTipos.add(dMT4);
+        danosMateriaisTipos.add(dMT5);
+        danosMateriaisTipos.add(dMT6);
+
+        DanosHumanosTipo dHT1 = DanosHumanosTipo.builder().descricao("Mortos").build();
+        DanosHumanosTipo dHT2 = DanosHumanosTipo.builder().descricao("Feridos").build();
+        DanosHumanosTipo dHT3 = DanosHumanosTipo.builder().descricao("Enfermos").build();
+        DanosHumanosTipo dHT4 = DanosHumanosTipo.builder().descricao("Desabrigados").build();
+        DanosHumanosTipo dHT5 = DanosHumanosTipo.builder().descricao("Desalojados").build();
+        DanosHumanosTipo dHT6 = DanosHumanosTipo.builder().descricao("Desaparecidos").build();
+        DanosHumanosTipo dHT7 = DanosHumanosTipo.builder().descricao("Outros Afetados").build();
+        danosHumanosTipos.add(dHT1);
+        danosHumanosTipos.add(dHT2);
+        danosHumanosTipos.add(dHT3);
+        danosHumanosTipos.add(dHT4);
+        danosHumanosTipos.add(dHT5);
+        danosHumanosTipos.add(dHT6);
+        danosHumanosTipos.add(dHT7);
+
+
+        danosAmbientaisTipoRepository.saveAll(danosAmbientaisTipos);
+        danosMateriaisTipoRepository.saveAll(danosMateriaisTipos);
+        danosHumanosTipoRepository.saveAll(danosHumanosTipos);
 
         /**** Saving ****/
         ocorrenciaRepository.saveAll(Arrays.asList(o1,o2));
         telefoneRepository.saveAll(Arrays.asList(t1,t2));
-        danosHumanosRepository.saveAll(Arrays.asList(dH1,dH2));
+        danosHumanosRepository.saveAll(Arrays.asList(dH1,dH2,dH3));
         danosAmbientaisRepository.saveAll(Arrays.asList(dA1,dA2));
         danosMateriaisRepository.saveAll(Arrays.asList(dM1,dM2));
         cobradeRepository.saveAll(cobrades);

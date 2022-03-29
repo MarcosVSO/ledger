@@ -1,5 +1,6 @@
 package com.ledger.danos.service;
 
+import com.ledger.danos.dtos.DanosHumanosSomaDTO;
 import com.ledger.danos.entities.DanosAmbientais;
 import com.ledger.danos.entities.DanosHumanos;
 import com.ledger.danos.entities.DanosMateriais;
@@ -39,6 +40,10 @@ public class DanosService {
         List<DanosMateriais> danosMteriais = danosMateriaisRepository.findAll();
         return new ResponseEntity<List<DanosMateriais>>(danosMteriais, HttpStatus.OK);
     }
+
+    //public List<DanosHumanosSomaDTO> getSomaDanosHumanos(Integer idOcorrencia){
+    //    return danosHumanosRepository.getSomaDanosHumanos(idOcorrencia);
+    //}
 
     //TODO byId, insert, update, delete
 

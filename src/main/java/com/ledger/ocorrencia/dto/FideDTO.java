@@ -30,12 +30,9 @@ public class FideDTO {
     private Boolean instituicaoInformadaSedec;
 
     @JsonProperty("danos_ambientais")
-    private Map<String, Integer> danosAmbientaisMapped = new HashMap<String, Integer>();
+    private Map<Integer, Integer> danosAmbientaisMapped = new HashMap<Integer, Integer>();
     @JsonProperty("danos_humanos")
-    private Map<String, Integer> danosHumanosMapped = new HashMap<String, Integer>();
+    private Map<Integer, Integer> danosHumanosMapped = new HashMap<Integer, Integer>();
     @JsonProperty("danos_materiais")
     private List<DanosMateriais> danosMateriais = new ArrayList<DanosMateriais>();
-
-
-
 }

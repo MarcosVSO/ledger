@@ -32,7 +32,7 @@ public class DanosHumanos {
     private Ocorrencia ocorrencia;
 
     @Column(name="dano_humano_tipo")
-    private String danoHumanoTipo;
+    private Integer danoHumanoTipo;
 
     @Column(name="numero_pessoas")
     private Integer numeroPessoas;

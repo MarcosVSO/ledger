@@ -34,7 +34,7 @@ public class DanosMateriais {
     private Ocorrencia ocorrencia;
 
     @Column(name="dano_material_tipo")
-    private String danoMaterialTipo;
+    private Integer danoMaterialTipo;
 
     @Column(name="quantidade_destruida")
     private Integer quantidadeDestruida;

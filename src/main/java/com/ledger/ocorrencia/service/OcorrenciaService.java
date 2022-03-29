@@ -1,7 +1,9 @@
 package com.ledger.ocorrencia.service;
 
+import com.ledger.danos.dtos.DanosHumanosSomaDTO;
 import com.ledger.danos.entities.DanosAmbientais;
 import com.ledger.danos.entities.DanosHumanos;
+import com.ledger.danos.service.DanosService;
 import com.ledger.ocorrencia.dto.FideDTO;
 import com.ledger.ocorrencia.entities.Ocorrencia;
 import com.ledger.ocorrencia.repositories.OcorrenciaRepository;
@@ -11,15 +13,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
 public class OcorrenciaService {
     @Autowired
     private OcorrenciaRepository ocorrenciaRepository;
+
+    @Autowired
+    private DanosService danosService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -58,7 +61,8 @@ public class OcorrenciaService {
         Optional<Ocorrencia> ocorrencia = ocorrenciaRepository.findById(idOcorrencia);
         FideDTO fideDTO = modelMapper.map(ocorrencia.get(), FideDTO.class );
 
-        Map<String, Integer> danosAmbientaisTemp = new HashMap<String, Integer>();
+        /*List<DanosHumanosSomaDTO> danosHumanosSomaDTOList = danosService.getSomaDanosHumanos(idOcorrencia);
+        Map<Integer, Integer> danosAmbientaisTemp = new HashMap<Integer, Integer>();
         for (DanosAmbientais d : ocorrencia.get().getDanosAmbientais()){
             danosAmbientaisTemp.put(d.getDanoAmbientalTipo(),d.getPopulacaoAtingida());
         }
@@ -68,7 +72,7 @@ public class OcorrenciaService {
         for (DanosHumanos d : ocorrencia.get().getDanosHumanos()){
             danosHumanosTemp.put(d.getDanoHumanoTipo(),d.getNumeroPessoas());
         }
-        fideDTO.setDanosHumanosMapped(danosHumanosTemp);
+        fideDTO.setDanosHumanosMapped(danosHumanosTemp);*/
         return new ResponseEntity<FideDTO>(fideDTO, HttpStatus.OK);
     }
 
