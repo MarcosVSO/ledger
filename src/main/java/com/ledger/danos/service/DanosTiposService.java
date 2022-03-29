@@ -44,4 +44,8 @@ public class DanosTiposService {
         return danosHumanosTipoRepository.findById(id);
     }
 
+    public List<DanosHumanosTipo> findAllDanoHumanoTipo(){
+        return danosHumanosTipoRepository.findAll();
+    }
+
 }
