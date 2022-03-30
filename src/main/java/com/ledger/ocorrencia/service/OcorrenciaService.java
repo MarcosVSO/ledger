@@ -79,7 +79,7 @@ public class OcorrenciaService {
 
         List<DanosMateriaisSomaDTO> danosMateriaisSomaDTOS = new ArrayList<DanosMateriaisSomaDTO>();
         for (DanosMateriaisTipo dmt : danosTiposService.findAllDanoMaterialTipo()){
-            DanosMateriaisSomaDTO danosMateriaisSomaDTO = danosService.getSomaDanosMateriais(dmt.getId(), idOcorrencia);
+            DanosMateriaisSomaDTO danosMateriaisSomaDTO = danosService.getSomaDanosMateriais(dmt.getId(), idOcorrencia, dmt.getDescricao());
             danosMateriaisSomaDTOS.add(danosMateriaisSomaDTO);
         }
         fideDTO.setDanosMateriaisSoma(danosMateriaisSomaDTOS);

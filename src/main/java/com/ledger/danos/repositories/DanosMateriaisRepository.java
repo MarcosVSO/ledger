@@ -12,12 +12,12 @@ import java.util.List;
 public interface DanosMateriaisRepository extends JpaRepository<DanosMateriais,Integer> {
 
     @Query(
-            value = "SELECT ISNULL (SUM(QUANTIDADE_DANIFICADA),0) as quantidadeDanificada, ISNULL (SUM(QUANTIDADE_DESTRUIDA),0) as quantidadeDestruida, ISNULL (SUM(valor),0) as valor\n" +
+            value = "SELECT :danoMaterialTipo as danoMaterialTipo,ISNULL (SUM(QUANTIDADE_DANIFICADA),0) as quantidadeDanificada, ISNULL (SUM(QUANTIDADE_DESTRUIDA),0) as quantidadeDestruida, ISNULL (SUM(valor),0) as valor\n" +
                     "FROM DANOS_MATERIAIS dm\n" +
                     "JOIN DANOS_MATERIAIS_TIPO dmt ON dmt.ID = dm.DANO_MATERIAL_TIPO\n" +
                     "WHERE dm.OCORRENCIA_ID = :idOcorrencia AND dm.DANO_MATERIAL_TIPO = :danoTipo",
             nativeQuery = true)
-    DanosMateriaisSomaDTO getSomaDanosMateriais(@Param("danoTipo") Integer danoTipo, @Param("idOcorrencia")  Integer idOcorrencia);
+    DanosMateriaisSomaDTO getSomaDanosMateriais(@Param("danoTipo") Integer danoTipo, @Param("idOcorrencia")  Integer idOcorrencia, @Param("danoMaterialTipo") String danoMaterialTipo);
 
     @Query(value = "SELECT d FROM DanosMateriais d WHERE d.ocorrencia.id = :idOcorrencia")
     List<DanosMateriais> findAllDanosMateriaisByOcorrencia(@Param("idOcorrencia") Integer idOcorrencia);
