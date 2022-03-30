@@ -165,9 +165,9 @@ public class H2DBTestDB implements CommandLineRunner {
         List<DanosMateriaisTipo> danosMateriaisTipos = new ArrayList<DanosMateriaisTipo>();
         List<DanosHumanosTipo> danosHumanosTipos = new ArrayList<DanosHumanosTipo>();
 
-        DanosAmbientaisTipo dAT1 = DanosAmbientaisTipo.builder().descricao("Contminação do Ar").build();
-        DanosAmbientaisTipo dAT2 = DanosAmbientaisTipo.builder().descricao("Contminação do Água").build();
-        DanosAmbientaisTipo dAT3 = DanosAmbientaisTipo.builder().descricao("Contminação do Solo").build();
+        DanosAmbientaisTipo dAT1 = DanosAmbientaisTipo.builder().descricao("Contaminação do Ar").build();
+        DanosAmbientaisTipo dAT2 = DanosAmbientaisTipo.builder().descricao("Contaminação do Água").build();
+        DanosAmbientaisTipo dAT3 = DanosAmbientaisTipo.builder().descricao("Contaminação do Solo").build();
         DanosAmbientaisTipo dAT4 = DanosAmbientaisTipo.builder().descricao("Diminuição ou Exaurimento Hídrico").build();
         DanosAmbientaisTipo dAT5 = DanosAmbientaisTipo.builder().descricao("Incêndio em Parques, APA's ou APP's").build();
         danosAmbientaisTipos.add(dAT1);

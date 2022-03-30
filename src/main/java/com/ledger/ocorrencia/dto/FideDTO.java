@@ -1,16 +1,13 @@
 package com.ledger.ocorrencia.dto;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ledger.danos.entities.DanosAmbientais;
-import com.ledger.danos.entities.DanosHumanos;
+import com.ledger.areasAfetadas.entities.AreaAfetada;
+import com.ledger.danos.dtos.DanosMateriaisSomaDTO;
 import com.ledger.danos.entities.DanosMateriais;
 import com.ledger.telefones.entities.Telefone;
 import lombok.Data;
 
 
-import javax.persistence.OneToMany;
-import java.lang.reflect.Array;
 import java.util.*;
 
 @Data
@@ -28,11 +25,13 @@ public class FideDTO {
     private List<Telefone> instInformanteTelefones;
     private Boolean instInformadaOrgaoEstadual;
     private Boolean instituicaoInformadaSedec;
+    @JsonProperty("areas_afetadas")
+    private AreaAfetada areaAfetada;
 
     @JsonProperty("danos_ambientais")
-    private Map<Integer, Integer> danosAmbientaisMapped = new HashMap<Integer, Integer>();
+    private Map<String, Integer> danosAmbientaisMapped = new HashMap<String, Integer>();
     @JsonProperty("danos_humanos")
-    private Map<Integer, Integer> danosHumanosMapped = new HashMap<Integer, Integer>();
+    private Map<String, Integer> danosHumanosMapped = new HashMap<String, Integer>();
     @JsonProperty("danos_materiais")
-    private List<DanosMateriais> danosMateriais = new ArrayList<DanosMateriais>();
+    private List<DanosMateriaisSomaDTO> danosMateriaisSoma = new ArrayList<DanosMateriaisSomaDTO>();
 }

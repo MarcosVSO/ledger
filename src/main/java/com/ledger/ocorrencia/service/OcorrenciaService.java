@@ -1,9 +1,11 @@
 package com.ledger.ocorrencia.service;
 
-import com.ledger.danos.dtos.DanosHumanosSomaDTO;
-import com.ledger.danos.entities.DanosAmbientais;
-import com.ledger.danos.entities.DanosHumanos;
+import com.ledger.danos.dtos.DanosMateriaisSomaDTO;
+import com.ledger.danos.entities.tipos.DanosAmbientaisTipo;
+import com.ledger.danos.entities.tipos.DanosHumanosTipo;
+import com.ledger.danos.entities.tipos.DanosMateriaisTipo;
 import com.ledger.danos.service.DanosService;
+import com.ledger.danos.service.DanosTiposService;
 import com.ledger.ocorrencia.dto.FideDTO;
 import com.ledger.ocorrencia.entities.Ocorrencia;
 import com.ledger.ocorrencia.repositories.OcorrenciaRepository;
@@ -13,8 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class OcorrenciaService {
@@ -23,6 +24,9 @@ public class OcorrenciaService {
 
     @Autowired
     private DanosService danosService;
+
+    @Autowired
+    private DanosTiposService danosTiposService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -61,18 +65,25 @@ public class OcorrenciaService {
         Optional<Ocorrencia> ocorrencia = ocorrenciaRepository.findById(idOcorrencia);
         FideDTO fideDTO = modelMapper.map(ocorrencia.get(), FideDTO.class );
 
-        /*List<DanosHumanosSomaDTO> danosHumanosSomaDTOList = danosService.getSomaDanosHumanos(idOcorrencia);
-        Map<Integer, Integer> danosAmbientaisTemp = new HashMap<Integer, Integer>();
-        for (DanosAmbientais d : ocorrencia.get().getDanosAmbientais()){
-            danosAmbientaisTemp.put(d.getDanoAmbientalTipo(),d.getPopulacaoAtingida());
+        Map<String, Integer> danosHumanosMapped = new HashMap<String, Integer>();
+        for (DanosHumanosTipo dht : danosTiposService.findAllDanoHumanoTipo()){
+            danosHumanosMapped.put(dht.getDescricao(), danosService.getSomaDanosHumanos(dht.getId(),idOcorrencia));
         }
-        fideDTO.setDanosAmbientaisMapped(danosAmbientaisTemp);
+        fideDTO.setDanosHumanosMapped(danosHumanosMapped);
 
-        Map<String, Integer> danosHumanosTemp = new HashMap<String, Integer>();
-        for (DanosHumanos d : ocorrencia.get().getDanosHumanos()){
-            danosHumanosTemp.put(d.getDanoHumanoTipo(),d.getNumeroPessoas());
+        Map<String,Integer> danosAmbientaisMapped = new HashMap<String, Integer>();
+        for (DanosAmbientaisTipo dat : danosTiposService.findAllDanoAmbientalTipo()){
+            danosAmbientaisMapped.put(dat.getDescricao(), danosService.getSomaDanosAmbientais(dat.getId(),idOcorrencia));
         }
-        fideDTO.setDanosHumanosMapped(danosHumanosTemp);*/
+        fideDTO.setDanosAmbientaisMapped(danosAmbientaisMapped);
+
+        List<DanosMateriaisSomaDTO> danosMateriaisSomaDTOS = new ArrayList<DanosMateriaisSomaDTO>();
+        for (DanosMateriaisTipo dmt : danosTiposService.findAllDanoMaterialTipo()){
+            DanosMateriaisSomaDTO danosMateriaisSomaDTO = danosService.getSomaDanosMateriais(dmt.getId(), idOcorrencia);
+            danosMateriaisSomaDTOS.add(danosMateriaisSomaDTO);
+        }
+        fideDTO.setDanosMateriaisSoma(danosMateriaisSomaDTOS);
+
         return new ResponseEntity<FideDTO>(fideDTO, HttpStatus.OK);
     }
 

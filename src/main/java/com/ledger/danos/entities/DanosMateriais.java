@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Blob;
 
 @Entity
@@ -17,7 +18,7 @@ import java.sql.Blob;
 @NoArgsConstructor
 @Builder
 @Table(name = "danos_materiais")
-public class DanosMateriais {
+public class DanosMateriais implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
