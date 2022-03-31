@@ -11,6 +11,8 @@ import com.ledger.ocorrencia.entities.Ocorrencia;
 import com.ledger.ocorrencia.repositories.OcorrenciaRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -85,6 +87,10 @@ public class OcorrenciaService {
         fideDTO.setDanosMateriaisSoma(danosMateriaisSomaDTOS);
 
         return new ResponseEntity<FideDTO>(fideDTO, HttpStatus.OK);
+    }
+
+    public ResponseEntity<Slice<Ocorrencia>> paginateByCobradeAndStatus(Pageable page, String cobrade) {
+        return new ResponseEntity<>(ocorrenciaRepository.findAllByCodCobrade(cobrade, page), HttpStatus.OK);
     }
 
 }

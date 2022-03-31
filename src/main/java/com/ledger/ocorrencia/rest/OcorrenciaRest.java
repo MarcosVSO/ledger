@@ -8,13 +8,16 @@ import com.ledger.ocorrencia.dto.FideDTO;
 import com.ledger.ocorrencia.entities.Ocorrencia;
 import com.ledger.ocorrencia.service.OcorrenciaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(value="/ocorrencias")
+@RequestMapping(value = "/ocorrencias")
 public class OcorrenciaRest {
 
     @Autowired
@@ -26,6 +29,13 @@ public class OcorrenciaRest {
     @GetMapping
     public ResponseEntity<List<Ocorrencia>> findAll() {
         return ocorrenciaService.findAll();
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<Slice<Ocorrencia>> listAllWithFilters(
+            Pageable pageable,
+            @RequestParam(required = false)  String cobrade) {
+        return ocorrenciaService.paginateByCobradeAndStatus(pageable, cobrade);
     }
 
     @GetMapping("/cobrade/{cobrade}")
@@ -54,27 +64,26 @@ public class OcorrenciaRest {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> findAllByMunicipio(@RequestBody Ocorrencia ocorrencia) {
+    public ResponseEntity<String> add(@RequestBody Ocorrencia ocorrencia) {
         return ocorrenciaService.save(ocorrencia);
     }
 
     @GetMapping("/{idOcorrencia}/danos-ambientais")
-    public ResponseEntity<List<DanosAmbientais>> findAllDanosAmbientaisByOcorrencia(@PathVariable Integer idOcorrencia){
+    public ResponseEntity<List<DanosAmbientais>> findAllDanosAmbientaisByOcorrencia(@PathVariable Integer idOcorrencia) {
         return danosService.findAllDanosAmbientaisByOcorrencia(idOcorrencia);
     }
 
     @GetMapping("/{idOcorrencia}/danos-materiais")
-    public ResponseEntity<List<DanosMateriais>> findAllDanosMateriaisByOcorrencia(@PathVariable Integer idOcorrencia){
+    public ResponseEntity<List<DanosMateriais>> findAllDanosMateriaisByOcorrencia(@PathVariable Integer idOcorrencia) {
         return danosService.findAllDanosMateriaisByOcorrencia(idOcorrencia);
     }
 
     @GetMapping("/{idOcorrencia}/danos-humanos")
-    public ResponseEntity<List<DanosHumanos>> findAllDanosHumanosByOcorrencia(@PathVariable Integer idOcorrencia){
+    public ResponseEntity<List<DanosHumanos>> findAllDanosHumanosByOcorrencia(@PathVariable Integer idOcorrencia) {
         return danosService.findAllDanosHumanosByOcorrencia(idOcorrencia);
     }
 
     //TODO  update, delete
-
 
 
 }
