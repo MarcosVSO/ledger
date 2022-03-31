@@ -67,6 +67,18 @@ public class DanosService {
         return danosMateriaisRepository.getSomaDanosMateriais(danoTipo,idOcorrencia,tipoDano);
     }
 
+    public void addDanosHumanos(DanosHumanos danosHumanos){
+        danosHumanosRepository.save(danosHumanos);
+    }
+
+    public void addDanosMateriais(DanosMateriais danosMateriais){
+        danosMateriaisRepository.save(danosMateriais);
+    }
+
+    public void addDanosAmbientais(DanosAmbientais danosAmbientais){
+        danosAmbientaisRepository.save(danosAmbientais);
+    }
+
     //TODO byId, insert, update, delete
 
 }

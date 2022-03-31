@@ -5,10 +5,9 @@ import com.ledger.danos.entities.DanosHumanos;
 import com.ledger.danos.entities.DanosMateriais;
 import com.ledger.danos.service.DanosService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,4 +31,24 @@ public class DanosRest {
     public ResponseEntity<List<DanosMateriais>> findAllDanosMateriais() {
         return danosService.findAllDanosMateriais();
     }
+
+    @PostMapping("/humanos/add")
+    public ResponseEntity addDanosHumanos(@RequestBody DanosHumanos danosHumanos){
+        danosService.addDanosHumanos(danosHumanos);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @PostMapping("/materiais/add")
+    public ResponseEntity addDanosMateriais(@RequestBody DanosMateriais danosMateriais){
+        danosService.addDanosMateriais(danosMateriais);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @PostMapping("/ambientais/add")
+    public ResponseEntity addDanosAmbientais(@RequestBody DanosAmbientais danosAmbientais){
+        danosService.addDanosAmbientais(danosAmbientais);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+
 }

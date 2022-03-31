@@ -95,7 +95,7 @@ public class H2DBTestDB implements CommandLineRunner {
 
         /****  Ocorrências ****/
         Ocorrencia o1 = Ocorrencia.builder().dataOcorrencia(new Date()).codCobrade("11110").uf("GO").municipio("Goiânia").latitude("-16.716666613612432").longitude("-49.252455389736646").instInformadaOrgaoEstadual(true)
-                .instituicaoInformadaSedec(true).build();
+                .instituicaoInformadaSedec(true).instInformanteNome("Defesa Civil").instInformanteResponsavel("Fulano").build();
         Ocorrencia o2 = Ocorrencia.builder().dataOcorrencia(new Date()).codCobrade("11120").uf("MS").municipio("Barra do Garças").latitude("-15.894243863201739").longitude("-52.26307143229597").instInformadaOrgaoEstadual(true)
                 .instituicaoInformadaSedec(false).build();
 
