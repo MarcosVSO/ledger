@@ -23,8 +23,9 @@ public class DanosAmbientais{
     @Column(name="id")
     private Integer id;
 
+    @Lob
     @Column(name="foto")
-    private Blob foto;
+    private byte[] foto;
 
     @JsonBackReference
     @ManyToOne
