@@ -61,7 +61,7 @@ public class OcorrenciaService {
         return new ResponseEntity<Ocorrencia>(ocorrencia.get(), HttpStatus.OK);
     }
 
-    public ResponseEntity<FideDTO> gerarFIDEOcorrencia(Integer idOcorrencia){
+    public FideDTO gerarFIDEOcorrencia(Integer idOcorrencia){
         Optional<Ocorrencia> ocorrencia = ocorrenciaRepository.findById(idOcorrencia);
         FideDTO fideDTO = modelMapper.map(ocorrencia.get(), FideDTO.class );
 
@@ -84,7 +84,7 @@ public class OcorrenciaService {
         }
         fideDTO.setDanosMateriaisSoma(danosMateriaisSomaDTOS);
 
-        return new ResponseEntity<FideDTO>(fideDTO, HttpStatus.OK);
+        return fideDTO;
     }
 
 }

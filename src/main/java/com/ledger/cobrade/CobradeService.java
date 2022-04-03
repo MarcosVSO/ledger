@@ -23,8 +23,8 @@ public class CobradeService {
         return new ResponseEntity<Cobrade>(cobrade.get(), HttpStatus.OK);
     }
 
-    public ResponseEntity<Cobrade> findByCodigo(String codigoCobrade){
+    public Cobrade findByCodigo(String codigoCobrade){
         Optional<Cobrade> cobrade = cobradeRepository.findByCodigo(codigoCobrade);
-        return new ResponseEntity<Cobrade>(cobrade.get(), HttpStatus.OK);
+        return cobrade.get();
     }
 }

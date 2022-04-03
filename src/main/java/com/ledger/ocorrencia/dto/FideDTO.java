@@ -33,5 +33,5 @@ public class FideDTO {
     @JsonProperty("danos_humanos")
     private Map<String, Integer> danosHumanosMapped = new HashMap<String, Integer>();
     @JsonProperty("danos_materiais")
-    private List<DanosMateriaisSomaDTO> danosMateriaisSoma = new ArrayList<DanosMateriaisSomaDTO>();
+    private List<DanosMateriaisSomaDTO> danosMateriaisSoma = new LinkedList<DanosMateriaisSomaDTO>();
 }

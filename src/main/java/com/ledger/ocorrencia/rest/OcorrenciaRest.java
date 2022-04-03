@@ -4,13 +4,18 @@ import com.ledger.danos.entities.DanosAmbientais;
 import com.ledger.danos.entities.DanosHumanos;
 import com.ledger.danos.entities.DanosMateriais;
 import com.ledger.danos.service.DanosService;
+import com.ledger.documento.UpdateDocumentService;
 import com.ledger.ocorrencia.dto.FideDTO;
 import com.ledger.ocorrencia.entities.Ocorrencia;
 import com.ledger.ocorrencia.service.OcorrenciaService;
+import org.apache.commons.compress.utils.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.List;
 
 @RestController
@@ -22,6 +27,9 @@ public class OcorrenciaRest {
 
     @Autowired
     private DanosService danosService;
+
+    @Autowired
+    private UpdateDocumentService updateDocumentService;
 
     @GetMapping
     public ResponseEntity<List<Ocorrencia>> findAll() {
@@ -45,7 +53,7 @@ public class OcorrenciaRest {
 
     @GetMapping("/gerar-fide/{idOcorrencia}")
     public ResponseEntity<FideDTO> gerarFIDEOcorrencia(@PathVariable Integer idOcorrencia) {
-        return ocorrenciaService.gerarFIDEOcorrencia(idOcorrencia);
+        return new ResponseEntity<FideDTO>(ocorrenciaService.gerarFIDEOcorrencia(idOcorrencia), HttpStatus.OK);
     }
 
     @GetMapping("/{idOcorrencia}")
@@ -71,6 +79,20 @@ public class OcorrenciaRest {
     @GetMapping("/{idOcorrencia}/danos-humanos")
     public ResponseEntity<List<DanosHumanos>> findAllDanosHumanosByOcorrencia(@PathVariable Integer idOcorrencia){
         return danosService.findAllDanosHumanosByOcorrencia(idOcorrencia);
+    }
+
+    /*@GetMapping("/gerar-documento/{idOcorrencia}")
+    public ResponseEntity gerarDocumentoFIDEOcorrencia(@PathVariable Integer idOcorrencia){
+        FideDTO fideDto = ocorrenciaService.gerarFIDEOcorrencia(idOcorrencia);
+        updateDocumentService.updateDocument(fideDto);
+        return new ResponseEntity(HttpStatus.OK);
+
+    }*/
+
+    @RequestMapping(value = "/gerar-documento/{idOcorrencia}",method = RequestMethod.GET, produces="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+    public @ResponseBody byte[] getDoc(@PathVariable Integer idOcorrencia) {
+        FideDTO fideDto = ocorrenciaService.gerarFIDEOcorrencia(idOcorrencia);
+        return updateDocumentService.updateDocument(fideDto);
     }
 
     //TODO  update, delete
