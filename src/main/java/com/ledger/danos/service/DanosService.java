@@ -7,12 +7,14 @@ import com.ledger.danos.entities.DanosMateriais;
 import com.ledger.danos.repositories.DanosAmbientaisRepository;
 import com.ledger.danos.repositories.DanosHumanosRepository;
 import com.ledger.danos.repositories.DanosMateriaisRepository;
+import com.ledger.ocorrencia.dto.DanosAmbientaisListDTO;
+import com.ledger.ocorrencia.dto.DanosHumanosListDTO;
+import com.ledger.ocorrencia.dto.DanosMateriaisListDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DanosService {
@@ -25,34 +27,38 @@ public class DanosService {
     @Autowired
     private DanosHumanosRepository danosHumanosRepository;
 
-    public ResponseEntity<List<DanosAmbientais>> findAllDanosAmbientais(){
-        List<DanosAmbientais> danosAmbientais = danosAmbientaisRepository.findAll();
-        return new ResponseEntity<List<DanosAmbientais>>(danosAmbientais, HttpStatus.OK);
+    public List<DanosAmbientais> findAllDanosAmbientais(){
+        return danosAmbientaisRepository.findAll();
     }
 
-    public ResponseEntity<List<DanosAmbientais>> findAllDanosAmbientaisByOcorrencia(Integer idOcorrencia){
-        List<DanosAmbientais> danosAmbientais = danosAmbientaisRepository.findAllDanosAmbientaisByOcorrencia(idOcorrencia);
-        return new ResponseEntity<List<DanosAmbientais>>(danosAmbientais, HttpStatus.OK);
+    public List<DanosHumanos> findAllDanosHumanos(){
+        return danosHumanosRepository.findAll();
     }
 
-    public ResponseEntity<List<DanosHumanos>> findAllDanosHumanos(){
-        List<DanosHumanos> danosHumanos = danosHumanosRepository.findAll();
-        return new ResponseEntity<List<DanosHumanos>>(danosHumanos, HttpStatus.OK);
+    public List<DanosMateriais> findAllDanosMateriais(){
+        return danosMateriaisRepository.findAll();
     }
 
-    public ResponseEntity<List<DanosHumanos>> findAllDanosHumanosByOcorrencia(Integer idOcorrencia){
-        List<DanosHumanos> danosHumanos = danosHumanosRepository.findAllDanosHumanosByOcorrencia(idOcorrencia);
-        return new ResponseEntity<List<DanosHumanos>>(danosHumanos, HttpStatus.OK);
+    public Optional<DanosAmbientais> findDanosAmbientais(Integer id){
+        return danosAmbientaisRepository.findById(id);
+    }
+    public Optional<DanosMateriais> findDanosMateriais(Integer id){
+        return danosMateriaisRepository.findById(id);
+    }
+    public Optional<DanosHumanos> findDanosHumanos(Integer id){
+        return danosHumanosRepository.findById(id);
     }
 
-    public ResponseEntity<List<DanosMateriais>> findAllDanosMateriais(){
-        List<DanosMateriais> danosMteriais = danosMateriaisRepository.findAll();
-        return new ResponseEntity<List<DanosMateriais>>(danosMteriais, HttpStatus.OK);
+    public List<DanosAmbientaisListDTO> findAllDanosAmbientaisByOcorrencia(Integer idOcorrencia){
+        return danosAmbientaisRepository.findAllDanosAmbientaisByOcorrencia(idOcorrencia);
     }
 
-    public ResponseEntity<List<DanosMateriais>> findAllDanosMateriaisByOcorrencia(Integer idOcorrencia){
-        List<DanosMateriais> danosMteriais = danosMateriaisRepository.findAllDanosMateriaisByOcorrencia(idOcorrencia);
-        return new ResponseEntity<List<DanosMateriais>>(danosMteriais, HttpStatus.OK);
+    public List<DanosHumanosListDTO> findAllDanosHumanosByOcorrencia(Integer idOcorrencia){
+        return danosHumanosRepository.findAllDanosHumanosByOcorrencia(idOcorrencia);
+    }
+
+    public List<DanosMateriaisListDTO> findAllDanosMateriaisByOcorrencia(Integer idOcorrencia){
+        return danosMateriaisRepository.findAllDanosMateriaisByOcorrencia(idOcorrencia);
     }
 
     public Integer getSomaDanosHumanos(Integer danoTipo, Integer idOcorrencia){
