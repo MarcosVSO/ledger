@@ -1,20 +1,22 @@
 package com.ledger.ocorrencia.rest;
 
-import com.ledger.danos.entities.DanosAmbientais;
-import com.ledger.danos.entities.DanosHumanos;
-import com.ledger.danos.entities.DanosMateriais;
 import com.ledger.danos.service.DanosService;
+import com.ledger.ocorrencia.dto.DanosAmbientaisListDTO;
+import com.ledger.ocorrencia.dto.DanosHumanosListDTO;
+import com.ledger.ocorrencia.dto.DanosMateriaisListDTO;
 import com.ledger.ocorrencia.dto.FideDTO;
 import com.ledger.ocorrencia.entities.Ocorrencia;
 import com.ledger.ocorrencia.service.OcorrenciaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(value="/ocorrencias")
+@RequestMapping(value = "/ocorrencias")
 public class OcorrenciaRest {
 
     @Autowired
@@ -26,6 +28,13 @@ public class OcorrenciaRest {
     @GetMapping
     public ResponseEntity<List<Ocorrencia>> findAll() {
         return ocorrenciaService.findAll();
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<Slice<Ocorrencia>> listAllWithFilters(
+            Pageable pageable,
+            @RequestParam(required = false) String cobrade) {
+        return ocorrenciaService.paginateByCobradeAndStatus(pageable, cobrade);
     }
 
     @GetMapping("/cobrade/{cobrade}")
@@ -54,27 +63,29 @@ public class OcorrenciaRest {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> findAllByMunicipio(@RequestBody Ocorrencia ocorrencia) {
+    public ResponseEntity<String> add(@RequestBody Ocorrencia ocorrencia) {
         return ocorrenciaService.save(ocorrencia);
     }
 
     @GetMapping("/{idOcorrencia}/danos-ambientais")
-    public ResponseEntity<List<DanosAmbientais>> findAllDanosAmbientaisByOcorrencia(@PathVariable Integer idOcorrencia){
-        return danosService.findAllDanosAmbientaisByOcorrencia(idOcorrencia);
+    public ResponseEntity<List<DanosAmbientaisListDTO>> findAllDanosAmbientaisByOcorrencia(@PathVariable Integer idOcorrencia) {
+        var response = danosService.findAllDanosAmbientaisByOcorrencia(idOcorrencia);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{idOcorrencia}/danos-materiais")
-    public ResponseEntity<List<DanosMateriais>> findAllDanosMateriaisByOcorrencia(@PathVariable Integer idOcorrencia){
-        return danosService.findAllDanosMateriaisByOcorrencia(idOcorrencia);
+    public ResponseEntity<List<DanosMateriaisListDTO>> findAllDanosMateriaisByOcorrencia(@PathVariable Integer idOcorrencia) {
+        var response = danosService.findAllDanosMateriaisByOcorrencia(idOcorrencia);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{idOcorrencia}/danos-humanos")
-    public ResponseEntity<List<DanosHumanos>> findAllDanosHumanosByOcorrencia(@PathVariable Integer idOcorrencia){
-        return danosService.findAllDanosHumanosByOcorrencia(idOcorrencia);
+    public ResponseEntity<List<DanosHumanosListDTO>> findAllDanosHumanosByOcorrencia(@PathVariable Integer idOcorrencia) {
+        var response = danosService.findAllDanosHumanosByOcorrencia(idOcorrencia);
+        return ResponseEntity.ok(response);
     }
 
     //TODO  update, delete
-
 
 
 }
