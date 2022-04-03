@@ -25,9 +25,9 @@ public class DanosMateriais implements Serializable {
     @JsonIgnore
     private Integer id;
 
-    @JsonIgnore
+    @Lob
     @Column(name="foto")
-    private Blob foto;
+    private byte[] foto;
 
     @JsonBackReference
     @ManyToOne
