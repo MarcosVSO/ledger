@@ -12,13 +12,16 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "danos_materiais_tipo")
-public class DanosMateriaisTipo {
+@Table(name = "danos_tipo")
+public class DanoTipo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private Integer id;
+
+    @Column(name="categoria")
+    private String categoria;
 
     @Column(name="descricao")
     private String descricao;

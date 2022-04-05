@@ -7,23 +7,20 @@ import com.ledger.cobrade.CobradeRepository;
 import com.ledger.danos.entities.DanosAmbientais;
 import com.ledger.danos.entities.DanosHumanos;
 import com.ledger.danos.entities.DanosMateriais;
-import com.ledger.danos.entities.tipos.DanosAmbientaisTipo;
-import com.ledger.danos.entities.tipos.DanosHumanosTipo;
-import com.ledger.danos.entities.tipos.DanosMateriaisTipo;
+import com.ledger.danos.entities.tipos.DanoTipo;
 import com.ledger.danos.repositories.DanosAmbientaisRepository;
 import com.ledger.danos.repositories.DanosHumanosRepository;
 import com.ledger.danos.repositories.DanosMateriaisRepository;
-import com.ledger.danos.repositories.tipos.DanosAmbientaisTipoRepository;
-import com.ledger.danos.repositories.tipos.DanosHumanosTipoRepository;
-import com.ledger.danos.repositories.tipos.DanosMateriaisTipoRepository;
+import com.ledger.danos.repositories.tipos.DanosTipoRepository;
 import com.ledger.ocorrencia.entities.Ocorrencia;
-import com.ledger.telefones.entities.Telefone;
 import com.ledger.ocorrencia.repositories.OcorrenciaRepository;
+import com.ledger.telefones.entities.Telefone;
 import com.ledger.telefones.repositories.TelefoneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -54,13 +51,7 @@ public class H2DBTestDB implements CommandLineRunner {
     private AreaAfetadaRepository areaAfetadaRepository;
 
     @Autowired
-    private DanosAmbientaisTipoRepository danosAmbientaisTipoRepository;
-
-    @Autowired
-    private DanosHumanosTipoRepository danosHumanosTipoRepository;
-
-    @Autowired
-    private DanosMateriaisTipoRepository danosMateriaisTipoRepository;
+    private DanosTipoRepository danosTipoRepository;
 
 
     @Override
@@ -109,9 +100,9 @@ public class H2DBTestDB implements CommandLineRunner {
         List<DanosHumanos> danosHumanos1 = new ArrayList<DanosHumanos>();
         List<DanosHumanos> danosHumanos2 = new ArrayList<DanosHumanos>();
 
-        DanosHumanos dH1 = DanosHumanos.builder().danoHumanoTipo(1).numeroPessoas(10).build();
-        DanosHumanos dH2 = DanosHumanos.builder().danoHumanoTipo(2).numeroPessoas(20).build();
-        DanosHumanos dH3 = DanosHumanos.builder().danoHumanoTipo(1).numeroPessoas(20).build();
+        DanosHumanos dH1 = DanosHumanos.builder().danoHumanoTipo(12).numeroPessoas(10).build();
+        DanosHumanos dH2 = DanosHumanos.builder().danoHumanoTipo(13).numeroPessoas(20).build();
+        DanosHumanos dH3 = DanosHumanos.builder().danoHumanoTipo(14).numeroPessoas(20).build();
 
         dH1.setOcorrencia(o1);
         dH2.setOcorrencia(o2);
@@ -142,8 +133,10 @@ public class H2DBTestDB implements CommandLineRunner {
         List<DanosMateriais> danosMateriais1 = new ArrayList<DanosMateriais>();
         List<DanosMateriais> danosMateriais2 = new ArrayList<DanosMateriais>();
 
-        DanosMateriais dM1 = DanosMateriais.builder().danoMaterialTipo(1).quantidadeDestruida(10).quantidadeDanificada(20).valor(1500.83).build();
-        DanosMateriais dM2 = DanosMateriais.builder().danoMaterialTipo(2).quantidadeDestruida(2).quantidadeDanificada(3).valor(958.45).build();
+        DanosMateriais dM1 =
+                DanosMateriais.builder().danoMaterialTipo(6).quantidadeDestruida(10).quantidadeDanificada(20).valor(BigInteger.valueOf(150083)).build();
+        DanosMateriais dM2 =
+                DanosMateriais.builder().danoMaterialTipo(7).quantidadeDestruida(2).quantidadeDanificada(3).valor(BigInteger.valueOf(95845)).build();
 
         dM1.setOcorrencia(o1);
         dM2.setOcorrencia(o2);
@@ -161,55 +154,51 @@ public class H2DBTestDB implements CommandLineRunner {
         o2.setAreaAfetada(a2);
 
         /**** inserindo tipos danos ****/
-        List<DanosAmbientaisTipo> danosAmbientaisTipos = new ArrayList<DanosAmbientaisTipo>();
-        List<DanosMateriaisTipo> danosMateriaisTipos = new ArrayList<DanosMateriaisTipo>();
-        List<DanosHumanosTipo> danosHumanosTipos = new ArrayList<DanosHumanosTipo>();
+        List<DanoTipo> danoTipos = new ArrayList<>();
 
-        DanosAmbientaisTipo dAT1 = DanosAmbientaisTipo.builder().descricao("contaminacao_ar").build();
-        DanosAmbientaisTipo dAT2 = DanosAmbientaisTipo.builder().descricao("contaminacao_agua").build();
-        DanosAmbientaisTipo dAT3 = DanosAmbientaisTipo.builder().descricao("contaminacao_solo").build();
-        DanosAmbientaisTipo dAT4 = DanosAmbientaisTipo.builder().descricao("exaurimento_hidrico").build();
-        DanosAmbientaisTipo dAT5 = DanosAmbientaisTipo.builder().descricao("incendio_apa").build();
-        danosAmbientaisTipos.add(dAT1);
-        danosAmbientaisTipos.add(dAT2);
-        danosAmbientaisTipos.add(dAT3);
-        danosAmbientaisTipos.add(dAT4);
-        danosAmbientaisTipos.add(dAT5);
+        DanoTipo dAT1 = DanoTipo.builder().categoria("ambiental").descricao("Contaminação do Ar").build();
+        DanoTipo dAT2 = DanoTipo.builder().categoria("ambiental").descricao("Contaminação do Água").build();
+        DanoTipo dAT3 = DanoTipo.builder().categoria("ambiental").descricao("Contaminação do Solo").build();
+        DanoTipo dAT4 = DanoTipo.builder().categoria("ambiental").descricao("Exaurimento Hídrico").build();
+        DanoTipo dAT5 = DanoTipo.builder().categoria("ambiental").descricao("Incêndio APA").build();
+        danoTipos.add(dAT1);
+        danoTipos.add(dAT2);
+        danoTipos.add(dAT3);
+        danoTipos.add(dAT4);
+        danoTipos.add(dAT5);
 
-        DanosMateriaisTipo dMT1 = DanosMateriaisTipo.builder().descricao("Unidade Habitacionais").build();
-        DanosMateriaisTipo dMT2 = DanosMateriaisTipo.builder().descricao("Instalações Públicas de Saúde").build();
-        DanosMateriaisTipo dMT3 = DanosMateriaisTipo.builder().descricao("Instalações Públicas de Ensino").build();
-        DanosMateriaisTipo dMT4 = DanosMateriaisTipo.builder().descricao("Instalações Públicas Prestadoras de Outros Serviços").build();
-        DanosMateriaisTipo dMT5 = DanosMateriaisTipo.builder().descricao("Instalações Públicas Prestadoras de Uso Comunitário").build();
-        DanosMateriaisTipo dMT6 = DanosMateriaisTipo.builder().descricao("Obras de Infra Estrutura Públicas").build();
-        danosMateriaisTipos.add(dMT1);
-        danosMateriaisTipos.add(dMT2);
-        danosMateriaisTipos.add(dMT3);
-        danosMateriaisTipos.add(dMT4);
-        danosMateriaisTipos.add(dMT5);
-        danosMateriaisTipos.add(dMT6);
+        DanoTipo dMT1 = DanoTipo.builder().categoria("material").descricao("Unidade Habitacionais").build();
+        DanoTipo dMT2 = DanoTipo.builder().categoria("material").descricao("Instalações Públicas de Saúde").build();
+        DanoTipo dMT3 = DanoTipo.builder().categoria("material").descricao("Instalações Públicas de Ensino").build();
+        DanoTipo dMT4 =DanoTipo.builder().categoria("material").descricao("Instalações Públicas Prestadoras de Outros" +
+                " Serviços").build();
+        DanoTipo dMT5 = DanoTipo.builder().categoria("material").descricao("Instalações Públicas Prestadoras de Uso " +
+                "Comunitário").build();
+        DanoTipo dMT6 = DanoTipo.builder().categoria("material").descricao("Obras de Infra Estrutura Públicas").build();
+        danoTipos.add(dMT1);
+        danoTipos.add(dMT2);
+        danoTipos.add(dMT3);
+        danoTipos.add(dMT4);
+        danoTipos.add(dMT5);
+        danoTipos.add(dMT6);
 
-        DanosHumanosTipo dHT1 = DanosHumanosTipo.builder().descricao("Mortos").build();
-        DanosHumanosTipo dHT2 = DanosHumanosTipo.builder().descricao("Feridos").build();
-        DanosHumanosTipo dHT3 = DanosHumanosTipo.builder().descricao("Enfermos").build();
-        DanosHumanosTipo dHT4 = DanosHumanosTipo.builder().descricao("Desabrigados").build();
-        DanosHumanosTipo dHT5 = DanosHumanosTipo.builder().descricao("Desalojados").build();
-        DanosHumanosTipo dHT6 = DanosHumanosTipo.builder().descricao("Desaparecidos").build();
-        DanosHumanosTipo dHT7 = DanosHumanosTipo.builder().descricao("Outros Afetados").build();
-        danosHumanosTipos.add(dHT1);
-        danosHumanosTipos.add(dHT2);
-        danosHumanosTipos.add(dHT3);
-        danosHumanosTipos.add(dHT4);
-        danosHumanosTipos.add(dHT5);
-        danosHumanosTipos.add(dHT6);
-        danosHumanosTipos.add(dHT7);
-
-
-        danosAmbientaisTipoRepository.saveAll(danosAmbientaisTipos);
-        danosMateriaisTipoRepository.saveAll(danosMateriaisTipos);
-        danosHumanosTipoRepository.saveAll(danosHumanosTipos);
+        DanoTipo dHT1 = DanoTipo.builder().categoria("humano").descricao("Mortos").build();
+        DanoTipo dHT2 = DanoTipo.builder().categoria("humano").descricao("Feridos").build();
+        DanoTipo dHT3 = DanoTipo.builder().categoria("humano").descricao("Enfermos").build();
+        DanoTipo dHT4 = DanoTipo.builder().categoria("humano").descricao("Desabrigados").build();
+        DanoTipo dHT5 = DanoTipo.builder().categoria("humano").descricao("Desalojados").build();
+        DanoTipo dHT6 = DanoTipo.builder().categoria("humano").descricao("Desaparecidos").build();
+        DanoTipo dHT7 = DanoTipo.builder().categoria("humano").descricao("Outros Afetados").build();
+        danoTipos.add(dHT1);
+        danoTipos.add(dHT2);
+        danoTipos.add(dHT3);
+        danoTipos.add(dHT4);
+        danoTipos.add(dHT5);
+        danoTipos.add(dHT6);
+        danoTipos.add(dHT7);
 
         /**** Saving ****/
+        danosTipoRepository.saveAll(danoTipos);
         ocorrenciaRepository.saveAll(Arrays.asList(o1,o2));
         telefoneRepository.saveAll(Arrays.asList(t1,t2));
         danosHumanosRepository.saveAll(Arrays.asList(dH1,dH2,dH3));

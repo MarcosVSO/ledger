@@ -1,23 +1,28 @@
 package com.ledger.danos.rest;
 
+import com.ledger.danos.dtos.IdResponseDTO;
+import com.ledger.danos.dtos.create.DanosAmbientaisCreateDTO;
+import com.ledger.danos.dtos.create.DanosHumanosCreateDTO;
+import com.ledger.danos.dtos.create.DanosMateriaisCreateDTO;
+import com.ledger.danos.dtos.mappers.DanosAmbientaisDTOMapper;
+import com.ledger.danos.dtos.mappers.DanosHumanosDTOMapper;
+import com.ledger.danos.dtos.mappers.DanosMateriaisDTOMapper;
 import com.ledger.danos.entities.DanosAmbientais;
 import com.ledger.danos.entities.DanosHumanos;
 import com.ledger.danos.entities.DanosMateriais;
 import com.ledger.danos.service.DanosService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value="/danos")
+@RequestMapping(value = "/danos")
+@Validated
 public class DanosRest {
     @Autowired
     private DanosService danosService;
@@ -58,24 +63,40 @@ public class DanosRest {
         return ResponseEntity.of(danosMateriais);
     }
 
-
-    @PostMapping("/humanos/add")
-    public ResponseEntity addDanosHumanos(@RequestBody DanosHumanos danosHumanos){
-        danosService.addDanosHumanos(danosHumanos);
-        return ResponseEntity.ok(HttpStatus.OK);
+    @DeleteMapping("/ambientais/{idDano}")
+    public ResponseEntity<Integer> deleteDanosAmbientais(@PathVariable Integer idDano) {
+        Integer id = danosService.deleteDanosAmbientais(idDano);
+        return ResponseEntity.ok(id);
     }
 
-    @PostMapping("/materiais/add")
-    public ResponseEntity addDanosMateriais(@RequestBody DanosMateriais danosMateriais){
-        danosService.addDanosMateriais(danosMateriais);
-        return ResponseEntity.ok(HttpStatus.OK);
+    @DeleteMapping("/humanos/{idDano}")
+    public ResponseEntity<Integer> deleteDanosHumanos(@PathVariable Integer idDano) {
+        Integer id = danosService.deleteDanosHumanos(idDano);
+        return ResponseEntity.ok(id);
     }
 
-    @PostMapping("/ambientais/add")
-    public ResponseEntity addDanosAmbientais(@RequestBody DanosAmbientais danosAmbientais){
-        danosService.addDanosAmbientais(danosAmbientais);
-        return ResponseEntity.ok(HttpStatus.OK);
+    @DeleteMapping("/materiais/{idDano}")
+    public ResponseEntity<Integer> deleteDanosMateriais(@PathVariable Integer idDano) {
+        Integer id = danosService.deleteDanosMateriais(idDano);
+        return ResponseEntity.ok(id);
     }
 
+    @PostMapping("ambientais")
+    public ResponseEntity<IdResponseDTO> findAllDanosAmbientaisByOcorrencia(@Valid @RequestBody DanosAmbientaisCreateDTO dano) {
+        var response = danosService.saveDanosAmbientais(DanosAmbientaisDTOMapper.toEntity(dano));
+        return ResponseEntity.ok(IdResponseDTO.from(response));
+    }
+
+    @PostMapping("materiais")
+    public ResponseEntity<IdResponseDTO> findAllDanosMateriaisByOcorrencia(@Valid @RequestBody DanosMateriaisCreateDTO dano) {
+        var response = danosService.saveDanosMateriais(DanosMateriaisDTOMapper.toEntity(dano));
+        return ResponseEntity.ok(IdResponseDTO.from(response));
+    }
+
+    @PostMapping("humanos")
+    public ResponseEntity<IdResponseDTO> findAllDanosHumanosByOcorrencia(@Valid @RequestBody DanosHumanosCreateDTO dano) {
+        var response = danosService.saveDanosHumanos(DanosHumanosDTOMapper.toEntity(dano));
+        return ResponseEntity.ok(IdResponseDTO.from(response));
+    }
 
 }

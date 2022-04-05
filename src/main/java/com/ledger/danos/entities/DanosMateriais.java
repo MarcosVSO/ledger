@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.sql.Blob;
 
 @Entity
@@ -44,5 +45,5 @@ public class DanosMateriais implements Serializable {
     private Integer quantidadeDanificada;
 
     @Column(name="valor")
-    private Double valor;
+    private BigInteger valor;
 }

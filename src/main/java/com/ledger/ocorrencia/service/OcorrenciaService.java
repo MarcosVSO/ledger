@@ -1,9 +1,7 @@
 package com.ledger.ocorrencia.service;
 
 import com.ledger.danos.dtos.DanosMateriaisSomaDTO;
-import com.ledger.danos.entities.tipos.DanosAmbientaisTipo;
-import com.ledger.danos.entities.tipos.DanosHumanosTipo;
-import com.ledger.danos.entities.tipos.DanosMateriaisTipo;
+import com.ledger.danos.entities.tipos.DanoTipo;
 import com.ledger.danos.service.DanosService;
 import com.ledger.danos.service.DanosTiposService;
 import com.ledger.ocorrencia.dto.FideDTO;
@@ -68,20 +66,20 @@ public class OcorrenciaService {
         FideDTO fideDTO = modelMapper.map(ocorrencia.get(), FideDTO.class );
 
         Map<String, Integer> danosHumanosMapped = new HashMap<String, Integer>();
-        for (DanosHumanosTipo dht : danosTiposService.findAllDanoHumanoTipo()){
-            danosHumanosMapped.put(dht.getDescricao(), danosService.getSomaDanosHumanos(dht.getId(),idOcorrencia));
+        for (DanoTipo dt : danosTiposService.findAllDanoTipoByCategoria("humano")){
+            danosHumanosMapped.put(dt.getDescricao(), danosService.getSomaDanosHumanos(dt.getId(),idOcorrencia));
         }
         fideDTO.setDanosHumanosMapped(danosHumanosMapped);
 
         Map<String,Integer> danosAmbientaisMapped = new HashMap<String, Integer>();
-        for (DanosAmbientaisTipo dat : danosTiposService.findAllDanoAmbientalTipo()){
-            danosAmbientaisMapped.put(dat.getDescricao(), danosService.getSomaDanosAmbientais(dat.getId(),idOcorrencia));
+        for (DanoTipo dt : danosTiposService.findAllDanoTipoByCategoria("ambiental")){
+            danosAmbientaisMapped.put(dt.getDescricao(), danosService.getSomaDanosAmbientais(dt.getId(),idOcorrencia));
         }
         fideDTO.setDanosAmbientaisMapped(danosAmbientaisMapped);
 
         List<DanosMateriaisSomaDTO> danosMateriaisSomaDTOS = new ArrayList<DanosMateriaisSomaDTO>();
-        for (DanosMateriaisTipo dmt : danosTiposService.findAllDanoMaterialTipo()){
-            DanosMateriaisSomaDTO danosMateriaisSomaDTO = danosService.getSomaDanosMateriais(dmt.getId(), idOcorrencia, dmt.getDescricao());
+        for (DanoTipo dt : danosTiposService.findAllDanoTipoByCategoria("material")){
+            DanosMateriaisSomaDTO danosMateriaisSomaDTO = danosService.getSomaDanosMateriais(dt.getId(), idOcorrencia, dt.getDescricao());
             danosMateriaisSomaDTOS.add(danosMateriaisSomaDTO);
         }
         fideDTO.setDanosMateriaisSoma(danosMateriaisSomaDTOS);

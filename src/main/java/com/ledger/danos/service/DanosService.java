@@ -1,5 +1,8 @@
 package com.ledger.danos.service;
 
+import com.ledger.danos.dtos.DanosAmbientaisListDTO;
+import com.ledger.danos.dtos.DanosHumanosListDTO;
+import com.ledger.danos.dtos.DanosMateriaisListDTO;
 import com.ledger.danos.dtos.DanosMateriaisSomaDTO;
 import com.ledger.danos.entities.DanosAmbientais;
 import com.ledger.danos.entities.DanosHumanos;
@@ -7,9 +10,6 @@ import com.ledger.danos.entities.DanosMateriais;
 import com.ledger.danos.repositories.DanosAmbientaisRepository;
 import com.ledger.danos.repositories.DanosHumanosRepository;
 import com.ledger.danos.repositories.DanosMateriaisRepository;
-import com.ledger.ocorrencia.dto.DanosAmbientaisListDTO;
-import com.ledger.ocorrencia.dto.DanosHumanosListDTO;
-import com.ledger.ocorrencia.dto.DanosMateriaisListDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -73,18 +73,32 @@ public class DanosService {
         return danosMateriaisRepository.getSomaDanosMateriais(danoTipo,idOcorrencia,tipoDano);
     }
 
-    public void addDanosHumanos(DanosHumanos danosHumanos){
-        danosHumanosRepository.save(danosHumanos);
+    public Integer saveDanosMateriais(DanosMateriais dano) {
+        return danosMateriaisRepository.save(dano).getId();
     }
 
-    public void addDanosMateriais(DanosMateriais danosMateriais){
-        danosMateriaisRepository.save(danosMateriais);
+    public Integer saveDanosAmbientais(DanosAmbientais dano) {
+        return danosAmbientaisRepository.save(dano).getId();
     }
 
-    public void addDanosAmbientais(DanosAmbientais danosAmbientais){
-        danosAmbientaisRepository.save(danosAmbientais);
+    public Integer saveDanosHumanos(DanosHumanos dano) {
+        return danosHumanosRepository.save(dano).getId();
     }
 
+    public Integer deleteDanosMateriais(Integer danoId) {
+        danosMateriaisRepository.deleteById(danoId);
+        return danoId;
+    }
+
+    public Integer deleteDanosAmbientais(Integer danoId) {
+        danosAmbientaisRepository.deleteById(danoId);
+        return danoId;
+    }
+
+    public Integer deleteDanosHumanos(Integer danoId) {
+        danosHumanosRepository.deleteById(danoId);
+        return danoId;
+    }
     //TODO byId, insert, update, delete
 
 }
