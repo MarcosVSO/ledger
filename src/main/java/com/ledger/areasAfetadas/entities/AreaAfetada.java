@@ -45,6 +45,9 @@ public class AreaAfetada {
     @Column(name="mineracao")
     private String mineracao;
 
+    @Column(name="turismo_outras")
+    private String turismoOutras;
+
 
 
 

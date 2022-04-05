@@ -154,8 +154,8 @@ public class H2DBTestDB implements CommandLineRunner {
         o2.setDanosMateriais(danosMateriais2);
 
         /****  Areas Afetadas ****/
-        AreaAfetada a1 = AreaAfetada.builder().residencial("Não Afetada").comercial("Urbana").industrial("Rural").agricola("Urbana e Rural").pecuaria("Urbana e Rural").extrativismoVegetal("Urbana").reservaFlorestal("Rural").mineracao("Não Afetada").build();
-        AreaAfetada a2 = AreaAfetada.builder().residencial("Urbana").comercial("Urbana").industrial("Rural").agricola("Rural").pecuaria("Rural").extrativismoVegetal("Não Afetada").reservaFlorestal("Urbana").mineracao("Não Afetada").build();
+        AreaAfetada a1 = AreaAfetada.builder().residencial("Não Afetada").comercial("Urbana").industrial("Rural").agricola("Urbana e Rural").pecuaria("Urbana e Rural").extrativismoVegetal("Urbana").reservaFlorestal("Rural").mineracao("Não Afetada").turismoOutras("Não Afetada").build();
+        AreaAfetada a2 = AreaAfetada.builder().residencial("Urbana").comercial("Urbana").industrial("Rural").agricola("Rural").pecuaria("Rural").extrativismoVegetal("Não Afetada").reservaFlorestal("Urbana").mineracao("Não Afetada").turismoOutras("Não Afetada").build();
 
         o1.setAreaAfetada(a1);
         o2.setAreaAfetada(a2);

@@ -74,6 +74,22 @@ public class UpdateDocumentService {
             replacements.put("${ambiental_solo}",fideDTO.getDanosAmbientaisMapped().get("contaminacao_solo").toString());
             replacements.put("${ambiental_hidrico}",fideDTO.getDanosAmbientaisMapped().get("exaurimento_hidrico").toString());
             replacements.put("${ambiental_apa}",fideDTO.getDanosAmbientaisMapped().get("incendio_apa").toString());
+            // Areas afetadas
+            replacements.put("${area_afetada_residencial}",fideDTO.getAreaAfetada().getResidencial());
+            replacements.put("${area_afetada_comercial}",fideDTO.getAreaAfetada().getComercial());
+            replacements.put("${area_afetada_industrial}",fideDTO.getAreaAfetada().getIndustrial());
+            replacements.put("${area_afetada_agricola}",fideDTO.getAreaAfetada().getAgricola());
+            replacements.put("${area_afetada_pecuaria}",fideDTO.getAreaAfetada().getPecuaria());
+            replacements.put("${area_afetada_extratVegetal}",fideDTO.getAreaAfetada().getExtrativismoVegetal());
+            replacements.put("${area_afetada_apa}",fideDTO.getAreaAfetada().getReservaFlorestal());
+            replacements.put("${area_afetada_mineracao}",fideDTO.getAreaAfetada().getMineracao());
+            replacements.put("${area_afetada_turismo}",fideDTO.getAreaAfetada().getTurismoOutras());
+            //instituições
+            replacements.put("${inst_informante}",fideDTO.getInstInformanteNome());
+            replacements.put("${inst_responsavel}",fideDTO.getInstInformanteResponsavel());
+            replacements.put("${inst_telefones}",fideDTO.getTelefoneNums());
+            replacements.put("${inf_defesa}",fideDTO.getInstInformadaOrgaoEstadual());
+            replacements.put("${inf_sedec}",fideDTO.getInstituicaoInformanteSedec());
 
 
             List<XWPFTable> tables = doc.getTables();
