@@ -5,15 +5,13 @@ import com.ledger.danos.dtos.DanosAmbientaisListDTO;
 import com.ledger.danos.dtos.DanosHumanosListDTO;
 import com.ledger.danos.dtos.DanosMateriaisListDTO;
 import com.ledger.documento.UpdateDocumentService;
-import com.ledger.ocorrencia.dto.DanosAmbientaisListDTO;
-import com.ledger.ocorrencia.dto.DanosHumanosListDTO;
-import com.ledger.ocorrencia.dto.DanosMateriaisListDTO;
 import com.ledger.ocorrencia.dto.FideDTO;
 import com.ledger.ocorrencia.entities.Ocorrencia;
 import com.ledger.ocorrencia.service.OcorrenciaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

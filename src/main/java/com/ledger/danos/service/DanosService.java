@@ -10,9 +10,6 @@ import com.ledger.danos.entities.DanosMateriais;
 import com.ledger.danos.repositories.DanosAmbientaisRepository;
 import com.ledger.danos.repositories.DanosHumanosRepository;
 import com.ledger.danos.repositories.DanosMateriaisRepository;
-import com.ledger.ocorrencia.dto.DanosAmbientaisListDTO;
-import com.ledger.ocorrencia.dto.DanosHumanosListDTO;
-import com.ledger.ocorrencia.dto.DanosMateriaisListDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
