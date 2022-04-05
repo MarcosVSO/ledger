@@ -100,9 +100,9 @@ public class H2DBTestDB implements CommandLineRunner {
         List<DanosHumanos> danosHumanos1 = new ArrayList<DanosHumanos>();
         List<DanosHumanos> danosHumanos2 = new ArrayList<DanosHumanos>();
 
-        DanosHumanos dH1 = DanosHumanos.builder().danoHumanoTipo(1).numeroPessoas(10).build();
-        DanosHumanos dH2 = DanosHumanos.builder().danoHumanoTipo(2).numeroPessoas(20).build();
-        DanosHumanos dH3 = DanosHumanos.builder().danoHumanoTipo(1).numeroPessoas(20).build();
+        DanosHumanos dH1 = DanosHumanos.builder().danoHumanoTipo(12).numeroPessoas(10).build();
+        DanosHumanos dH2 = DanosHumanos.builder().danoHumanoTipo(13).numeroPessoas(20).build();
+        DanosHumanos dH3 = DanosHumanos.builder().danoHumanoTipo(14).numeroPessoas(20).build();
 
         dH1.setOcorrencia(o1);
         dH2.setOcorrencia(o2);
@@ -134,9 +134,9 @@ public class H2DBTestDB implements CommandLineRunner {
         List<DanosMateriais> danosMateriais2 = new ArrayList<DanosMateriais>();
 
         DanosMateriais dM1 =
-                DanosMateriais.builder().danoMaterialTipo(1).quantidadeDestruida(10).quantidadeDanificada(20).valor(BigInteger.valueOf(150083)).build();
+                DanosMateriais.builder().danoMaterialTipo(6).quantidadeDestruida(10).quantidadeDanificada(20).valor(BigInteger.valueOf(150083)).build();
         DanosMateriais dM2 =
-                DanosMateriais.builder().danoMaterialTipo(2).quantidadeDestruida(2).quantidadeDanificada(3).valor(BigInteger.valueOf(95845)).build();
+                DanosMateriais.builder().danoMaterialTipo(7).quantidadeDestruida(2).quantidadeDanificada(3).valor(BigInteger.valueOf(95845)).build();
 
         dM1.setOcorrencia(o1);
         dM2.setOcorrencia(o2);
