@@ -1,9 +1,8 @@
 package com.ledger.danos.repositories;
 
 import com.ledger.danos.dtos.DanosMateriaisSomaDTO;
-import com.ledger.danos.entities.DanosHumanos;
 import com.ledger.danos.entities.DanosMateriais;
-import com.ledger.ocorrencia.dto.DanosMateriaisListDTO;
+import com.ledger.danos.dtos.DanosMateriaisListDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

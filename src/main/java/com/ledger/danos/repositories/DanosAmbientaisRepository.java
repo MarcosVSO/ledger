@@ -1,7 +1,7 @@
 package com.ledger.danos.repositories;
 
 import com.ledger.danos.entities.DanosAmbientais;
-import com.ledger.ocorrencia.dto.DanosAmbientaisListDTO;
+import com.ledger.danos.dtos.DanosAmbientaisListDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
