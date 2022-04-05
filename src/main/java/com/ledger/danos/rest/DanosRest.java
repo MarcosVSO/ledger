@@ -63,6 +63,24 @@ public class DanosRest {
         return ResponseEntity.of(danosMateriais);
     }
 
+    @DeleteMapping("/ambientais/{idDano}")
+    public ResponseEntity<Integer> deleteDanosAmbientais(@PathVariable Integer idDano) {
+        Integer id = danosService.deleteDanosAmbientais(idDano);
+        return ResponseEntity.ok(id);
+    }
+
+    @DeleteMapping("/humanos/{idDano}")
+    public ResponseEntity<Integer> deleteDanosHumanos(@PathVariable Integer idDano) {
+        Integer id = danosService.deleteDanosHumanos(idDano);
+        return ResponseEntity.ok(id);
+    }
+
+    @DeleteMapping("/materiais/{idDano}")
+    public ResponseEntity<Integer> deleteDanosMateriais(@PathVariable Integer idDano) {
+        Integer id = danosService.deleteDanosMateriais(idDano);
+        return ResponseEntity.ok(id);
+    }
+
     @PostMapping("ambientais")
     public ResponseEntity<IdResponseDTO> findAllDanosAmbientaisByOcorrencia(@Valid @RequestBody DanosAmbientaisCreateDTO dano) {
         var response = danosService.saveDanosAmbientais(DanosAmbientaisDTOMapper.toEntity(dano));

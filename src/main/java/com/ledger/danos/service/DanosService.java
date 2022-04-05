@@ -84,6 +84,21 @@ public class DanosService {
     public Integer saveDanosHumanos(DanosHumanos dano) {
         return danosHumanosRepository.save(dano).getId();
     }
+
+    public Integer deleteDanosMateriais(Integer danoId) {
+        danosMateriaisRepository.deleteById(danoId);
+        return danoId;
+    }
+
+    public Integer deleteDanosAmbientais(Integer danoId) {
+        danosAmbientaisRepository.deleteById(danoId);
+        return danoId;
+    }
+
+    public Integer deleteDanosHumanos(Integer danoId) {
+        danosHumanosRepository.deleteById(danoId);
+        return danoId;
+    }
     //TODO byId, insert, update, delete
 
 }
