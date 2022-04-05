@@ -1,4 +1,4 @@
-package com.ledger.ocorrencia.dto;
+package com.ledger.danos.dtos;
 
 public interface DanosMateriaisListDTO {
     Integer getId();

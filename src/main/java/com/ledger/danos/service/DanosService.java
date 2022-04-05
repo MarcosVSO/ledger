@@ -1,5 +1,8 @@
 package com.ledger.danos.service;
 
+import com.ledger.danos.dtos.DanosAmbientaisListDTO;
+import com.ledger.danos.dtos.DanosHumanosListDTO;
+import com.ledger.danos.dtos.DanosMateriaisListDTO;
 import com.ledger.danos.dtos.DanosMateriaisSomaDTO;
 import com.ledger.danos.entities.DanosAmbientais;
 import com.ledger.danos.entities.DanosHumanos;
@@ -73,18 +76,17 @@ public class DanosService {
         return danosMateriaisRepository.getSomaDanosMateriais(danoTipo,idOcorrencia,tipoDano);
     }
 
-    public void addDanosHumanos(DanosHumanos danosHumanos){
-        danosHumanosRepository.save(danosHumanos);
+    public Integer saveDanosMateriais(DanosMateriais dano) {
+        return danosMateriaisRepository.save(dano).getId();
     }
 
-    public void addDanosMateriais(DanosMateriais danosMateriais){
-        danosMateriaisRepository.save(danosMateriais);
+    public Integer saveDanosAmbientais(DanosAmbientais dano) {
+        return danosAmbientaisRepository.save(dano).getId();
     }
 
-    public void addDanosAmbientais(DanosAmbientais danosAmbientais){
-        danosAmbientaisRepository.save(danosAmbientais);
+    public Integer saveDanosHumanos(DanosHumanos dano) {
+        return danosHumanosRepository.save(dano).getId();
     }
-
     //TODO byId, insert, update, delete
 
 }

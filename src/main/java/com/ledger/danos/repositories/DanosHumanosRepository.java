@@ -1,6 +1,6 @@
 package com.ledger.danos.repositories;
 
-import com.ledger.ocorrencia.dto.DanosHumanosListDTO;
+import com.ledger.danos.dtos.DanosHumanosListDTO;
 import com.ledger.danos.entities.DanosHumanos;
 import org.springframework.data.jpa.repository.JpaRepository;
 

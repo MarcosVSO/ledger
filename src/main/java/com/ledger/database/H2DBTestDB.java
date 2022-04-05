@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -142,8 +143,10 @@ public class H2DBTestDB implements CommandLineRunner {
         List<DanosMateriais> danosMateriais1 = new ArrayList<DanosMateriais>();
         List<DanosMateriais> danosMateriais2 = new ArrayList<DanosMateriais>();
 
-        DanosMateriais dM1 = DanosMateriais.builder().danoMaterialTipo(1).quantidadeDestruida(10).quantidadeDanificada(20).valor(1500.83).build();
-        DanosMateriais dM2 = DanosMateriais.builder().danoMaterialTipo(2).quantidadeDestruida(2).quantidadeDanificada(3).valor(958.45).build();
+        DanosMateriais dM1 =
+                DanosMateriais.builder().danoMaterialTipo(1).quantidadeDestruida(10).quantidadeDanificada(20).valor(BigInteger.valueOf(150083)).build();
+        DanosMateriais dM2 =
+                DanosMateriais.builder().danoMaterialTipo(2).quantidadeDestruida(2).quantidadeDanificada(3).valor(BigInteger.valueOf(95845)).build();
 
         dM1.setOcorrencia(o1);
         dM2.setOcorrencia(o2);

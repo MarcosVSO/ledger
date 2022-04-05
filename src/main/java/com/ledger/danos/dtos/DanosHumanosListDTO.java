@@ -1,4 +1,4 @@
-package com.ledger.ocorrencia.dto;
+package com.ledger.danos.dtos;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.ledger.ocorrencia.entities.Ocorrencia;
