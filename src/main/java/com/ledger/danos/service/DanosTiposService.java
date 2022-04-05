@@ -1,11 +1,7 @@
 package com.ledger.danos.service;
 
-import com.ledger.danos.entities.tipos.DanosAmbientaisTipo;
-import com.ledger.danos.entities.tipos.DanosHumanosTipo;
-import com.ledger.danos.entities.tipos.DanosMateriaisTipo;
-import com.ledger.danos.repositories.tipos.DanosAmbientaisTipoRepository;
-import com.ledger.danos.repositories.tipos.DanosHumanosTipoRepository;
-import com.ledger.danos.repositories.tipos.DanosMateriaisTipoRepository;
+import com.ledger.danos.entities.tipos.DanoTipo;
+import com.ledger.danos.repositories.tipos.DanosTipoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,36 +12,30 @@ import java.util.Optional;
 public class DanosTiposService {
 
     @Autowired
-    private DanosAmbientaisTipoRepository danosAmbientaisTipoRepository;
+    private DanosTipoRepository danosTipoRepository;
 
-    @Autowired
-    private DanosMateriaisTipoRepository danosMateriaisTipoRepository;
-
-    @Autowired
-    private DanosHumanosTipoRepository danosHumanosTipoRepository;
-
-    public Optional<DanosAmbientaisTipo> findDanoAmbientalTipoById(Integer id){
-        return danosAmbientaisTipoRepository.findById(id);
+    public Optional<DanoTipo> findDanoTipoById(Integer id){
+        return danosTipoRepository.findById(id);
     }
 
-    public List<DanosAmbientaisTipo> findAllDanoAmbientalTipo(){
-        return danosAmbientaisTipoRepository.findAll();
+    public List<DanoTipo> findAllDanoTipoByCategoria(String categoria){
+        return danosTipoRepository.findAllByCategoria(categoria);
     }
 
-    public Optional<DanosMateriaisTipo> findDanoMaterialTipoById(Integer id){
-        return danosMateriaisTipoRepository.findById(id);
+    public List<DanoTipo> findAllTiposHumanos(){
+        return danosTipoRepository.findAllByCategoria("humano");
     }
 
-    public List<DanosMateriaisTipo> findAllDanoMaterialTipo(){
-        return danosMateriaisTipoRepository.findAll();
+    public List<DanoTipo> findAllTiposAmbientais(){
+        return danosTipoRepository.findAllByCategoria("ambiental");
     }
 
-    public Optional<DanosHumanosTipo> findDanoHumanoTipoById(Integer id){
-        return danosHumanosTipoRepository.findById(id);
+    public List<DanoTipo> findAllTiposMateriais(){
+        return danosTipoRepository.findAllByCategoria("material");
     }
 
-    public List<DanosHumanosTipo> findAllDanoHumanoTipo(){
-        return danosHumanosTipoRepository.findAll();
+    public List<DanoTipo> findAllDanoTipo(){
+        return danosTipoRepository.findAll();
     }
 
 }
