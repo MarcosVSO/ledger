@@ -1,7 +1,7 @@
-package com.ledger.telefones.rest;
+package com.ledger.telefone.rest;
 
-import com.ledger.telefones.entities.Telefone;
-import com.ledger.telefones.service.TelefoneService;
+import com.ledger.telefone.entities.Telefone;
+import com.ledger.telefone.service.TelefoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

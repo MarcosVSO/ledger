@@ -5,7 +5,7 @@ import com.ledger.areasAfetadas.entities.AreaAfetada;
 import com.ledger.danos.entities.DanosAmbientais;
 import com.ledger.danos.entities.DanosHumanos;
 import com.ledger.danos.entities.DanosMateriais;
-import com.ledger.telefones.entities.Telefone;
+import com.ledger.telefone.entities.Telefone;
 import lombok.*;
 
 import javax.persistence.*;

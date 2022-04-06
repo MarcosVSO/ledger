@@ -1,4 +1,4 @@
-package com.ledger.telefones.entities;
+package com.ledger.telefone.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.ledger.ocorrencia.entities.Ocorrencia;

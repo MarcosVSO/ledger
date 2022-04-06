@@ -6,6 +6,10 @@ import com.ledger.danos.dtos.DanosHumanosListDTO;
 import com.ledger.danos.dtos.DanosMateriaisListDTO;
 import com.ledger.documento.UpdateDocumentService;
 import com.ledger.ocorrencia.dto.FideDTO;
+import com.ledger.ocorrencia.dto.OcorrenciaDetailsDTO;
+import com.ledger.ocorrencia.dto.SalvarOcorrenciaDTO;
+import com.ledger.ocorrencia.dto.mapper.OcorrenciaDetailsDTOMapper;
+import com.ledger.ocorrencia.dto.mapper.SalvarOcorrenciaDTOMapper;
 import com.ledger.ocorrencia.entities.Ocorrencia;
 import com.ledger.ocorrencia.service.OcorrenciaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,8 +67,24 @@ public class OcorrenciaRest {
     }
 
     @GetMapping("/{idOcorrencia}")
-    public ResponseEntity<Ocorrencia> findById(@PathVariable Integer idOcorrencia) {
-        return ocorrenciaService.findById(idOcorrencia);
+    public ResponseEntity<OcorrenciaDetailsDTO> findById(@PathVariable Integer idOcorrencia) {
+        var ocorrencia = ocorrenciaService.findById(idOcorrencia);
+        if (ocorrencia.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(OcorrenciaDetailsDTOMapper.toDTO(ocorrencia.get()));
+    }
+
+    @PostMapping()
+    public ResponseEntity<Integer> saveOcorrencia(@RequestBody SalvarOcorrenciaDTO ocorrencia) {
+        var ocorrenciaId = ocorrenciaService.salvarOcorrencia(SalvarOcorrenciaDTOMapper.toEntity(ocorrencia));
+        return ResponseEntity.ok(ocorrenciaId);
+    }
+
+    @PatchMapping()
+    public ResponseEntity<Integer> updateOcorrencia(@RequestBody SalvarOcorrenciaDTO ocorrencia) {
+        var ocorrenciaId = ocorrenciaService.salvarOcorrencia(SalvarOcorrenciaDTOMapper.toEntity(ocorrencia));
+        return ResponseEntity.ok(ocorrenciaId);
     }
 
     @PostMapping("/add")

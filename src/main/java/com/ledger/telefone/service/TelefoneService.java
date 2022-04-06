@@ -1,8 +1,7 @@
-package com.ledger.telefones.service;
+package com.ledger.telefone.service;
 
-import com.ledger.ocorrencia.entities.Ocorrencia;
-import com.ledger.telefones.entities.Telefone;
-import com.ledger.telefones.repositories.TelefoneRepository;
+import com.ledger.telefone.entities.Telefone;
+import com.ledger.telefone.repositories.TelefoneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,5 +18,13 @@ public class TelefoneService {
     public ResponseEntity<List<Telefone>> findAll(){
         List<Telefone> telefones = telefoneRepository.findAll();
         return new ResponseEntity<List<Telefone>>(telefones, HttpStatus.OK);
+    }
+
+    public void deleteByOcorrenciaId(Integer ocorrenciaId) {
+        telefoneRepository.deleteAllByOcorrencia_Id(ocorrenciaId);
+    }
+
+    public void salvar(Telefone telefone) {
+        telefoneRepository.save(telefone);
     }
 }
