@@ -8,6 +8,7 @@ import lombok.Data;
 
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Data
 public class FideDTO {
@@ -33,4 +34,18 @@ public class FideDTO {
     private Map<String, Integer> danosHumanosMapped = new HashMap<String, Integer>();
     @JsonProperty("danos_materiais")
     private List<DanosMateriaisSomaDTO> danosMateriaisSoma = new LinkedList<DanosMateriaisSomaDTO>();
+
+    public String getInstInformadaOrgaoEstadual(){
+        return this.instInformadaOrgaoEstadual ? "S" : "N";
+    }
+
+    public String getInstituicaoInformanteSedec(){
+        return this.instituicaoInformadaSedec ? "S" : "N";
+    }
+
+    public String getTelefoneNums(){
+        return this.instInformanteTelefones.stream()
+                .map(s -> s.getNumero()+"\n")
+                .collect(Collectors.joining());
+    }
 }

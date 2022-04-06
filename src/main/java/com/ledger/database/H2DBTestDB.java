@@ -88,7 +88,7 @@ public class H2DBTestDB implements CommandLineRunner {
         Ocorrencia o1 = Ocorrencia.builder().dataOcorrencia(new Date()).codCobrade("11110").uf("GO").municipio("Goiânia").latitude("-16.716666613612432").longitude("-49.252455389736646").instInformadaOrgaoEstadual(true)
                 .instituicaoInformadaSedec(true).instInformanteNome("Defesa Civil").instInformanteResponsavel("Fulano").build();
         Ocorrencia o2 = Ocorrencia.builder().dataOcorrencia(new Date()).codCobrade("11120").uf("MS").municipio("Barra do Garças").latitude("-15.894243863201739").longitude("-52.26307143229597").instInformadaOrgaoEstadual(true)
-                .instituicaoInformadaSedec(false).build();
+                .instituicaoInformadaSedec(false).instInformanteNome("Defesa Civil").instInformanteResponsavel("Fulano").build();
 
         o1.setInstInformanteTelefones(listT1);
         o2.setInstInformanteTelefones(listT2);
@@ -147,8 +147,8 @@ public class H2DBTestDB implements CommandLineRunner {
         o2.setDanosMateriais(danosMateriais2);
 
         /****  Areas Afetadas ****/
-        AreaAfetada a1 = AreaAfetada.builder().residencial("Não Afetada").comercial("Urbana").industrial("Rural").agricola("Urbana e Rural").pecuaria("Urbana e Rural").extrativismoVegetal("Urbana").reservaFlorestal("Rural").mineracao("Não Afetada").build();
-        AreaAfetada a2 = AreaAfetada.builder().residencial("Urbana").comercial("Urbana").industrial("Rural").agricola("Rural").pecuaria("Rural").extrativismoVegetal("Não Afetada").reservaFlorestal("Urbana").mineracao("Não Afetada").build();
+        AreaAfetada a1 = AreaAfetada.builder().residencial("Não Afetada").comercial("Urbana").industrial("Rural").agricola("Urbana e Rural").pecuaria("Urbana e Rural").extrativismoVegetal("Urbana").reservaFlorestal("Rural").mineracao("Não Afetada").turismoOutras("Não Afetada").build();
+        AreaAfetada a2 = AreaAfetada.builder().residencial("Urbana").comercial("Urbana").industrial("Rural").agricola("Rural").pecuaria("Rural").extrativismoVegetal("Não Afetada").reservaFlorestal("Urbana").mineracao("Não Afetada").turismoOutras("Não Afetada").build();
 
         o1.setAreaAfetada(a1);
         o2.setAreaAfetada(a2);
