@@ -13,6 +13,7 @@ import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 
@@ -29,7 +30,7 @@ public class UpdateDocumentService {
 
         XWPFDocument doc = new XWPFDocument(Files.newInputStream(Paths.get(input)));
 
-            LocalDate localDate = LocalDate.ofInstant(fideDTO.getDataOcorrencia().toInstant(), ZoneId.systemDefault());
+            LocalDateTime localDate = LocalDateTime.ofInstant(fideDTO.getDataOcorrencia().toInstant(), ZoneId.of("America/Sao_Paulo"));
 
             Map<String, String> replacements = new LinkedHashMap<String,String>();
             //Dados da ocorrência
@@ -38,9 +39,9 @@ public class UpdateDocumentService {
             replacements.put("${cobrade}",fideDTO.getCodCobrade());
             replacements.put("${cobradeDescricao}", cobradeService.findByCodigo(fideDTO.getCodCobrade()).getSubGrupo());
             replacements.put("${oc_dia}", String.valueOf(localDate.getDayOfMonth()) );
-            replacements.put("${oc_mes}", String.valueOf(localDate.getMonth()));
+            replacements.put("${oc_mes}", convertEngToPt(String.valueOf(localDate.getMonth())));
             replacements.put("${oc_ano}", String.valueOf(localDate.getYear()));
-            //replacements.put("${oc_hr}", String.valueOf(localDate.get()));
+            replacements.put("${oc_hr}", localDate.getHour()+":"+localDate.getMinute());
             //  Danos Humanos, Materiais ou Ambientais
             replacements.put("${mortos}",fideDTO.getDanosHumanosMapped().get("Mortos").toString());
             replacements.put("${feridos}",fideDTO.getDanosHumanosMapped().get("Feridos").toString());
@@ -69,11 +70,11 @@ public class UpdateDocumentService {
             replacements.put("${infra_dani}",fideDTO.getDanosMateriaisSoma().get(5).getQuantidadeDanificada().toString());
             replacements.put("${infra_valor}",fideDTO.getDanosMateriaisSoma().get(5).getValor().toString());
             // Danos Ambientais
-            replacements.put("${ambiental_ar}",fideDTO.getDanosAmbientaisMapped().get("contaminacao_ar").toString());
-            replacements.put("${ambiental_agua}",fideDTO.getDanosAmbientaisMapped().get("contaminacao_agua").toString());
-            replacements.put("${ambiental_solo}",fideDTO.getDanosAmbientaisMapped().get("contaminacao_solo").toString());
-            replacements.put("${ambiental_hidrico}",fideDTO.getDanosAmbientaisMapped().get("exaurimento_hidrico").toString());
-            replacements.put("${ambiental_apa}",fideDTO.getDanosAmbientaisMapped().get("incendio_apa").toString());
+            replacements.put("${ambiental_ar}",fideDTO.getDanosAmbientaisMapped().get("Contaminação do Ar").toString());
+            replacements.put("${ambiental_agua}",fideDTO.getDanosAmbientaisMapped().get("Contaminação do Água").toString());
+            replacements.put("${ambiental_solo}",fideDTO.getDanosAmbientaisMapped().get("Contaminação do Solo").toString());
+            replacements.put("${ambiental_hidrico}",fideDTO.getDanosAmbientaisMapped().get("Exaurimento Hídrico").toString());
+            replacements.put("${ambiental_apa}",fideDTO.getDanosAmbientaisMapped().get("Incêndio APA").toString());
             // Areas afetadas
             replacements.put("${area_afetada_residencial}",fideDTO.getAreaAfetada().getResidencial());
             replacements.put("${area_afetada_comercial}",fideDTO.getAreaAfetada().getComercial());
@@ -123,5 +124,23 @@ public class UpdateDocumentService {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public String convertEngToPt(String month){
+        Map<String,String> mappedMonth = new HashMap<String,String>();
+        mappedMonth.put("JANUARY","JANEIRO");
+        mappedMonth.put("FEBRUARY","FEVEREIRO");
+        mappedMonth.put("MARCH","MARÇO");
+        mappedMonth.put("APRIL","ABRIL");
+        mappedMonth.put("MAY","MAIO");
+        mappedMonth.put("JUNE","JUNHO");
+        mappedMonth.put("JULY","JULHO");
+        mappedMonth.put("AUGUST","AGOSTO");
+        mappedMonth.put("SEPTEMBER","SETEMBRO");
+        mappedMonth.put("OCTOBER","OUTUBRO");
+        mappedMonth.put("NOVEMBER","NOVEMBRO");
+        mappedMonth.put("DECEMBER","DEZEMBRO");
+
+        return mappedMonth.get(month);
     }
 }
