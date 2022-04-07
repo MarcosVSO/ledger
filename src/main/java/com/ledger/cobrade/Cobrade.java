@@ -1,11 +1,14 @@
 package com.ledger.cobrade;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.ledger.ocorrencia.entities.Ocorrencia;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="cobrade")
@@ -40,4 +43,9 @@ public class Cobrade {
 
     @Column(name="codigo")
     private String codigo;
+
+    @JsonBackReference
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(referencedColumnName = "cod_cobrade")
+    private List<Ocorrencia> ocorrencia;
 }

@@ -7,7 +7,7 @@ public class OcorrenciaDetailsDTOMapper {
     public static OcorrenciaDetailsDTO toDTO(Ocorrencia o) {
         return OcorrenciaDetailsDTO.builder()
                 .id(o.getId())
-                .codCobrade(o.getCodCobrade())
+                .cobrade(o.getCobrade())
                 .dataOcorrencia(o.getDataOcorrencia())
                 .latitude(o.getLatitude())
                 .longitude(o.getLongitude())

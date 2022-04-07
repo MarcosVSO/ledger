@@ -1,14 +1,17 @@
 package com.ledger.ocorrencia.dto.mapper;
 
+import com.ledger.cobrade.Cobrade;
 import com.ledger.ocorrencia.dto.OcorrenciaDetailsDTO;
 import com.ledger.ocorrencia.dto.SalvarOcorrenciaDTO;
 import com.ledger.ocorrencia.entities.Ocorrencia;
 
 public class SalvarOcorrenciaDTOMapper {
     public static Ocorrencia toEntity(SalvarOcorrenciaDTO o) {
+        var cobrade = new Cobrade();
+        cobrade.setCodigo(o.getCodCobrade());
         return Ocorrencia.builder()
                 .id(o.getId())
-                .codCobrade(o.getCodCobrade())
+                .cobrade(cobrade)
                 .dataOcorrencia(o.getDataOcorrencia())
                 .latitude(o.getLatitude())
                 .longitude(o.getLongitude())

@@ -85,10 +85,16 @@ public class H2DBTestDB implements CommandLineRunner {
         listT2.add(t2);
 
         /****  Ocorrências ****/
-        Ocorrencia o1 = Ocorrencia.builder().dataOcorrencia(new Date()).codCobrade("11110").uf("GO").municipio("Goiânia").latitude("-16.716666613612432").longitude("-49.252455389736646").instInformadaOrgaoEstadual(true)
+        Ocorrencia o1 =
+                Ocorrencia.builder().dataOcorrencia(new Date()).uf("GO").municipio("Goiânia").latitude(
+                        "-16.716666613612432").longitude("-49.252455389736646").instInformadaOrgaoEstadual(true)
                 .instituicaoInformadaSedec(true).instInformanteNome("Defesa Civil").instInformanteResponsavel("Fulano").build();
-        Ocorrencia o2 = Ocorrencia.builder().dataOcorrencia(new Date()).codCobrade("11120").uf("MS").municipio("Barra do Garças").latitude("-15.894243863201739").longitude("-52.26307143229597").instInformadaOrgaoEstadual(true)
+        Ocorrencia o2 =
+                Ocorrencia.builder().dataOcorrencia(new Date()).uf("MS").municipio("Barra do Garças").latitude(
+                        "-15.894243863201739").longitude("-52.26307143229597").instInformadaOrgaoEstadual(true)
                 .instituicaoInformadaSedec(false).instInformanteNome("Defesa Civil").instInformanteResponsavel("Fulano").build();
+        o1.setCobrade(c1);
+        o2.setCobrade(c2);
 
         o1.setInstInformanteTelefones(listT1);
         o2.setInstInformanteTelefones(listT2);
@@ -198,13 +204,13 @@ public class H2DBTestDB implements CommandLineRunner {
         danoTipos.add(dHT7);
 
         /**** Saving ****/
+        cobradeRepository.saveAll(cobrades);
         danosTipoRepository.saveAll(danoTipos);
         ocorrenciaRepository.saveAll(Arrays.asList(o1,o2));
         telefoneRepository.saveAll(Arrays.asList(t1,t2));
         danosHumanosRepository.saveAll(Arrays.asList(dH1,dH2,dH3));
         danosAmbientaisRepository.saveAll(Arrays.asList(dA1,dA2));
         danosMateriaisRepository.saveAll(Arrays.asList(dM1,dM2));
-        cobradeRepository.saveAll(cobrades);
         areaAfetadaRepository.saveAll(Arrays.asList(a1,a2));
 
 

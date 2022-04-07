@@ -2,6 +2,7 @@ package com.ledger.ocorrencia.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ledger.areasAfetadas.entities.AreaAfetada;
+import com.ledger.cobrade.Cobrade;
 import com.ledger.danos.entities.DanosAmbientais;
 import com.ledger.danos.entities.DanosHumanos;
 import com.ledger.danos.entities.DanosMateriais;
@@ -26,8 +27,9 @@ public class Ocorrencia {
     @Column(name="id")
     private Integer id;
 
-    @Column(name="cod_cobrade")
-    private String codCobrade;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cod_cobrade", referencedColumnName = "id")
+    private Cobrade cobrade;
 
     @Column(name="data_ocorrencia")
     private Date dataOcorrencia;

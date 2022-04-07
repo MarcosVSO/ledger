@@ -5,6 +5,7 @@ import com.ledger.danos.entities.tipos.DanoTipo;
 import com.ledger.danos.service.DanosService;
 import com.ledger.danos.service.DanosTiposService;
 import com.ledger.ocorrencia.dto.FideDTO;
+import com.ledger.ocorrencia.dto.mapper.OcorrenciaListDTOMapper;
 import com.ledger.ocorrencia.entities.Ocorrencia;
 import com.ledger.ocorrencia.repositories.OcorrenciaRepository;
 import com.ledger.telefone.entities.Telefone;
@@ -92,8 +93,8 @@ public class OcorrenciaService {
         return fideDTO;
     }
 
-    public ResponseEntity<Slice<Ocorrencia>> paginateByCobradeAndStatus(Pageable page, String cobrade) {
-        return new ResponseEntity<>(ocorrenciaRepository.findAllByCodCobrade(cobrade, page), HttpStatus.OK);
+    public Slice<Ocorrencia> paginateByCobradeAndStatus(Pageable page, String cobrade) {
+        return ocorrenciaRepository.findAllByCodCobrade(cobrade, page);
     }
 
     @Transactional

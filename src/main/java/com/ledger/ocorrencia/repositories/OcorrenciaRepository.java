@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface OcorrenciaRepository extends JpaRepository<Ocorrencia,Integer> {
 
-    @Query("SELECT o FROM Ocorrencia o WHERE o.codCobrade = ?1")
+    @Query("SELECT o FROM Ocorrencia o WHERE o.cobrade.codigo = ?1")
     public List<Ocorrencia> findAllByCobrade(String cobrade);
 
     @Query("SELECT o FROM Ocorrencia o WHERE o.uf = ?1")
@@ -20,6 +20,6 @@ public interface OcorrenciaRepository extends JpaRepository<Ocorrencia,Integer> 
     @Query("SELECT o FROM Ocorrencia o WHERE o.municipio = ?1")
     public List<Ocorrencia> findAllByMunicipio(String municipio);
 
-    @Query("SELECT o FROM Ocorrencia o WHERE o.codCobrade = :cobrade or :cobrade is null")
+    @Query("SELECT o FROM Ocorrencia o WHERE o.cobrade.codigo = :cobrade or :cobrade is null")
     Slice<Ocorrencia> findAllByCodCobrade(@Param("cobrade") String  cobrade, Pageable page);
 }
