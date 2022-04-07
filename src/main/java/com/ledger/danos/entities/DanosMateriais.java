@@ -11,8 +11,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.sql.Blob;
-import java.util.List;
 
 @Entity
 @Data
@@ -28,8 +26,8 @@ public class DanosMateriais implements Serializable {
     private Integer id;
 
     @Lob
-    @Column(name="foto")
-    private byte[] foto;
+    @Column(name="fotos")
+    private String fotos;
 
     @Column(name="latitude")
     private String latitude;

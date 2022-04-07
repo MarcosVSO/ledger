@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Blob;
+import java.util.Base64;
 
 @Entity
 @Data
@@ -24,8 +24,8 @@ public class DanosHumanos {
     private Integer id;
 
     @Lob
-    @Column(name="foto")
-    private byte[] foto;
+    @Column(name="fotos")
+    private String fotos;
 
     @Column(name="latitude")
     private String latitude;

@@ -1,4 +1,5 @@
 package com.ledger.danos.dtos;
+import java.util.Base64;
 
 public interface DanosAmbientaisListDTO {
     Integer getId();
@@ -6,4 +7,6 @@ public interface DanosAmbientaisListDTO {
     Integer getDanoAmbientalTipo();
 
     Integer getPopulacaoAtingida();
+
+    String getFotos();
 }

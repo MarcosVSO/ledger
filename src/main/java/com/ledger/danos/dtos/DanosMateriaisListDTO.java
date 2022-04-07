@@ -1,5 +1,7 @@
 package com.ledger.danos.dtos;
 
+import java.util.Base64;
+
 public interface DanosMateriaisListDTO {
     Integer getId();
 
@@ -10,4 +12,6 @@ public interface DanosMateriaisListDTO {
     Integer getQuantidadeDestruida();
 
     Double getValor();
+
+    String getFotos();
 }
