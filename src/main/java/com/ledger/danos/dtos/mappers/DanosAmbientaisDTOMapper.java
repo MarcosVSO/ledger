@@ -11,7 +11,7 @@ public class DanosAmbientaisDTOMapper {
         return DanosAmbientais.builder()
                 .id(null)
                 .danoAmbientalTipo(dto.getDanoAmbientalTipo())
-                .foto(dto.getFoto())
+                .fotos(dto.getFotos())
                 .ocorrencia(ocorrencia)
                 .populacaoAtingida(dto.getPopulacaoAtingida())
                 .latitude(dto.getLatitude())

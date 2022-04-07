@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
+import java.util.Base64;
 
 @Getter
 @Setter
@@ -20,7 +21,7 @@ public class DanosMateriaisCreateDTO {
     private Integer quantidadeDestruida;
     @NotNull
     private BigInteger valor;
+    private String fotos;
     private String latitude;
     private String longitude;
-    private byte[] foto;
 }

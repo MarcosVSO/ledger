@@ -16,5 +16,5 @@ public class DanosAmbientaisCreateDTO {
     private Integer populacaoAtingida;
     private String latitude;
     private String longitude;
-    private byte[] foto;
+    private String fotos;
 }

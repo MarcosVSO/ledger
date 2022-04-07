@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Base64;
 
 public interface DanosHumanosListDTO {
     Integer getId();
@@ -15,4 +16,6 @@ public interface DanosHumanosListDTO {
     Integer getDanoHumanoTipo();
 
     Integer getNumeroPessoas();
+
+    String getFotos();
 }

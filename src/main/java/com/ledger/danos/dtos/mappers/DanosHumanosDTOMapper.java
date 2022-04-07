@@ -12,7 +12,7 @@ public class DanosHumanosDTOMapper {
                 .ocorrencia(ocorrencia)
                 .danoHumanoTipo(dto.getDanoHumanoTipo())
                 .numeroPessoas(dto.getNumeroPessoas())
-                .foto(dto.getFoto())
+                .fotos(dto.getFotos())
                 .latitude(dto.getLatitude())
                 .longitude(dto.getLongitude())
                 .build();
