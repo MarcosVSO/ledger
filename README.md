@@ -9,7 +9,7 @@ O sistema foi construindo para auxiliar a Defesa Civil no registro de ocorrênci
 - [Icaro Aguiar Perez](https://www.github.com/icaro1508)
 - [Marcos Vinícius de Souza Oliveira](https://www.github.com/MarcosVSO)
 - [Pedro Henrique Souza Arcanjo](https://www.github.com/pedrohsa1)
-- [Vitor Abreu Bitencurt]()
+- [Vitor Abreu Bitencurt](https://github.com/vitorbiten)
 
 
 ## Configurações
@@ -20,6 +20,12 @@ O sistema foi construindo para auxiliar a Defesa Civil no registro de ocorrênci
   Faça o clone do repositório e utilize os seguintes comandos:
 ```bash
   mvn install
-  mvn spring:boot run
+  mvn spring-boot:run
 ```
-    
+
+## Documentação da API
+- A API foi documentada utilizando Swagger, para visualizar os Enpoints da aplicação acesse:
+
+```bash
+http://localhost:9000/swagger-ui/index.html#/
+```
