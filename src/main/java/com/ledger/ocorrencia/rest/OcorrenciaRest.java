@@ -7,8 +7,10 @@ import com.ledger.danos.dtos.DanosMateriaisListDTO;
 import com.ledger.documento.UpdateDocumentService;
 import com.ledger.ocorrencia.dto.FideDTO;
 import com.ledger.ocorrencia.dto.OcorrenciaDetailsDTO;
+import com.ledger.ocorrencia.dto.OcorrenciaListDTO;
 import com.ledger.ocorrencia.dto.SalvarOcorrenciaDTO;
 import com.ledger.ocorrencia.dto.mapper.OcorrenciaDetailsDTOMapper;
+import com.ledger.ocorrencia.dto.mapper.OcorrenciaListDTOMapper;
 import com.ledger.ocorrencia.dto.mapper.SalvarOcorrenciaDTOMapper;
 import com.ledger.ocorrencia.entities.Ocorrencia;
 import com.ledger.ocorrencia.service.OcorrenciaService;
@@ -34,16 +36,25 @@ public class OcorrenciaRest {
     @Autowired
     private UpdateDocumentService updateDocumentService;
 
+    @Autowired
+    private OcorrenciaListDTOMapper ocorrenciaListDTOMapper;
+
+    @Autowired
+    private OcorrenciaDetailsDTOMapper ocorrenciaDetailsDTOMapper;
+
     @GetMapping
     public ResponseEntity<List<Ocorrencia>> findAll() {
         return ocorrenciaService.findAll();
     }
 
     @GetMapping("/list")
-    public ResponseEntity<Slice<Ocorrencia>> listAllWithFilters(
+    public ResponseEntity<Slice<OcorrenciaListDTO>> listAllWithFilters(
             Pageable pageable,
-            @RequestParam(required = false) String cobrade) {
-        return ocorrenciaService.paginateByCobradeAndStatus(pageable, cobrade);
+            @RequestParam(required = false) String cobrade,
+            @RequestParam(required = false) String uf,
+            @RequestParam(required = false) String municipio) {
+        var response = ocorrenciaService.paginateByCobradeAndStatus(pageable, cobrade, uf, municipio);
+        return ResponseEntity.ok(response.map((ocorrenciaListDTOMapper::toDTO)));
     }
 
     @GetMapping("/cobrade/{cobrade}")
@@ -67,12 +78,18 @@ public class OcorrenciaRest {
     }
 
     @GetMapping("/{idOcorrencia}")
-    public ResponseEntity<OcorrenciaDetailsDTO> findById(@PathVariable Integer idOcorrencia) {
+    public ResponseEntity<OcorrenciaDetailsDTO> findByIdForDetails(@PathVariable Integer idOcorrencia) {
         var ocorrencia = ocorrenciaService.findById(idOcorrencia);
         if (ocorrencia.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(OcorrenciaDetailsDTOMapper.toDTO(ocorrencia.get()));
+        return ResponseEntity.ok(ocorrenciaDetailsDTOMapper.toDTO(ocorrencia.get()));
+    }
+
+    @GetMapping("/{idOcorrencia}/edit")
+    public ResponseEntity<Ocorrencia> findByIdForEdit(@PathVariable Integer idOcorrencia) {
+        var ocorrencia = ocorrenciaService.findById(idOcorrencia);
+        return ResponseEntity.of(ocorrencia);
     }
 
     @PostMapping()

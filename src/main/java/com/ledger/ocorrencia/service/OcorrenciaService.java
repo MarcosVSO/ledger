@@ -4,6 +4,9 @@ import com.ledger.danos.dtos.DanosMateriaisSomaDTO;
 import com.ledger.danos.entities.tipos.DanoTipo;
 import com.ledger.danos.service.DanosService;
 import com.ledger.danos.service.DanosTiposService;
+import com.ledger.localidades.dtos.EstadoDTO;
+import com.ledger.localidades.dtos.MunicipioDTO;
+import com.ledger.localidades.service.LocalidadeService;
 import com.ledger.ocorrencia.dto.FideDTO;
 import com.ledger.ocorrencia.entities.Ocorrencia;
 import com.ledger.ocorrencia.repositories.OcorrenciaRepository;
@@ -36,6 +39,9 @@ public class OcorrenciaService {
 
     @Autowired
     private TelefoneService telefoneService;
+
+    @Autowired
+    private LocalidadeService localidadeService;
 
     public ResponseEntity<List<Ocorrencia>> findAll(){
         List<Ocorrencia> ocorrencias = ocorrenciaRepository.findAll();
@@ -92,8 +98,8 @@ public class OcorrenciaService {
         return fideDTO;
     }
 
-    public ResponseEntity<Slice<Ocorrencia>> paginateByCobradeAndStatus(Pageable page, String cobrade) {
-        return new ResponseEntity<>(ocorrenciaRepository.findAllByCodCobrade(cobrade, page), HttpStatus.OK);
+    public Slice<Ocorrencia> paginateByCobradeAndStatus(Pageable page, String cobrade, String uf, String municipio) {
+        return ocorrenciaRepository.findAllByCodCobradeAndLocalidade(cobrade, uf, municipio ,page);
     }
 
     @Transactional

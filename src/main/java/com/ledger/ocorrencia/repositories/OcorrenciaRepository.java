@@ -20,6 +20,10 @@ public interface OcorrenciaRepository extends JpaRepository<Ocorrencia,Integer> 
     @Query("SELECT o FROM Ocorrencia o WHERE o.municipio = ?1")
     public List<Ocorrencia> findAllByMunicipio(String municipio);
 
-    @Query("SELECT o FROM Ocorrencia o WHERE o.codCobrade = :cobrade or :cobrade is null")
-    Slice<Ocorrencia> findAllByCodCobrade(@Param("cobrade") String  cobrade, Pageable page);
+    @Query("SELECT o FROM Ocorrencia o WHERE (o.codCobrade = :cobrade or :cobrade is null) and (o.uf = :uf or :uf is " +
+            "null) and (o.municipio = :municipio or :municipio is null)")
+    Slice<Ocorrencia> findAllByCodCobradeAndLocalidade(@Param("cobrade") String  cobrade,
+                                                       @Param("uf") String uf,
+                                                       @Param("municipio") String Municipio,
+                                                       Pageable page);
 }

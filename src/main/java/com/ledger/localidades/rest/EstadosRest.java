@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/estados")
-public class LocalidadeRest {
+public class EstadosRest {
     @Autowired
     LocalidadeService localidadeService;
 
