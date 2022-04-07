@@ -13,6 +13,8 @@ public class DanosHumanosDTOMapper {
                 .danoHumanoTipo(dto.getDanoHumanoTipo())
                 .numeroPessoas(dto.getNumeroPessoas())
                 .foto(dto.getFoto())
+                .latitude(dto.getLatitude())
+                .longitude(dto.getLongitude())
                 .build();
     }
 }

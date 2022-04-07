@@ -20,5 +20,7 @@ public class DanosMateriaisCreateDTO {
     private Integer quantidadeDestruida;
     @NotNull
     private BigInteger valor;
+    private String latitude;
+    private String longitude;
     private byte[] foto;
 }

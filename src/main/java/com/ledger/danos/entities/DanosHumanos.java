@@ -27,6 +27,12 @@ public class DanosHumanos {
     @Column(name="foto")
     private byte[] foto;
 
+    @Column(name="latitude")
+    private String latitude;
+
+    @Column(name="longitude")
+    private String longitude;
+
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name="ocorrencia_id")
