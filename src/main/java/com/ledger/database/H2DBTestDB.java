@@ -85,9 +85,10 @@ public class H2DBTestDB implements CommandLineRunner {
         listT2.add(t2);
 
         /****  Ocorrências ****/
-        Ocorrencia o1 = Ocorrencia.builder().dataOcorrencia(new Date()).codCobrade("11110").uf("GO").municipio("Goiânia").latitude("-16.716666613612432").longitude("-49.252455389736646").instInformadaOrgaoEstadual(true)
+        Ocorrencia o1 = Ocorrencia.builder().dataOcorrencia(new Date()).codCobrade("11110").uf("52")
+                .municipio("5208707").latitude("-16.716666613612432").longitude("-49.252455389736646").instInformadaOrgaoEstadual(true)
                 .instituicaoInformadaSedec(true).instInformanteNome("Defesa Civil").instInformanteResponsavel("Fulano").build();
-        Ocorrencia o2 = Ocorrencia.builder().dataOcorrencia(new Date()).codCobrade("11120").uf("MS").municipio("Barra do Garças").latitude("-15.894243863201739").longitude("-52.26307143229597").instInformadaOrgaoEstadual(true)
+        Ocorrencia o2 = Ocorrencia.builder().dataOcorrencia(new Date()).codCobrade("11120").uf("50").municipio("5101803").latitude("-15.894243863201739").longitude("-52.26307143229597").instInformadaOrgaoEstadual(true)
                 .instituicaoInformadaSedec(false).instInformanteNome("Defesa Civil").instInformanteResponsavel("Fulano").build();
 
         o1.setInstInformanteTelefones(listT1);
@@ -97,8 +98,8 @@ public class H2DBTestDB implements CommandLineRunner {
         t2.setOcorrencia(o2);
 
         /****  Danos  Humanos****/
-        List<DanosHumanos> danosHumanos1 = new ArrayList<DanosHumanos>();
-        List<DanosHumanos> danosHumanos2 = new ArrayList<DanosHumanos>();
+        List<DanosHumanos> danosHumanos1 = new ArrayList<>();
+        List<DanosHumanos> danosHumanos2 = new ArrayList<>();
 
         DanosHumanos dH1 = DanosHumanos.builder().danoHumanoTipo(12).numeroPessoas(10).build();
         DanosHumanos dH2 = DanosHumanos.builder().danoHumanoTipo(13).numeroPessoas(20).build();

@@ -32,6 +32,19 @@ public class LocalidadeService {
             return estadoDTOList;
         }
     }
+
+    public EstadoDTO findEstadoById(String id) {
+        try {
+            String url = String.format("https://servicodados.ibge.gov.br/api/v1/localidades/estados/%s", id);
+            RestTemplate httpClient = new RestTemplate();
+            Object estado = httpClient.getForObject(url, Object.class);
+            return modelMapper.map(estado, EstadoDTO.class);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
     public List<MunicipioDTO> findMunicipiosByUF(Integer id){
         List<MunicipioDTO> municipioDTOList = new LinkedList<MunicipioDTO>();
         try{
@@ -48,4 +61,15 @@ public class LocalidadeService {
         }
     }
 
+    public MunicipioDTO findMunicipioById(String id){
+        try{
+            String url = String.format("https://servicodados.ibge.gov.br/api/v1/localidades/municipios/%s", id);
+            RestTemplate httpClient = new RestTemplate();
+            Object municipio = httpClient.getForObject(url, Object.class);
+            return modelMapper.map(municipio, MunicipioDTO.class);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
 }
