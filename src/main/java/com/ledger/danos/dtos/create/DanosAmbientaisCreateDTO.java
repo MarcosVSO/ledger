@@ -14,5 +14,7 @@ public class DanosAmbientaisCreateDTO {
     private Integer danoAmbientalTipo;
     @NotNull
     private Integer populacaoAtingida;
+    private String latitude;
+    private String longitude;
     private byte[] foto;
 }

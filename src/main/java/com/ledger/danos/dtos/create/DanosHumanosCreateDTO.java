@@ -14,5 +14,7 @@ public class DanosHumanosCreateDTO {
     private Integer danoHumanoTipo;
     @NotNull
     private Integer numeroPessoas;
+    private String latitude;
+    private String longitude;
     private byte[] foto;
 }

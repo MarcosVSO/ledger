@@ -12,6 +12,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.sql.Blob;
+import java.util.List;
 
 @Entity
 @Data
@@ -29,6 +30,12 @@ public class DanosMateriais implements Serializable {
     @Lob
     @Column(name="foto")
     private byte[] foto;
+
+    @Column(name="latitude")
+    private String latitude;
+
+    @Column(name="longitude")
+    private String longitude;
 
     @JsonBackReference
     @ManyToOne

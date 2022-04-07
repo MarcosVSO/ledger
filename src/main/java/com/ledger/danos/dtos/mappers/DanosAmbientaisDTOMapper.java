@@ -14,6 +14,8 @@ public class DanosAmbientaisDTOMapper {
                 .foto(dto.getFoto())
                 .ocorrencia(ocorrencia)
                 .populacaoAtingida(dto.getPopulacaoAtingida())
+                .latitude(dto.getLatitude())
+                .longitude(dto.getLongitude())
                 .build();
     }
 }

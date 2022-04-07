@@ -15,6 +15,8 @@ public class DanosMateriaisDTOMapper {
                 .quantidadeDanificada(dto.getQuantidadeDanificada())
                 .valor(dto.getValor())
                 .foto(dto.getFoto())
+                .latitude(dto.getLatitude())
+                .longitude(dto.getLongitude())
                 .build();
     }
 }
