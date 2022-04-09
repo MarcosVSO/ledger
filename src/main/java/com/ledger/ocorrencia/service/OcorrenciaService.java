@@ -1,17 +1,13 @@
 package com.ledger.ocorrencia.service;
 
 import com.ledger.danos.dtos.DanosMateriaisSomaDTO;
-import com.ledger.danos.entities.tipos.DanoTipo;
+import com.ledger.danos.entities.Tipo;
 import com.ledger.danos.service.DanosService;
 import com.ledger.danos.service.DanosTiposService;
-import com.ledger.localidades.dtos.EstadoDTO;
-import com.ledger.localidades.dtos.MunicipioDTO;
 import com.ledger.localidades.service.LocalidadeService;
 import com.ledger.ocorrencia.dto.FideDTO;
 import com.ledger.ocorrencia.entities.Ocorrencia;
 import com.ledger.ocorrencia.repositories.OcorrenciaRepository;
-import com.ledger.telefone.entities.Telefone;
-import com.ledger.telefone.service.TelefoneService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -36,9 +32,6 @@ public class OcorrenciaService {
 
     @Autowired
     private ModelMapper modelMapper;
-
-    @Autowired
-    private TelefoneService telefoneService;
 
     @Autowired
     private LocalidadeService localidadeService;
@@ -77,19 +70,19 @@ public class OcorrenciaService {
         FideDTO fideDTO = modelMapper.map(ocorrencia.get(), FideDTO.class );
 
         Map<String, Integer> danosHumanosMapped = new HashMap<String, Integer>();
-        for (DanoTipo dt : danosTiposService.findAllDanoTipoByCategoria("humano")){
+        for (Tipo dt : danosTiposService.findAllDanoTipoByCategoria("humano")){
             danosHumanosMapped.put(dt.getDescricao(), danosService.getSomaDanosHumanos(dt.getId(),idOcorrencia));
         }
         fideDTO.setDanosHumanosMapped(danosHumanosMapped);
 
         Map<String,Integer> danosAmbientaisMapped = new HashMap<String, Integer>();
-        for (DanoTipo dt : danosTiposService.findAllDanoTipoByCategoria("ambiental")){
+        for (Tipo dt : danosTiposService.findAllDanoTipoByCategoria("ambiental")){
             danosAmbientaisMapped.put(dt.getDescricao(), danosService.getSomaDanosAmbientais(dt.getId(),idOcorrencia));
         }
         fideDTO.setDanosAmbientaisMapped(danosAmbientaisMapped);
 
         List<DanosMateriaisSomaDTO> danosMateriaisSomaDTOS = new ArrayList<DanosMateriaisSomaDTO>();
-        for (DanoTipo dt : danosTiposService.findAllDanoTipoByCategoria("material")){
+        for (Tipo dt : danosTiposService.findAllDanoTipoByCategoria("material")){
             DanosMateriaisSomaDTO danosMateriaisSomaDTO = danosService.getSomaDanosMateriais(dt.getId(), idOcorrencia, dt.getDescricao());
             danosMateriaisSomaDTOS.add(danosMateriaisSomaDTO);
         }
@@ -104,18 +97,7 @@ public class OcorrenciaService {
 
     @Transactional
     public Integer salvarOcorrencia(Ocorrencia ocorrencia) {
-        var telefones = ocorrencia.getInstInformanteTelefones();
-        ocorrencia.setInstInformanteTelefones(null);
         Ocorrencia savedOcorrencia = ocorrenciaRepository.save(ocorrencia);
-        salvarTelefonesOcorrencia(ocorrencia, telefones);
         return savedOcorrencia.getId();
-    }
-
-    private void salvarTelefonesOcorrencia(Ocorrencia ocorrencia, List<Telefone> telefones) {
-        telefoneService.deleteByOcorrenciaId(ocorrencia.getId());
-        telefones.forEach(tel -> {
-            tel.setOcorrencia(ocorrencia);
-            telefoneService.salvar(tel);
-        });
     }
 }

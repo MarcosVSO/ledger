@@ -3,12 +3,9 @@ package com.ledger.ocorrencia.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ledger.areasAfetadas.entities.AreaAfetada;
 import com.ledger.danos.dtos.DanosMateriaisSomaDTO;
-import com.ledger.telefone.entities.Telefone;
 import lombok.Data;
 
-
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Data
 public class FideDTO {
@@ -22,7 +19,6 @@ public class FideDTO {
     private String uf;
     private String instInformanteNome;
     private String instInformanteResponsavel;
-    private List<Telefone> instInformanteTelefones;
     private Boolean instInformadaOrgaoEstadual;
     private Boolean instituicaoInformadaSedec;
     @JsonProperty("areas_afetadas")
@@ -43,9 +39,4 @@ public class FideDTO {
         return this.instituicaoInformadaSedec ? "S" : "N";
     }
 
-    public String getTelefoneNums(){
-        return this.instInformanteTelefones.stream()
-                .map(s -> s.getNumero()+"\n")
-                .collect(Collectors.joining());
-    }
 }

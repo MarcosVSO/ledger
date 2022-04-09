@@ -1,16 +1,17 @@
 package com.ledger.danos.rest;
 
-import com.ledger.danos.dtos.IdResponseDTO;
+import com.ledger.rest.dto.IdResponseDTO;
 import com.ledger.danos.dtos.create.DanosAmbientaisCreateDTO;
 import com.ledger.danos.dtos.create.DanosHumanosCreateDTO;
 import com.ledger.danos.dtos.create.DanosMateriaisCreateDTO;
-import com.ledger.danos.dtos.mappers.DanosAmbientaisDTOMapper;
-import com.ledger.danos.dtos.mappers.DanosHumanosDTOMapper;
-import com.ledger.danos.dtos.mappers.DanosMateriaisDTOMapper;
+import com.ledger.danos.dtos.mappers.DanosAmbientaisMapper;
+import com.ledger.danos.dtos.mappers.DanosHumanosMapper;
+import com.ledger.danos.dtos.mappers.DanosMateriaisMapper;
 import com.ledger.danos.entities.DanosAmbientais;
 import com.ledger.danos.entities.DanosHumanos;
 import com.ledger.danos.entities.DanosMateriais;
 import com.ledger.danos.service.DanosService;
+import com.ledger.rest.dto.mappers.IdResponseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -24,8 +25,22 @@ import java.util.Optional;
 @RequestMapping(value = "/danos")
 @Validated
 public class DanosRest {
-    @Autowired
+
     private DanosService danosService;
+    private DanosAmbientaisMapper danosAmbientaisMapper;
+    private DanosHumanosMapper danosHumanosMapper;
+    private DanosMateriaisMapper danosMateriaisMapper;
+    private IdResponseMapper idResponseMapper;
+
+    @Autowired
+    public DanosRest(DanosService danosService, DanosAmbientaisMapper danosAmbientaisMapper,
+                     DanosHumanosMapper danosHumanosMapper, DanosMateriaisMapper danosMateriaisMapper,
+                     IdResponseMapper idResponseMapper) {
+        this.danosService = danosService;
+        this.danosAmbientaisMapper = danosAmbientaisMapper;
+        this.danosHumanosMapper = danosHumanosMapper;
+        this.danosMateriaisMapper = danosMateriaisMapper;
+    }
 
     @GetMapping("/ambientais")
     public ResponseEntity<List<DanosAmbientais>> findAllDanosAmbientais() {
@@ -83,20 +98,20 @@ public class DanosRest {
 
     @PostMapping("ambientais")
     public ResponseEntity<IdResponseDTO> findAllDanosAmbientaisByOcorrencia(@Valid @RequestBody DanosAmbientaisCreateDTO dano) {
-        var response = danosService.saveDanosAmbientais(DanosAmbientaisDTOMapper.toEntity(dano));
-        return ResponseEntity.ok(IdResponseDTO.from(response));
+        var response = danosService.saveDanosAmbientais(danosAmbientaisMapper.fromCreatetoEntity(dano));
+        return ResponseEntity.ok(idResponseMapper.toDto(response));
     }
 
     @PostMapping("materiais")
     public ResponseEntity<IdResponseDTO> findAllDanosMateriaisByOcorrencia(@Valid @RequestBody DanosMateriaisCreateDTO dano) {
-        var response = danosService.saveDanosMateriais(DanosMateriaisDTOMapper.toEntity(dano));
-        return ResponseEntity.ok(IdResponseDTO.from(response));
+        var response = danosService.saveDanosMateriais(danosMateriaisMapper.fromCreatetoEntity(dano));
+        return ResponseEntity.ok(idResponseMapper.toDto(response));
     }
 
     @PostMapping("humanos")
     public ResponseEntity<IdResponseDTO> findAllDanosHumanosByOcorrencia(@Valid @RequestBody DanosHumanosCreateDTO dano) {
-        var response = danosService.saveDanosHumanos(DanosHumanosDTOMapper.toEntity(dano));
-        return ResponseEntity.ok(IdResponseDTO.from(response));
+        var response = danosService.saveDanosHumanos(danosHumanosMapper.fromCreatetoEntity(dano));
+        return ResponseEntity.ok(idResponseMapper.toDto(response));
     }
 
 }

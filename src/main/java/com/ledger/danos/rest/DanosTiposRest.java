@@ -1,7 +1,7 @@
 package com.ledger.danos.rest;
 
 
-import com.ledger.danos.entities.tipos.DanoTipo;
+import com.ledger.danos.entities.Tipo;
 import com.ledger.danos.service.DanosTiposService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,8 +21,8 @@ public class DanosTiposRest {
     private DanosTiposService danosTiposService;
 
     @GetMapping()
-    public ResponseEntity<List<DanoTipo>> getByCategoria(@RequestParam("categoria") String categoria){
-        List<DanoTipo> tipos = danosTiposService.findAllDanoTipoByCategoria(categoria);
+    public ResponseEntity<List<Tipo>> getByCategoria(@RequestParam("categoria") String categoria){
+        List<Tipo> tipos = danosTiposService.findAllDanoTipoByCategoria(categoria);
         return new ResponseEntity(tipos, HttpStatus.OK);
     }
 

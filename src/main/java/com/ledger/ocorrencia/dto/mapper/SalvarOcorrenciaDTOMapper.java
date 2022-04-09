@@ -8,17 +8,11 @@ public class SalvarOcorrenciaDTOMapper {
     public static Ocorrencia toEntity(SalvarOcorrenciaDTO o) {
         return Ocorrencia.builder()
                 .id(o.getId())
-                .codCobrade(o.getCodCobrade())
-                .dataOcorrencia(o.getDataOcorrencia())
-                .latitude(o.getLatitude())
-                .longitude(o.getLongitude())
+                .data(o.getDataOcorrencia())
                 .municipio(o.getMunicipio())
                 .uf(o.getUf())
-                .instInformanteNome(o.getInstInformanteNome())
-                .instInformanteResponsavel(o.getInstInformanteResponsavel())
-                .instInformanteTelefones(o.getInstInformanteTelefones())
-                .instInformadaOrgaoEstadual(o.getInstInformadaOrgaoEstadual())
-                .instituicaoInformadaSedec(o.getInstituicaoInformadaSedec())
+                .dcInformada(o.getInstInformadaOrgaoEstadual())
+                .sedecInformado(o.getInstituicaoInformadaSedec())
                 .areaAfetada(o.getAreaAfetada())
                 .build();
     }

@@ -1,7 +1,7 @@
 package com.ledger.documento;
 
 
-import com.ledger.cobrade.CobradeService;
+import com.ledger.cobrade.service.CobradeService;
 import com.ledger.ocorrencia.dto.FideDTO;
 import org.apache.commons.compress.utils.IOUtils;
 import org.apache.poi.xwpf.usermodel.*;
@@ -12,10 +12,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class UpdateDocumentService {
@@ -88,7 +90,7 @@ public class UpdateDocumentService {
             //instituições
             replacements.put("${inst_informante}",fideDTO.getInstInformanteNome());
             replacements.put("${inst_responsavel}",fideDTO.getInstInformanteResponsavel());
-            replacements.put("${inst_telefones}",fideDTO.getTelefoneNums());
+//            replacements.put("${inst_telefones}",fideDTO.getTelefoneNums());
             replacements.put("${inf_defesa}",fideDTO.getInstInformadaOrgaoEstadual());
             replacements.put("${inf_sedec}",fideDTO.getInstituicaoInformanteSedec());
 

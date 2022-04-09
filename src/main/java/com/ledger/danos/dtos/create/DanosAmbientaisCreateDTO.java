@@ -1,20 +1,13 @@
 package com.ledger.danos.dtos.create;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 
-@Getter
-@Setter
+@Data
 public class DanosAmbientaisCreateDTO {
     @NotNull
-    private Integer ocorrenciaId;
-    @NotNull
-    private Integer danoAmbientalTipo;
+    private Integer tipo;
     @NotNull
     private Integer populacaoAtingida;
-    private String latitude;
-    private String longitude;
-    private String fotos;
 }

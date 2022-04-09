@@ -9,12 +9,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class DanosHumanosCreateDTO {
     @NotNull
-    private Integer ocorrenciaId;
-    @NotNull
     private Integer danoHumanoTipo;
     @NotNull
     private Integer numeroPessoas;
-    private String fotos;
-    private String latitude;
-    private String longitude;
 }

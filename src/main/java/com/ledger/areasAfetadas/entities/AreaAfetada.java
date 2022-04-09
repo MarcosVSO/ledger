@@ -1,55 +1,55 @@
 package com.ledger.areasAfetadas.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.ledger.ocorrencia.entities.Ocorrencia;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name="area_afetada")
-@Data
-@Builder
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
+@Entity
+@Table(name="area_afetada")
 public class AreaAfetada {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Integer id;
 
-    @Column(name="residencial")
+    @Column(name = "residencial")
     private String residencial;
 
-    @Column(name="comercial")
+    @Column(name = "comercial")
     private String comercial;
 
-    @Column(name="industrial")
+    @Column(name = "industrial")
     private String industrial;
 
-    @Column(name="agricola")
+    @Column(name = "agricola")
     private String agricola;
 
-    @Column(name="pecuaria")
+    @Column(name = "pecuaria")
     private String pecuaria;
 
-    @Column(name="extrativismo_vegetal")
+    @Column(name = "extrativismo_vegetal")
     private String extrativismoVegetal;
 
-    @Column(name="reserva_florestal")
+    @Column(name = "reserva_florestal")
     private String reservaFlorestal;
 
-    @Column(name="mineracao")
+    @Column(name = "mineracao")
     private String mineracao;
 
-    @Column(name="turismo_outras")
+    @Column(name = "turismo_outras")
     private String turismoOutras;
 
-
-
+    @OneToOne(cascade = CascadeType.REMOVE, optional = false, orphanRemoval = true)
+    @JoinColumn(name = "ocorrencia_id", nullable = false)
+    private Ocorrencia ocorrencia;
 
 }
+
+
 

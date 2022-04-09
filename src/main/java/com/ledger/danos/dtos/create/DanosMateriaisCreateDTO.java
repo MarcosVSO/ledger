@@ -21,7 +21,4 @@ public class DanosMateriaisCreateDTO {
     private Integer quantidadeDestruida;
     @NotNull
     private BigInteger valor;
-    private String fotos;
-    private String latitude;
-    private String longitude;
 }

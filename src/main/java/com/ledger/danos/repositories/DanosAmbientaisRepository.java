@@ -1,7 +1,7 @@
 package com.ledger.danos.repositories;
 
 import com.ledger.danos.entities.DanosAmbientais;
-import com.ledger.danos.dtos.DanosAmbientaisListDTO;
+import com.ledger.danos.dtos.DanosAmbientaisDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,6 +18,6 @@ public interface DanosAmbientaisRepository extends JpaRepository<DanosAmbientais
             nativeQuery = true)
     Integer getSomaDanosAmbientais(@Param("danoTipo") Integer danoTipo, @Param("idOcorrencia") Integer idOcorrencia);
 
-    @Query(value = "SELECT d FROM DanosAmbientais d WHERE d.ocorrencia.id = :idOcorrencia")
-    List<DanosAmbientaisListDTO> findAllDanosAmbientaisByOcorrencia(@Param("idOcorrencia") Integer idOcorrencia);
+    @Query(value = "SELECT d FROM DanosAmbientais d WHERE d.dano.ocorrencia.id = :idOcorrencia")
+    List<DanosAmbientaisDTO> findAllDanosAmbientaisByOcorrencia(@Param("idOcorrencia") Integer idOcorrencia);
 }

@@ -1,9 +1,9 @@
 package com.ledger.ocorrencia.rest;
 
+import com.ledger.danos.dtos.DanosAmbientaisDTO;
+import com.ledger.danos.dtos.DanosMateriaisDTO;
 import com.ledger.danos.service.DanosService;
-import com.ledger.danos.dtos.DanosAmbientaisListDTO;
-import com.ledger.danos.dtos.DanosHumanosListDTO;
-import com.ledger.danos.dtos.DanosMateriaisListDTO;
+import com.ledger.danos.dtos.DanosHumanosDTO;
 import com.ledger.documento.UpdateDocumentService;
 import com.ledger.ocorrencia.dto.FideDTO;
 import com.ledger.ocorrencia.dto.OcorrenciaDetailsDTO;
@@ -110,19 +110,19 @@ public class OcorrenciaRest {
     }
 
     @GetMapping("/{idOcorrencia}/danos-ambientais")
-    public ResponseEntity<List<DanosAmbientaisListDTO>> findAllDanosAmbientaisByOcorrencia(@PathVariable Integer idOcorrencia) {
+    public ResponseEntity<List<DanosAmbientaisDTO>> findAllDanosAmbientaisByOcorrencia(@PathVariable Integer idOcorrencia) {
         var response = danosService.findAllDanosAmbientaisByOcorrencia(idOcorrencia);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{idOcorrencia}/danos-materiais")
-    public ResponseEntity<List<DanosMateriaisListDTO>> findAllDanosMateriaisByOcorrencia(@PathVariable Integer idOcorrencia) {
+    public ResponseEntity<List<DanosMateriaisDTO>> findAllDanosMateriaisByOcorrencia(@PathVariable Integer idOcorrencia) {
         var response = danosService.findAllDanosMateriaisByOcorrencia(idOcorrencia);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{idOcorrencia}/danos-humanos")
-    public ResponseEntity<List<DanosHumanosListDTO>> findAllDanosHumanosByOcorrencia(@PathVariable Integer idOcorrencia) {
+    public ResponseEntity<List<DanosHumanosDTO>> findAllDanosHumanosByOcorrencia(@PathVariable Integer idOcorrencia) {
         var response = danosService.findAllDanosHumanosByOcorrencia(idOcorrencia);
         return ResponseEntity.ok(response);
     }
