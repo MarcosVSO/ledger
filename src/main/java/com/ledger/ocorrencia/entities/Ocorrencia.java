@@ -4,6 +4,7 @@ import com.ledger.areasAfetadas.entities.AreaAfetada;
 import com.ledger.cobrade.entities.Cobrade;
 import com.ledger.danos.entities.Dano;
 import com.ledger.database.types.Coordenadas;
+import com.ledger.localidades.entities.Municipio;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,14 +29,12 @@ public class Ocorrencia {
     @Column(name="data")
     private Date data;
 
-    @Column(name="municipio")
-    private String municipio;
-
-    @Column(name="uf")
-    private String uf;
-
     @Embedded
     private Coordenadas coordenadas;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "municipio_id", nullable = false)
+    private Municipio municipio;
 
     @OneToMany(mappedBy = "ocorrencia", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Dano> danos = new ArrayList<>();

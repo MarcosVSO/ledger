@@ -29,8 +29,8 @@ public class LocalidadeService {
         return ufRepository.findById(id);
     }
 
-    public List<Municipio> findMunicipiosByUF(String uf){
-        return municipioRepository.findAllByUf(uf);
+    public List<Municipio> findMunicipiosByUF(Integer uf){
+        return municipioRepository.findAllByUfId(uf);
     }
 
     public Optional<Municipio> findMunicipioById(Integer id){

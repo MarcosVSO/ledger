@@ -22,7 +22,7 @@ public class Dano {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private Long  id;
 
     @Lob
     @ElementCollection(fetch = FetchType.LAZY)

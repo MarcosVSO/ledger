@@ -34,7 +34,7 @@ public class UfRest {
     }
 
     @GetMapping("/{id}/municipios")
-    public ResponseEntity<List<MunicipioDTO>> findMunicipiosByUF (@PathVariable("uf") String id){
+    public ResponseEntity<List<MunicipioDTO>> findMunicipiosByUF (@PathVariable("id") Integer id){
         return ResponseEntity.ok(municipioMapper.toDTOList(localidadeService.findMunicipiosByUF(id)));
     }
 }

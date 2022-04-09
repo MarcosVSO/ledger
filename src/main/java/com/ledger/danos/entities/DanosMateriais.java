@@ -21,14 +21,15 @@ public class DanosMateriais {
     @JsonIgnore
     private Integer id;
 
-    @Column(name="tipo")
-    private Integer tipo;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "tipo_id", nullable = false)
+    private Tipo tipo;
 
     @Column(name="destruido")
     private Boolean destruido;
 
     @Column(name="descricao")
-    private Boolean descricao;
+    private String descricao;
 
     @Column(name="valor")
     private BigInteger valor;

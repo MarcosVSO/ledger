@@ -1,15 +1,15 @@
 package com.ledger.danos.dtos.create;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 
-@Getter
-@Setter
+@Data
 public class DanosHumanosCreateDTO {
     @NotNull
-    private Integer danoHumanoTipo;
+    private Integer tipo;
     @NotNull
     private Integer numeroPessoas;
+    @NotNull
+    private Long dano;
 }

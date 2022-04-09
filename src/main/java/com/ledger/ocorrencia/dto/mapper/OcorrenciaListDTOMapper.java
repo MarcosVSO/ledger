@@ -13,7 +13,7 @@ public class OcorrenciaListDTOMapper {
 
     public OcorrenciaListDTO toDTO(Ocorrencia o) {
         var builder =
-                OcorrenciaListDTO.builder().id(o.getId()).dataOcorrencia(o.getData()).uf(o.getUf()).municipio(o.getMunicipio());
+                OcorrenciaListDTO.builder().id(o.getId()).data(o.getData());
 
 //        EstadoDTO e = localidadeService.findEstadoById(o.getUf());
 //        if (e != null) {

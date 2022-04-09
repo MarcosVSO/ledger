@@ -51,9 +51,8 @@ public class OcorrenciaRest {
     public ResponseEntity<Slice<OcorrenciaListDTO>> listAllWithFilters(
             Pageable pageable,
             @RequestParam(required = false) String cobrade,
-            @RequestParam(required = false) String uf,
-            @RequestParam(required = false) String municipio) {
-        var response = ocorrenciaService.paginateByCobradeAndStatus(pageable, cobrade, uf, municipio);
+            @RequestParam(required = false) Integer municipioId) {
+        var response = ocorrenciaService.paginateByCobradeAndStatus(pageable, cobrade, municipioId);
         return ResponseEntity.ok(response.map((ocorrenciaListDTOMapper::toDTO)));
     }
 

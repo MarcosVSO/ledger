@@ -21,8 +21,9 @@ public class DanosAmbientais{
     @Column(name="id")
     private Integer id;
 
-    @Column(name="tipo")
-    private Integer tipo;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "tipo_id", nullable = false)
+    private Tipo tipo;
 
     @Column(name="populacao_atingida")
     private Integer populacaoAtingida;

@@ -11,8 +11,8 @@ import java.util.Date;
 @Builder
 public class OcorrenciaListDTO {
     private Integer id;
-    private String codCobrade;
-    private Date dataOcorrencia;
+    private String cobrade;
+    private Date data;
     private String municipio;
     private String uf;
     }

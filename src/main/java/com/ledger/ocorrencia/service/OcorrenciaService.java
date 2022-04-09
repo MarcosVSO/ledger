@@ -47,7 +47,7 @@ public class OcorrenciaService {
     }
 
     public ResponseEntity<List<Ocorrencia>> findAllByUf(String uf){
-        List<Ocorrencia> ocorrencias = ocorrenciaRepository.findAllByUf(uf);
+        List<Ocorrencia> ocorrencias = ocorrenciaRepository.findAllBySiglaUf(uf);
         return new ResponseEntity<List<Ocorrencia>>(ocorrencias, HttpStatus.OK);
     }
 
@@ -91,8 +91,8 @@ public class OcorrenciaService {
         return fideDTO;
     }
 
-    public Slice<Ocorrencia> paginateByCobradeAndStatus(Pageable page, String cobrade, String uf, String municipio) {
-        return ocorrenciaRepository.findAllByCodCobradeAndLocalidade(cobrade, uf, municipio ,page);
+    public Slice<Ocorrencia> paginateByCobradeAndStatus(Pageable page, String cobrade, Integer municipio) {
+        return ocorrenciaRepository.findAllByCodCobradeAndLocalidade(cobrade, municipio ,page);
     }
 
     @Transactional

@@ -15,8 +15,6 @@ public class OcorrenciaDetailsDTOMapper {
         var builder =  OcorrenciaDetailsDTO.builder()
                 .id(o.getId())
                 .dataOcorrencia(o.getData())
-                .municipio(o.getMunicipio())
-                .uf(o.getUf())
                 .instInformadaOrgaoEstadual(o.getDcInformada())
                 .instituicaoInformadaSedec(o.getSedecInformado())
                 .areaAfetada(o.getAreaAfetada());

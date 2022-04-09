@@ -1,24 +1,20 @@
 package com.ledger.danos.dtos.create;
 
-
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
-import java.util.Base64;
 
-@Getter
-@Setter
+@Data
 public class DanosMateriaisCreateDTO {
     @NotNull
-    private Integer ocorrenciaId;
+    private Integer tipo;
     @NotNull
-    private Integer danoMaterialTipo;
+    private Boolean destruido;
     @NotNull
-    private Integer quantidadeDanificada;
-    @NotNull
-    private Integer quantidadeDestruida;
+    private String descricao;
     @NotNull
     private BigInteger valor;
+    @NotNull
+    private Long dano;
 }
