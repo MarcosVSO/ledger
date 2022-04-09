@@ -1,13 +1,19 @@
 package com.ledger.ocorrencia.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ledger.areasAfetadas.entities.AreaAfetada;
+import com.ledger.ocorrencia.entities.AreaAfetada;
 import com.ledger.danos.dtos.DanosMateriaisSomaDTO;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.*;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class FideDTO {
 
     private Integer id;

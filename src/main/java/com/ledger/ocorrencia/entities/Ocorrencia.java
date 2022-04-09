@@ -1,6 +1,5 @@
 package com.ledger.ocorrencia.entities;
 
-import com.ledger.areasAfetadas.entities.AreaAfetada;
 import com.ledger.cobrade.entities.Cobrade;
 import com.ledger.danos.entities.Dano;
 import com.ledger.database.types.Coordenadas;
@@ -23,36 +22,37 @@ public class Ocorrencia {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Integer id;
 
-    @Column(name="data")
+    @Column(name = "data")
     private Date data;
 
     @Embedded
     private Coordenadas coordenadas;
 
+    @Column(name = "defesa_civil_informada")
+    private Boolean dcInformada = false;
+
+    @Column(name = "sedec_informado")
+    private Boolean sedecInformado = false;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "municipio_id", nullable = false)
     private Municipio municipio;
 
-    @OneToMany(mappedBy = "ocorrencia", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Dano> danos = new ArrayList<>();
-
-    @OneToOne(mappedBy = "ocorrencia", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "ocorrencia", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private InstituicaoInformante instituicaoInformante;
 
-    @Column(name="defesa_civil_informada")
-    private Boolean dcInformada;
-
-    @Column(name="sedec_informado")
-    private Boolean sedecInformado;
-
-    @OneToOne(mappedBy = "ocorrencia", cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
+    @OneToOne(mappedBy = "ocorrencia", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private AreaAfetada areaAfetada;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "cobrade_id", nullable = false)
+    @JoinColumn(name = "cod_cobrade", nullable = false)
     private Cobrade cobrade;
+
+    @OneToMany(mappedBy = "ocorrencia", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Dano> danos = new ArrayList<>();
+
 
 }

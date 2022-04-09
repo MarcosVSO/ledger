@@ -1,6 +1,5 @@
-package com.ledger.areasAfetadas.entities;
+package com.ledger.ocorrencia.entities;
 
-import com.ledger.ocorrencia.entities.Ocorrencia;
 import lombok.*;
 
 import javax.persistence.*;

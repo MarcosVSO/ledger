@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/estados")
@@ -29,12 +30,12 @@ public class UfRest {
     }
 
     @GetMapping()
-    public ResponseEntity<List<UfDTO>> findAllEstados(){
+    public ResponseEntity<List<UfDTO>> findAllEstados() {
         return ResponseEntity.ok(ufMapper.toDTOList(localidadeService.findAllEstados()));
     }
 
     @GetMapping("/{id}/municipios")
-    public ResponseEntity<List<MunicipioDTO>> findMunicipiosByUF (@PathVariable("id") Integer id){
-        return ResponseEntity.ok(municipioMapper.toDTOList(localidadeService.findMunicipiosByUF(id)));
+    public ResponseEntity<List<MunicipioDTO>> findMunicipiosByUF(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(localidadeService.findMunicipiosByUF(id).stream().map(municipioMapper::toDTO).collect(Collectors.toList()));
     }
 }
