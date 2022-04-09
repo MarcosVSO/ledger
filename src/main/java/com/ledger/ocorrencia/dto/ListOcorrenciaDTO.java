@@ -14,5 +14,4 @@ public class ListOcorrenciaDTO {
     private String cobrade;
     private Date data;
     private String municipio;
-    private String uf;
 }

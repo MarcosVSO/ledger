@@ -3,6 +3,7 @@ package com.ledger.localidades.dtos.mappers;
 import com.ledger.localidades.dtos.MunicipioDTO;
 import com.ledger.localidades.entities.Municipio;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper
 public interface MunicipioMapper {

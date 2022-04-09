@@ -12,4 +12,11 @@ public interface UfMapper {
     List<Uf> toEntityList(List<UfDTO> dtoList);
     UfDTO toDTO(Uf entity);
     List<UfDTO> toDTOList(List<Uf> entityList);
+
+    default String toString(Uf entity) {
+        if (entity == null) {
+            return  null;
+        }
+        return entity.getSigla();
+    }
 }

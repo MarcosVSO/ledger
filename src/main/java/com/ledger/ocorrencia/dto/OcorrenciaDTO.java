@@ -1,5 +1,7 @@
 package com.ledger.ocorrencia.dto;
 
+import com.ledger.localidades.dtos.MunicipioDTO;
+import com.ledger.localidades.dtos.UfDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +19,8 @@ public class OcorrenciaDTO {
     private Date data  = new Date();
     private String latitude;
     private String longitude;
-    private String municipio;
+    private UfDTO uf;
+    private MunicipioDTO municipio;
     private Boolean dcInformada = false;
     private Boolean sedecInformado = false;
     private InstituicaoInformanteDTO instituicaoInformante;

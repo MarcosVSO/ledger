@@ -25,7 +25,7 @@ public class Uf {
     @Column(name = "nome")
     private String nome;
 
-    @OneToMany(mappedBy = "uf", orphanRemoval = true)
+    @OneToMany(mappedBy = "uf", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Municipio> municipios = new ArrayList<>();
 
 }

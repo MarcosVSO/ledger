@@ -54,13 +54,13 @@ public class OcorrenciaRest {
         if (ocorrencia.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(ocorrenciaMapper.toDetailsDTO(ocorrencia.get()));
+        return ResponseEntity.ok(ocorrenciaMapper.toDTO(ocorrencia.get()));
     }
 
-    @GetMapping("/{idOcorrencia}/edit")
-    public ResponseEntity<Ocorrencia> findByIdForEdit(@PathVariable Integer idOcorrencia) {
-        var ocorrencia = ocorrenciaService.findById(idOcorrencia);
-        return ResponseEntity.of(ocorrencia);
+    @PatchMapping()
+    public ResponseEntity<Integer> updateOcorrencia(@RequestBody OcorrenciaDTO ocorrencia) {
+        var ocorrenciaId = ocorrenciaService.salvarOcorrencia(ocorrenciaMapper.fromCreateToEntity(ocorrencia));
+        return ResponseEntity.ok(ocorrenciaId);
     }
 
     @GetMapping("/cobrade/{cobrade}")
@@ -90,12 +90,6 @@ public class OcorrenciaRest {
         return ResponseEntity.ok(ocorrenciaId);
     }
 
-    @PatchMapping()
-    public ResponseEntity<Integer> updateOcorrencia(@RequestBody OcorrenciaDTO ocorrencia) {
-        var ocorrenciaId = ocorrenciaService.salvarOcorrencia(ocorrenciaMapper.fromCreateToEntity(ocorrencia));
-        return ResponseEntity.ok(ocorrenciaId);
-    }
-
     @PostMapping("/add")
     public ResponseEntity<String> findAllByMunicipio(@RequestBody Ocorrencia ocorrencia) {
         return ocorrenciaService.save(ocorrencia);
@@ -119,8 +113,8 @@ public class OcorrenciaRest {
         return ResponseEntity.ok(response);
     }
 
-    @RequestMapping(value = "/gerar-documento/{idOcorrencia}", method = RequestMethod.GET, produces = "application" +
-            "/vnd.openxmlformats-officedocument.wordprocessingml.document")
+    @RequestMapping(value = "/gerar-documento/{idOcorrencia}", method = RequestMethod.GET, produces =
+            "application" + "/vnd.openxmlformats-officedocument.wordprocessingml.document")
     public @ResponseBody
     byte[] getDoc(@PathVariable Integer idOcorrencia) {
         FideDTO fideDto = ocorrenciaService.gerarFIDEOcorrencia(idOcorrencia);

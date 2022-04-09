@@ -16,7 +16,7 @@ import java.util.List;
 public class InstituicaoInformanteDTO {
     private Long id;
     @NotNull
-    private Integer ocorrenciaId;
+    private Integer ocorrencia;
     @NotNull
     private String nome;
     @NotNull
