@@ -1,6 +1,8 @@
 package com.ledger.ocorrencia.service;
 
 import com.ledger.danos.dtos.DanosMateriaisSomaDTO;
+import com.ledger.danos.entities.Dano;
+import com.ledger.danos.entities.Foto;
 import com.ledger.danos.entities.Tipo;
 import com.ledger.danos.service.DanosService;
 import com.ledger.danos.service.DanosTiposService;
@@ -49,27 +51,7 @@ public class OcorrenciaService {
 
     public ResponseEntity<List<Ocorrencia>> findAll() {
         List<Ocorrencia> ocorrencias = ocorrenciaRepository.findAll();
-        return new ResponseEntity<List<Ocorrencia>>(ocorrencias, HttpStatus.OK);
-    }
-
-    public ResponseEntity<List<Ocorrencia>> findAllByCobrade(String cobrade) {
-        List<Ocorrencia> ocorrencias = ocorrenciaRepository.findAllByCobrade(cobrade);
-        return new ResponseEntity<List<Ocorrencia>>(ocorrencias, HttpStatus.OK);
-    }
-
-    public ResponseEntity<List<Ocorrencia>> findAllByUf(String uf) {
-        List<Ocorrencia> ocorrencias = ocorrenciaRepository.findAllBySiglaUf(uf);
-        return new ResponseEntity<List<Ocorrencia>>(ocorrencias, HttpStatus.OK);
-    }
-
-    public ResponseEntity<List<Ocorrencia>> findAllByMunicipio(String municipio) {
-        List<Ocorrencia> ocorrencias = ocorrenciaRepository.findAllByMunicipio(municipio);
-        return new ResponseEntity<List<Ocorrencia>>(ocorrencias, HttpStatus.OK);
-    }
-
-    public ResponseEntity<String> save(Ocorrencia ocorrencia) {
-        ocorrenciaRepository.save(ocorrencia);
-        return new ResponseEntity<String>("Ocorrência registrada com sucesso", HttpStatus.OK);
+        return new ResponseEntity<>(ocorrencias, HttpStatus.OK);
     }
 
     public Optional<Ocorrencia> findById(Integer idOcorrencia) {
@@ -107,6 +89,24 @@ public class OcorrenciaService {
         return ocorrenciaRepository.findAllByCodCobradeAndLocalidade(cobrade, municipio, page);
     }
 
+    public List<Dano> findDanos(Integer idOcorrencia) {
+        return danosService.findDanosByOcorrenciaId(idOcorrencia);
+    }
+
+    @Transactional
+    public Long salvarDano(Integer idOcorrencia, Dano dano) {
+        var ocorrencia = ocorrenciaRepository.findById(idOcorrencia);
+        if (ocorrencia.isEmpty()) {
+            throw new RuntimeException();
+        }
+        dano.setOcorrencia(ocorrencia.get());
+
+        for (Foto foto : dano.getFotos()) {
+            foto.setDano(dano);
+        }
+        return danosService.saveDano(dano);
+    }
+
     @Transactional
     public Integer salvarOcorrencia(Ocorrencia ocorrencia) {
         var areaAfetada = ocorrencia.getAreaAfetada();
@@ -120,15 +120,15 @@ public class OcorrenciaService {
     }
 
     @Transactional
-    public Integer atualizarOcorrencia(Ocorrencia ocorrencia) throws Exception {
+    public Integer atualizarOcorrencia(Ocorrencia ocorrencia) {
         if (ocorrencia.getId() == null) {
-            throw new Exception();
+            throw new RuntimeException();
         }
 
         var ocorrenciaOptional = ocorrenciaRepository.findById(ocorrencia.getId());
 
         if (ocorrenciaOptional.isEmpty()) {
-            throw new Exception();
+            throw new RuntimeException();
         }
 
         var ocorrenciaDb = ocorrenciaOptional.get();

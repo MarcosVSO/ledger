@@ -4,12 +4,11 @@ import com.ledger.danos.dtos.DanosAmbientaisDTO;
 import com.ledger.danos.dtos.DanosHumanosDTO;
 import com.ledger.danos.dtos.DanosMateriaisDTO;
 import com.ledger.danos.dtos.DanosMateriaisSomaDTO;
-import com.ledger.danos.entities.DanosAmbientais;
-import com.ledger.danos.entities.DanosHumanos;
-import com.ledger.danos.entities.DanosMateriais;
+import com.ledger.danos.entities.*;
 import com.ledger.danos.repositories.DanosAmbientaisRepository;
 import com.ledger.danos.repositories.DanosHumanosRepository;
 import com.ledger.danos.repositories.DanosMateriaisRepository;
+import com.ledger.danos.repositories.DanosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +17,35 @@ import java.util.Optional;
 
 @Service
 public class DanosService {
-    @Autowired
     private DanosMateriaisRepository danosMateriaisRepository;
-
-    @Autowired
     private DanosAmbientaisRepository danosAmbientaisRepository;
-
-    @Autowired
     private DanosHumanosRepository danosHumanosRepository;
+    private DanosRepository danosRepository;
+
+    public DanosService(DanosMateriaisRepository danosMateriaisRepository,
+                        DanosAmbientaisRepository danosAmbientaisRepository,
+                        DanosHumanosRepository danosHumanosRepository, DanosRepository danosRepository) {
+        this.danosMateriaisRepository = danosMateriaisRepository;
+        this.danosAmbientaisRepository = danosAmbientaisRepository;
+        this.danosHumanosRepository = danosHumanosRepository;
+        this.danosRepository = danosRepository;
+    }
+
+    public List<Dano> findDanosByOcorrenciaId(Integer ocorrenciaId) {
+        return danosRepository.findAllByOcorrencia_Id(ocorrenciaId);
+    }
+
+    public Optional<Dano> findDanoById(Long id) {
+        return danosRepository.findById(id);
+    }
+
+    public Optional<Foto> findFotoById(Long id) {
+        return danosRepository.findFotoById(id);
+    }
+
+    public Long saveDano(Dano dano) {
+        return danosRepository.save(dano).getId();
+    }
 
     public List<DanosAmbientais> findAllDanosAmbientais(){
         return danosAmbientaisRepository.findAll();

@@ -1,25 +1,25 @@
 package com.ledger.danos.dtos.mappers;
 
-import com.ledger.danos.dtos.DanoDTO;
+import com.ledger.danos.dtos.DanoCreateDTO;
+import com.ledger.danos.dtos.DanoDetailsDTO;
 import com.ledger.danos.entities.Dano;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
-import org.mapstruct.ReportingPolicy;
 
-@Named("DanoMapper")
-@Mapper(uses = {DanosAmbientaisMapper.class, DanosHumanosMapper.class, DanosMateriaisMapper.class, TipoMapper.class})
+@Mapper(uses = FotoMapper.class)
 public interface DanoMapper {
+    @Mapping(target = "fotos", ignore = true)
+    @Mapping(target = "latitude", source = "coordenadas.latitude")
+    @Mapping(target = "longitude", source = "coordenadas.longitude")
+    DanoCreateDTO toSimpleDTO(Dano dano);
 
-    DanoDTO toDTO(Dano dano);
+    @Mapping(target = "latitude", source = "coordenadas.latitude")
+    @Mapping(target = "longitude", source = "coordenadas.longitude")
+    DanoDetailsDTO toDTOWithImages(Dano dano);
 
-    @Named("toDtoWithoutChildren")
-    @Mapping(target = "ambientais", ignore = true)
-    @Mapping(target = "humanos", ignore = true)
-    @Mapping(target = "materiais", ignore = true)
-    DanoDTO toDtoWithoutChildren(Dano dano);
-
-    Dano toEntity(DanoDTO dano);
+    @Mapping(target = "coordenadas.latitude", source = "latitude")
+    @Mapping(target = "coordenadas.longitude", source = "longitude")
+    Dano toEntity(DanoCreateDTO dano);
 
     default Long toId(Dano d) {
         if (d == null) {

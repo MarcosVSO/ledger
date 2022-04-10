@@ -1,5 +1,8 @@
 package com.ledger.danos.rest;
 
+import com.ledger.danos.dtos.DanoCreateDTO;
+import com.ledger.danos.dtos.DanoDetailsDTO;
+import com.ledger.danos.dtos.mappers.DanoMapper;
 import com.ledger.rest.dto.IdResponseDTO;
 import com.ledger.danos.dtos.create.DanosAmbientaisCreateDTO;
 import com.ledger.danos.dtos.create.DanosHumanosCreateDTO;
@@ -13,6 +16,8 @@ import com.ledger.danos.entities.DanosMateriais;
 import com.ledger.danos.service.DanosService;
 import com.ledger.rest.dto.mappers.IdResponseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -30,16 +35,42 @@ public class DanosRest {
     private DanosAmbientaisMapper danosAmbientaisMapper;
     private DanosHumanosMapper danosHumanosMapper;
     private DanosMateriaisMapper danosMateriaisMapper;
+    private DanoMapper danoMapper;
     private IdResponseMapper idResponseMapper;
 
     @Autowired
     public DanosRest(DanosService danosService, DanosAmbientaisMapper danosAmbientaisMapper,
                      DanosHumanosMapper danosHumanosMapper, DanosMateriaisMapper danosMateriaisMapper,
-                     IdResponseMapper idResponseMapper) {
+                     DanoMapper danoMapper, IdResponseMapper idResponseMapper) {
         this.danosService = danosService;
         this.danosAmbientaisMapper = danosAmbientaisMapper;
         this.danosHumanosMapper = danosHumanosMapper;
+        this.danoMapper = danoMapper;
         this.danosMateriaisMapper = danosMateriaisMapper;
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DanoDetailsDTO> findDanoById(@PathVariable("id") Long id) {
+        var response = danosService.findDanoById(id);
+        if (response.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(danoMapper.toDTOWithImages(response.get()));
+    }
+
+    @GetMapping("/{id}/fotos/{fotoId}")
+    public ResponseEntity<byte[]> findDanoFotoById(@PathVariable("fotoId") Long fotoId) {
+        var response = danosService.findFotoById(fotoId);
+        if (response.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        var file = response.get();
+
+        return ResponseEntity
+                .ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
+                .contentType(MediaType.valueOf(file.getContentType()))
+                .body(response.get().getData());
     }
 
     @GetMapping("/ambientais")
