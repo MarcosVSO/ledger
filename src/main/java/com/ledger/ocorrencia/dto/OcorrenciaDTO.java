@@ -1,5 +1,6 @@
 package com.ledger.ocorrencia.dto;
 
+import com.ledger.cobrade.dto.CobradeDTO;
 import com.ledger.localidades.dtos.MunicipioDTO;
 import com.ledger.localidades.dtos.UfDTO;
 import lombok.AllArgsConstructor;
@@ -15,7 +16,7 @@ import java.util.Date;
 @Builder
 public class OcorrenciaDTO {
     private Integer id;
-    private String codCobrade;
+    private CobradeDTO cobrade;
     private Date data  = new Date();
     private String latitude;
     private String longitude;

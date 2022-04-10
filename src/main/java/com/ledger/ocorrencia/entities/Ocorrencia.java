@@ -5,6 +5,7 @@ import com.ledger.danos.entities.Dano;
 import com.ledger.database.types.Coordenadas;
 import com.ledger.localidades.entities.Municipio;
 import lombok.*;
+import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "ocorrencia")
-public class Ocorrencia {
+public class Ocorrencia implements Persistable<Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,10 +42,10 @@ public class Ocorrencia {
     @JoinColumn(name = "municipio_id", nullable = false)
     private Municipio municipio;
 
-    @OneToOne(mappedBy = "ocorrencia", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToOne(mappedBy = "ocorrencia", cascade = CascadeType.ALL, orphanRemoval = true)
     private InstituicaoInformante instituicaoInformante;
 
-    @OneToOne(mappedBy = "ocorrencia", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToOne(mappedBy = "ocorrencia", cascade = CascadeType.ALL, orphanRemoval = true)
     private AreaAfetada areaAfetada;
 
     @ManyToOne(optional = false)
@@ -54,5 +55,8 @@ public class Ocorrencia {
     @OneToMany(mappedBy = "ocorrencia", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Dano> danos = new ArrayList<>();
 
-
+    @Override
+    public boolean isNew() {
+        return getId() == null;
+    }
 }

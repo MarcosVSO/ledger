@@ -44,7 +44,7 @@ public class AreaAfetada {
     @Column(name = "turismo_outras")
     private String turismoOutras;
 
-    @OneToOne(cascade = CascadeType.REMOVE, optional = false, orphanRemoval = true)
+    @OneToOne(optional = false)
     @JoinColumn(name = "ocorrencia_id", nullable = false)
     private Ocorrencia ocorrencia;
 

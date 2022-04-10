@@ -6,6 +6,8 @@ import com.ledger.danos.service.DanosService;
 import com.ledger.danos.service.DanosTiposService;
 import com.ledger.localidades.service.LocalidadeService;
 import com.ledger.ocorrencia.dto.FideDTO;
+import com.ledger.ocorrencia.entities.AreaAfetada;
+import com.ledger.ocorrencia.entities.InstituicaoInformante;
 import com.ledger.ocorrencia.entities.Ocorrencia;
 import com.ledger.ocorrencia.repositories.AreaAfetadaRepository;
 import com.ledger.ocorrencia.repositories.InstituicaoInformanteRepository;
@@ -107,16 +109,62 @@ public class OcorrenciaService {
 
     @Transactional
     public Integer salvarOcorrencia(Ocorrencia ocorrencia) {
-        Ocorrencia savedOcorrencia = ocorrenciaRepository.save(ocorrencia);
-
         var areaAfetada = ocorrencia.getAreaAfetada();
-        areaAfetada.setOcorrencia(savedOcorrencia);
-        areaAfetadaRepository.save(areaAfetada);
-
         var informante = ocorrencia.getInstituicaoInformante();
-        informante.setOcorrencia(savedOcorrencia);
-        instituicaoInformanteRepository.save(informante);
+        areaAfetada.setOcorrencia(ocorrencia);
+        informante.setOcorrencia(ocorrencia);
 
-        return savedOcorrencia.getId();
+        ocorrenciaRepository.save(ocorrencia);
+
+        return ocorrencia.getId();
+    }
+
+    @Transactional
+    public Integer atualizarOcorrencia(Ocorrencia ocorrencia) throws Exception {
+        if (ocorrencia.getId() == null) {
+            throw new Exception();
+        }
+
+        var ocorrenciaOptional = ocorrenciaRepository.findById(ocorrencia.getId());
+
+        if (ocorrenciaOptional.isEmpty()) {
+            throw new Exception();
+        }
+
+        var ocorrenciaDb = ocorrenciaOptional.get();
+        ocorrenciaDb.setCoordenadas(ocorrencia.getCoordenadas());
+        ocorrenciaDb.setDcInformada(ocorrencia.getDcInformada());
+        ocorrenciaDb.setSedecInformado(ocorrencia.getSedecInformado());
+        ocorrenciaDb.setMunicipio(ocorrencia.getMunicipio());
+
+        ocorrenciaDb.setAreaAfetada(atualizarAreaAfetada(ocorrencia, ocorrencia.getAreaAfetada()));
+        ocorrenciaDb.setInstituicaoInformante(atualizarInformante(ocorrencia, ocorrencia.getInstituicaoInformante()));
+
+        ocorrenciaRepository.save(ocorrenciaDb);
+
+        return ocorrenciaDb.getId();
+    }
+
+    private AreaAfetada atualizarAreaAfetada(Ocorrencia ocorrencia, AreaAfetada areaAfetada) {
+        var areaDb = areaAfetadaRepository.findByOcorrencia_Id(ocorrencia.getId()).get();
+        areaDb.setResidencial(areaAfetada.getResidencial());
+        areaDb.setComercial(areaAfetada.getComercial());
+        areaDb.setIndustrial(areaAfetada.getIndustrial());
+        areaDb.setAgricola(areaAfetada.getAgricola());
+        areaDb.setPecuaria(areaAfetada.getPecuaria());
+        areaDb.setExtrativismoVegetal(areaAfetada.getExtrativismoVegetal());
+        areaDb.setReservaFlorestal(areaAfetada.getReservaFlorestal());
+        areaDb.setMineracao(areaAfetada.getMineracao());
+        areaDb.setTurismoOutras(areaAfetada.getTurismoOutras());
+        return areaDb;
+    }
+
+    private InstituicaoInformante atualizarInformante(Ocorrencia ocorrencia,
+                                                      InstituicaoInformante instituicaoInformante) {
+        var informanteDb = instituicaoInformanteRepository.findByOcorrencia_Id(ocorrencia.getId()).get();
+        informanteDb.setNome(instituicaoInformante.getNome());
+        informanteDb.setResponsavel(instituicaoInformante.getResponsavel());
+        informanteDb.setTelefones(instituicaoInformante.getTelefones());
+        return informanteDb;
     }
 }

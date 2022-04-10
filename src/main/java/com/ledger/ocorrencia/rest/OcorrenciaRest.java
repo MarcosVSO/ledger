@@ -58,8 +58,8 @@ public class OcorrenciaRest {
     }
 
     @PatchMapping()
-    public ResponseEntity<Integer> updateOcorrencia(@RequestBody OcorrenciaDTO ocorrencia) {
-        var ocorrenciaId = ocorrenciaService.salvarOcorrencia(ocorrenciaMapper.fromCreateToEntity(ocorrencia));
+    public ResponseEntity<Integer> updateOcorrencia(@RequestBody OcorrenciaDTO ocorrencia) throws Exception {
+        var ocorrenciaId = ocorrenciaService.atualizarOcorrencia(ocorrenciaMapper.toEntity(ocorrencia));
         return ResponseEntity.ok(ocorrenciaId);
     }
 
@@ -86,7 +86,7 @@ public class OcorrenciaRest {
 
     @PostMapping()
     public ResponseEntity<Integer> saveOcorrencia(@RequestBody OcorrenciaDTO ocorrencia) {
-        var ocorrenciaId = ocorrenciaService.salvarOcorrencia(ocorrenciaMapper.fromCreateToEntity(ocorrencia));
+        var ocorrenciaId = ocorrenciaService.salvarOcorrencia(ocorrenciaMapper.toEntity(ocorrencia));
         return ResponseEntity.ok(ocorrenciaId);
     }
 

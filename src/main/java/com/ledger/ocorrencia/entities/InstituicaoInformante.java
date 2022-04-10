@@ -14,13 +14,12 @@ import java.util.List;
 @Table(name = "instituicao_informante")
 public class InstituicaoInformante {
 
-    @Setter(AccessLevel.NONE)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @OneToOne(cascade = CascadeType.REMOVE, optional = false, orphanRemoval = true)
+    @OneToOne(optional = false)
     @JoinColumn(name = "ocorrencia_id", nullable = false)
     private Ocorrencia ocorrencia;
 
