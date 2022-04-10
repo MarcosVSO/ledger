@@ -1,17 +1,9 @@
 package com.ledger.ocorrencia.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ledger.cobrade.entities.Cobrade;
-import com.ledger.database.types.Coordenadas;
-import com.ledger.localidades.dtos.MunicipioDTO;
-import com.ledger.localidades.dtos.UfDTO;
-import com.ledger.localidades.entities.Municipio;
-import com.ledger.localidades.entities.Uf;
-import com.ledger.ocorrencia.entities.AreaAfetada;
+
 import com.ledger.danos.dtos.DanosMateriaisSomaDTO;
-import com.ledger.ocorrencia.entities.InstituicaoInformante;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

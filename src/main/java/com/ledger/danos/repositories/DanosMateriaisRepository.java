@@ -13,7 +13,9 @@ public interface DanosMateriaisRepository extends JpaRepository<DanosMateriais, 
 
     @Query(
             value = "select\n" +
-                    ":danoMaterialTipo as danoMaterialTipo,\n" +
+                    "(select dt2.descricao  as danoMaterialTipo\n" +
+                    "from dano_tipos dt2\n" +
+                    "where dt2.id = :danoTipo),\n"+
                     "Count(dm.id) as quantidadeDanificada,\n" +
                     "coalesce (SUM(dm.valor),\n" +
                     "0) as valorDanificado,\n" +
@@ -55,7 +57,7 @@ public interface DanosMateriaisRepository extends JpaRepository<DanosMateriais, 
                     "and dm.tipo_id = :danoTipo\n" +
                     "and dm.destruido = false\n",
             nativeQuery = true)
-    DanosMateriaisSomaDTO getSomaDanosMateriais(@Param("danoTipo") Integer danoTipo, @Param("idOcorrencia") Integer idOcorrencia, @Param("danoMaterialTipo") String danoMaterialTipo);
+    DanosMateriaisSomaDTO getSomaDanosMateriais(@Param("danoTipo") Integer danoTipo, @Param("idOcorrencia") Integer idOcorrencia);
 
     @Query(value = "SELECT d FROM DanosMateriais d WHERE d.dano.ocorrencia.id = :idOcorrencia")
     List<DanosMateriaisDTO> findAllDanosMateriaisByOcorrencia(@Param("idOcorrencia") Integer idOcorrencia);
