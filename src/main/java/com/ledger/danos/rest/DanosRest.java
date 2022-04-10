@@ -68,7 +68,7 @@ public class DanosRest {
 
         return ResponseEntity
                 .ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "filename=\"" + file.getName() + "\"")
                 .contentType(MediaType.valueOf(file.getContentType()))
                 .body(response.get().getData());
     }
