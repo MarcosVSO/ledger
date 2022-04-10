@@ -90,11 +90,6 @@ public class OcorrenciaRest {
         return ResponseEntity.ok(ocorrenciaId);
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<String> findAllByMunicipio(@RequestBody Ocorrencia ocorrencia) {
-        return ocorrenciaService.save(ocorrencia);
-    }
-
     @GetMapping("/{idOcorrencia}/danos-ambientais")
     public ResponseEntity<List<DanosAmbientaisDTO>> findAllDanosAmbientaisByOcorrencia(@PathVariable Integer idOcorrencia) {
         var response = danosService.findAllDanosAmbientaisByOcorrencia(idOcorrencia);

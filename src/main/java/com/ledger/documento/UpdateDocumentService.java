@@ -32,10 +32,10 @@ public class UpdateDocumentService {
 
         XWPFDocument doc = new XWPFDocument(Files.newInputStream(Paths.get(input)));
 
-            LocalDateTime localDate = LocalDateTime.ofInstant(fideDTO.getDataOcorrencia().toInstant(), ZoneId.of("America/Sao_Paulo"));
+            //LocalDateTime localDate = LocalDateTime.ofInstant(fideDTO.getData().toInstant(), ZoneId.of("America/Sao_Paulo"));
 
             Map<String, String> replacements = new LinkedHashMap<String,String>();
-            //Dados da ocorrência
+            /*//Dados da ocorrência
             replacements.put("${uf}",fideDTO.getUf());
             replacements.put("${municipio}",fideDTO.getMunicipio());
             replacements.put("${cobrade}",fideDTO.getCodCobrade());
@@ -92,7 +92,7 @@ public class UpdateDocumentService {
             replacements.put("${inst_responsavel}",fideDTO.getInstInformanteResponsavel());
 //            replacements.put("${inst_telefones}",fideDTO.getTelefoneNums());
             replacements.put("${inf_defesa}",fideDTO.getInstInformadaOrgaoEstadual());
-            replacements.put("${inf_sedec}",fideDTO.getInstituicaoInformanteSedec());
+            replacements.put("${inf_sedec}",fideDTO.getInstituicaoInformanteSedec());*/
 
 
             List<XWPFTable> tables = doc.getTables();

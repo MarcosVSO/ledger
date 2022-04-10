@@ -11,10 +11,11 @@ import java.util.List;
 public interface DanosAmbientaisRepository extends JpaRepository<DanosAmbientais, Integer> {
 
     @Query(
-            value = "SELECT ISNULL(SUM(POPULACAO_ATINGIDA), 0)\n" +
+            value = "select coalesce(SUM(POPULACAO_ATINGIDA), 0)\n" +
                     "FROM DANOS_AMBIENTAIS da\n" +
-                    "JOIN DANOS_TIPO dt ON dt.ID = da.DANO_AMBIENTAL_TIPO\n" +
-                    "WHERE da.OCORRENCIA_ID = :idOcorrencia AND da.DANO_AMBIENTAL_TIPO = :danoTipo",
+                    "JOIN DANO_TIPOS dt ON dt.ID = da.tipo_id\n" +
+                    "join Danos d on da.dano_id = d.id\n" +
+                    "where d.ocorrencia_id = :idOcorrencia and da.tipo_id = :danoTipo\n",
             nativeQuery = true)
     Integer getSomaDanosAmbientais(@Param("danoTipo") Integer danoTipo, @Param("idOcorrencia") Integer idOcorrencia);
 

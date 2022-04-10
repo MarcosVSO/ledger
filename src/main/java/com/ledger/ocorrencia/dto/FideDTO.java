@@ -1,8 +1,17 @@
 package com.ledger.ocorrencia.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ledger.cobrade.entities.Cobrade;
+import com.ledger.database.types.Coordenadas;
+import com.ledger.localidades.dtos.MunicipioDTO;
+import com.ledger.localidades.dtos.UfDTO;
+import com.ledger.localidades.entities.Municipio;
+import com.ledger.localidades.entities.Uf;
 import com.ledger.ocorrencia.entities.AreaAfetada;
 import com.ledger.danos.dtos.DanosMateriaisSomaDTO;
+import com.ledger.ocorrencia.entities.InstituicaoInformante;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,20 +24,7 @@ import java.util.*;
 @NoArgsConstructor
 @Builder
 public class FideDTO {
-
-    private Integer id;
-    private String codCobrade;
-    private Date dataOcorrencia;
-    private String latitude;
-    private String longitude;
-    private String municipio;
-    private String uf;
-    private String instInformanteNome;
-    private String instInformanteResponsavel;
-    private Boolean instInformadaOrgaoEstadual;
-    private Boolean instituicaoInformadaSedec;
-    @JsonProperty("areas_afetadas")
-    private AreaAfetada areaAfetada;
+    private OcorrenciaDTO dadosOcorrencia;
 
     @JsonProperty("danos_ambientais")
     private Map<String, Integer> danosAmbientaisMapped = new HashMap<String, Integer>();
@@ -38,11 +34,11 @@ public class FideDTO {
     private List<DanosMateriaisSomaDTO> danosMateriaisSoma = new LinkedList<DanosMateriaisSomaDTO>();
 
     public String getInstInformadaOrgaoEstadual(){
-        return this.instInformadaOrgaoEstadual ? "S" : "N";
+        return this.dadosOcorrencia.getDcInformada() ? "S" : "N";
     }
 
     public String getInstituicaoInformanteSedec(){
-        return this.instituicaoInformadaSedec ? "S" : "N";
+        return this.dadosOcorrencia.getSedecInformado() ? "S" : "N";
     }
 
 }

@@ -2,7 +2,7 @@ package com.ledger.danos.dtos;
 
 public interface DanosMateriaisSomaDTO {
      String getDanoMaterialTipo();
-     Integer getQuantidadeDestruida();
-     Integer getQuantidadeDanificada();
+     Boolean getDestruido();
+     String getDescricao();
      Double getValor();
 }

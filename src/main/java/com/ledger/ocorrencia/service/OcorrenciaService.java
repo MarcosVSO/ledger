@@ -6,6 +6,7 @@ import com.ledger.danos.service.DanosService;
 import com.ledger.danos.service.DanosTiposService;
 import com.ledger.localidades.service.LocalidadeService;
 import com.ledger.ocorrencia.dto.FideDTO;
+import com.ledger.ocorrencia.dto.mapper.OcorrenciaMapper;
 import com.ledger.ocorrencia.entities.Ocorrencia;
 import com.ledger.ocorrencia.repositories.AreaAfetadaRepository;
 import com.ledger.ocorrencia.repositories.InstituicaoInformanteRepository;
@@ -30,6 +31,9 @@ public class OcorrenciaService {
     private final DanosTiposService danosTiposService;
     private final ModelMapper modelMapper;
     private final LocalidadeService localidadeService;
+
+    @Autowired
+    private OcorrenciaMapper ocorrenciaMapper;
 
     @Autowired
     public OcorrenciaService(OcorrenciaRepository ocorrenciaRepository, AreaAfetadaRepository areaAfetadaRepository,
@@ -76,13 +80,8 @@ public class OcorrenciaService {
 
     public FideDTO gerarFIDEOcorrencia(Integer idOcorrencia) {
         Optional<Ocorrencia> ocorrencia = ocorrenciaRepository.findById(idOcorrencia);
-        FideDTO fideDTO = modelMapper.map(ocorrencia.get(), FideDTO.class);
-
-        Map<String, Integer> danosHumanosMapped = new HashMap<String, Integer>();
-        for (Tipo dt : danosTiposService.findAllDanoTipoByCategoria("humano")) {
-            danosHumanosMapped.put(dt.getDescricao(), danosService.getSomaDanosHumanos(dt.getId(), idOcorrencia));
-        }
-        fideDTO.setDanosHumanosMapped(danosHumanosMapped);
+        FideDTO fideDTO = new FideDTO();
+        fideDTO.setDadosOcorrencia(ocorrenciaMapper.toDTO(ocorrencia.get()));
 
         Map<String, Integer> danosAmbientaisMapped = new HashMap<String, Integer>();
         for (Tipo dt : danosTiposService.findAllDanoTipoByCategoria("ambiental")) {
@@ -97,6 +96,17 @@ public class OcorrenciaService {
             danosMateriaisSomaDTOS.add(danosMateriaisSomaDTO);
         }
         fideDTO.setDanosMateriaisSoma(danosMateriaisSomaDTOS);
+
+
+        /*Map<String, Integer> danosHumanosMapped = new HashMap<String, Integer>();
+        for (Tipo dt : danosTiposService.findAllDanoTipoByCategoria("humano")) {
+            danosHumanosMapped.put(dt.getDescricao(), danosService.getSomaDanosHumanos(dt.getId(), idOcorrencia));
+        }
+        fideDTO.setDanosHumanosMapped(danosHumanosMapped);
+
+
+
+        */
 
         return fideDTO;
     }
