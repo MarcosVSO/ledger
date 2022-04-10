@@ -1,8 +1,8 @@
 package com.ledger.danos.repositories;
 
+import com.ledger.danos.dtos.DanosMateriaisDTO;
 import com.ledger.danos.dtos.DanosMateriaisSomaDTO;
 import com.ledger.danos.entities.DanosMateriais;
-import com.ledger.danos.dtos.DanosMateriaisListDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,6 +19,6 @@ public interface DanosMateriaisRepository extends JpaRepository<DanosMateriais, 
             nativeQuery = true)
     DanosMateriaisSomaDTO getSomaDanosMateriais(@Param("danoTipo") Integer danoTipo, @Param("idOcorrencia") Integer idOcorrencia, @Param("danoMaterialTipo") String danoMaterialTipo);
 
-    @Query(value = "SELECT d FROM DanosMateriais d WHERE d.ocorrencia.id = :idOcorrencia")
-    List<DanosMateriaisListDTO> findAllDanosMateriaisByOcorrencia(@Param("idOcorrencia") Integer idOcorrencia);
+    @Query(value = "SELECT d FROM DanosMateriais d WHERE d.dano.ocorrencia.id = :idOcorrencia")
+    List<DanosMateriaisDTO> findAllDanosMateriaisByOcorrencia(@Param("idOcorrencia") Integer idOcorrencia);
 }

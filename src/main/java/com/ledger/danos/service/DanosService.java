@@ -1,8 +1,8 @@
 package com.ledger.danos.service;
 
-import com.ledger.danos.dtos.DanosAmbientaisListDTO;
-import com.ledger.danos.dtos.DanosHumanosListDTO;
-import com.ledger.danos.dtos.DanosMateriaisListDTO;
+import com.ledger.danos.dtos.DanosAmbientaisDTO;
+import com.ledger.danos.dtos.DanosHumanosDTO;
+import com.ledger.danos.dtos.DanosMateriaisDTO;
 import com.ledger.danos.dtos.DanosMateriaisSomaDTO;
 import com.ledger.danos.entities.DanosAmbientais;
 import com.ledger.danos.entities.DanosHumanos;
@@ -49,15 +49,15 @@ public class DanosService {
         return danosHumanosRepository.findById(id);
     }
 
-    public List<DanosAmbientaisListDTO> findAllDanosAmbientaisByOcorrencia(Integer idOcorrencia){
+    public List<DanosAmbientaisDTO> findAllDanosAmbientaisByOcorrencia(Integer idOcorrencia){
         return danosAmbientaisRepository.findAllDanosAmbientaisByOcorrencia(idOcorrencia);
     }
 
-    public List<DanosHumanosListDTO> findAllDanosHumanosByOcorrencia(Integer idOcorrencia){
+    public List<DanosHumanosDTO> findAllDanosHumanosByOcorrencia(Integer idOcorrencia){
         return danosHumanosRepository.findAllDanosHumanosByOcorrencia(idOcorrencia);
     }
 
-    public List<DanosMateriaisListDTO> findAllDanosMateriaisByOcorrencia(Integer idOcorrencia){
+    public List<DanosMateriaisDTO> findAllDanosMateriaisByOcorrencia(Integer idOcorrencia){
         return danosMateriaisRepository.findAllDanosMateriaisByOcorrencia(idOcorrencia);
     }
 

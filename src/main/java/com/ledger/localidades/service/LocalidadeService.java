@@ -1,75 +1,39 @@
 package com.ledger.localidades.service;
 
-import com.ledger.localidades.dtos.EstadoDTO;
-import com.ledger.localidades.dtos.MunicipioDTO;
-import com.ledger.ocorrencia.dto.FideDTO;
-import org.modelmapper.ModelMapper;
+import com.ledger.localidades.entities.Municipio;
+import com.ledger.localidades.entities.Uf;
+import com.ledger.localidades.repository.MunicipioRepository;
+import com.ledger.localidades.repository.UfRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LocalidadeService {
+    private final MunicipioRepository municipioRepository;
+    private final UfRepository ufRepository;
+
     @Autowired
-    private ModelMapper modelMapper;
-
-    public List<EstadoDTO> findAllEstados() {
-        List<EstadoDTO> estadoDTOList = new LinkedList<EstadoDTO>();
-        try {
-            String url = "https://servicodados.ibge.gov.br/api/v1/localidades/estados";
-            RestTemplate httpClient = new RestTemplate();
-            Object[] estados = httpClient.getForObject(url, Object[].class);
-            for (Object o : estados) {
-                estadoDTOList.add(modelMapper.map(o, EstadoDTO.class));
-            }
-            return estadoDTOList;
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-            return estadoDTOList;
-        }
+    public LocalidadeService(MunicipioRepository municipioRepository, UfRepository ufRepository) {
+        this.municipioRepository = municipioRepository;
+        this.ufRepository = ufRepository;
     }
 
-    public EstadoDTO findEstadoById(String id) {
-        try {
-            String url = String.format("https://servicodados.ibge.gov.br/api/v1/localidades/estados/%s", id);
-            RestTemplate httpClient = new RestTemplate();
-            Object estado = httpClient.getForObject(url, Object.class);
-            return modelMapper.map(estado, EstadoDTO.class);
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-            return null;
-        }
+    public List<Uf> findAllEstados() {
+        return ufRepository.findAll();
     }
 
-    public List<MunicipioDTO> findMunicipiosByUF(Integer id){
-        List<MunicipioDTO> municipioDTOList = new LinkedList<MunicipioDTO>();
-        try{
-            String url = String.format("https://servicodados.ibge.gov.br/api/v1/localidades/estados/%d/municipios", id);
-            RestTemplate httpClient = new RestTemplate();
-            Object[] municipios = httpClient.getForObject(url, Object[].class);
-            for (Object m : municipios) {
-                municipioDTOList.add(modelMapper.map(m, MunicipioDTO.class));
-            }
-            return municipioDTOList;
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-            return municipioDTOList;
-        }
+    public Optional<Uf> findEstadoById(Integer id) {
+        return ufRepository.findById(id);
     }
 
-    public MunicipioDTO findMunicipioById(String id){
-        try{
-            String url = String.format("https://servicodados.ibge.gov.br/api/v1/localidades/municipios/%s", id);
-            RestTemplate httpClient = new RestTemplate();
-            Object municipio = httpClient.getForObject(url, Object.class);
-            return modelMapper.map(municipio, MunicipioDTO.class);
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-            return null;
-        }
+    public List<Municipio> findMunicipiosByUF(Integer uf){
+        return municipioRepository.findAllByUfId(uf);
+    }
+
+    public Optional<Municipio> findMunicipioById(Integer id){
+        return municipioRepository.findById(id);
     }
 }

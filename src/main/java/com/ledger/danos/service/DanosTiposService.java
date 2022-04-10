@@ -1,6 +1,6 @@
 package com.ledger.danos.service;
 
-import com.ledger.danos.entities.tipos.DanoTipo;
+import com.ledger.danos.entities.Tipo;
 import com.ledger.danos.repositories.tipos.DanosTipoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,27 +14,27 @@ public class DanosTiposService {
     @Autowired
     private DanosTipoRepository danosTipoRepository;
 
-    public Optional<DanoTipo> findDanoTipoById(Integer id){
+    public Optional<Tipo> findDanoTipoById(Integer id){
         return danosTipoRepository.findById(id);
     }
 
-    public List<DanoTipo> findAllDanoTipoByCategoria(String categoria){
+    public List<Tipo> findAllDanoTipoByCategoria(String categoria){
         return danosTipoRepository.findAllByCategoria(categoria);
     }
 
-    public List<DanoTipo> findAllTiposHumanos(){
+    public List<Tipo> findAllTiposHumanos(){
         return danosTipoRepository.findAllByCategoria("humano");
     }
 
-    public List<DanoTipo> findAllTiposAmbientais(){
+    public List<Tipo> findAllTiposAmbientais(){
         return danosTipoRepository.findAllByCategoria("ambiental");
     }
 
-    public List<DanoTipo> findAllTiposMateriais(){
+    public List<Tipo> findAllTiposMateriais(){
         return danosTipoRepository.findAllByCategoria("material");
     }
 
-    public List<DanoTipo> findAllDanoTipo(){
+    public List<Tipo> findAllDanoTipo(){
         return danosTipoRepository.findAll();
     }
 
