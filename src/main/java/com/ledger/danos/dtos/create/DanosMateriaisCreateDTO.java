@@ -21,6 +21,4 @@ public class DanosMateriaisCreateDTO {
     private String descricao;
     @NotNull
     private BigInteger valor;
-    @NotNull
-    private Long dano;
 }

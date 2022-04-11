@@ -49,15 +49,12 @@ public class DanosRest {
         this.danosHumanosMapper = danosHumanosMapper;
         this.danosMateriaisMapper = danosMateriaisMapper;
         this.danoMapper = danoMapper;
+        this.idResponseMapper = idResponseMapper;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<DanoDetailsDTO> findDanoById(@PathVariable("id") Long id) {
-        var response = danosService.findDanoById(id);
-        if (response.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(danoMapper.toDTOWithImages(response.get()));
+        return ResponseEntity.ok(danoMapper.toDTOWithImages(danosService.findDanoById(id)));
     }
 
     @GetMapping("/{id}/fotos/{fotoId}")
@@ -68,11 +65,7 @@ public class DanosRest {
         }
         var file = response.get();
 
-        return ResponseEntity
-                .ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "filename=\"" + file.getName() + "\"")
-                .contentType(MediaType.valueOf(file.getContentType()))
-                .body(response.get().getData());
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "filename=\"" + file.getName() + "\"").contentType(MediaType.valueOf(file.getContentType())).body(response.get().getData());
     }
 
     @GetMapping("/{id}/ambientais")
@@ -94,26 +87,29 @@ public class DanosRest {
     }
 
     @PostMapping("/{id}/ambientais")
-    public ResponseEntity<IdResponseDTO> findAllDanosAmbientaisByOcorrencia(@Valid @RequestBody DanosAmbientaisCreateDTO dano) {
-        var response = danosService.saveDanosAmbientais(danosAmbientaisMapper.fromCreatetoEntity(dano));
+    public ResponseEntity<IdResponseDTO> findAllDanosAmbientaisByOcorrencia(@PathVariable("id") Long danoPaiId,
+                                                                            @Valid @RequestBody DanosAmbientaisCreateDTO dano) {
+        var response = danosService.saveDanosAmbientais(danoPaiId, danosAmbientaisMapper.fromCreatetoEntity(dano));
         return ResponseEntity.ok(idResponseMapper.toDto(response));
     }
 
     @PostMapping("/{id}/materiais")
-    public ResponseEntity<IdResponseDTO> findAllDanosMateriaisByOcorrencia(@Valid @RequestBody DanosMateriaisCreateDTO dano) {
-        var response = danosService.saveDanosMateriais(danosMateriaisMapper.fromCreatetoEntity(dano));
+    public ResponseEntity<IdResponseDTO> findAllDanosMateriaisByOcorrencia(@PathVariable("id") Long danoPaiId,
+                                                                           @Valid @RequestBody DanosMateriaisCreateDTO dano) {
+        var response = danosService.saveDanosMateriais(danoPaiId, danosMateriaisMapper.fromCreatetoEntity(dano));
         return ResponseEntity.ok(idResponseMapper.toDto(response));
     }
 
     @PostMapping("/{id}/humanos")
-    public ResponseEntity<IdResponseDTO> findAllDanosHumanosByOcorrencia(@Valid @RequestBody DanosHumanosCreateDTO dano) {
-        var response = danosService.saveDanosHumanos(danosHumanosMapper.fromCreatetoEntity(dano));
+    public ResponseEntity<IdResponseDTO> findAllDanosHumanosByOcorrencia(@PathVariable("id") Long danoPaiId,
+                                                                         @Valid @RequestBody DanosHumanosCreateDTO dano) {
+        var response = danosService.saveDanosHumanos(danoPaiId, danosHumanosMapper.fromCreatetoEntity(dano));
         return ResponseEntity.ok(idResponseMapper.toDto(response));
     }
 
     @DeleteMapping("/{id}/ambientais/{idAmbiente}")
-    public ResponseEntity<Integer> deleteDanosAmbientais(@PathVariable("id") Integer idDano,
-                                                         @PathVariable("idAmbiente") Integer idAmbiente) {
+    public ResponseEntity<Integer> deleteDanosAmbientais(@PathVariable("id") Integer idDano, @PathVariable(
+            "idAmbiente") Integer idAmbiente) {
         Integer id = danosService.deleteDanosAmbientais(idDano);
         return ResponseEntity.ok(id);
     }
@@ -126,8 +122,8 @@ public class DanosRest {
     }
 
     @DeleteMapping("/{id}/materiais/{idMaterial}")
-    public ResponseEntity<Integer> deleteDanosMateriais(@PathVariable("id") Integer idDano,
-                                                        @PathVariable("idMaterial") Integer idMaterial) {
+    public ResponseEntity<Integer> deleteDanosMateriais(@PathVariable("id") Integer idDano, @PathVariable("idMaterial"
+    ) Integer idMaterial) {
         Integer id = danosService.deleteDanosMateriais(idDano);
         return ResponseEntity.ok(id);
     }

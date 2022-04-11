@@ -6,9 +6,11 @@ import com.ledger.danos.dtos.DanosMateriaisDTO;
 import com.ledger.danos.dtos.DanosMateriaisSomaDTO;
 import com.ledger.danos.entities.*;
 import com.ledger.danos.repositories.*;
+import com.ledger.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,8 +37,12 @@ public class DanosService {
         return danosRepository.findAllByOcorrencia_Id(ocorrenciaId);
     }
 
-    public Optional<Dano> findDanoById(Long id) {
-        return danosRepository.findById(id);
+    public Dano findDanoById(Long id) {
+        var danoOptional = danosRepository.findById(id);
+        if (danoOptional.isEmpty()) {
+            throw new EntityNotFoundException();
+        }
+        return danoOptional.get();
     }
 
     public Optional<Foto> findFotoById(Long id) {
@@ -71,15 +77,24 @@ public class DanosService {
         return danosMateriaisRepository.getSomaDanosMateriais(danoTipo, idOcorrencia, tipoDano);
     }
 
-    public Integer saveDanosMateriais(DanosMateriais dano) {
+    @Transactional
+    public Integer saveDanosMateriais(Long danoPaiId, DanosMateriais dano) {
+        var danoPai = findDanoById(danoPaiId);
+        dano.setDano(danoPai);
         return danosMateriaisRepository.save(dano).getId();
     }
 
-    public Integer saveDanosAmbientais(DanosAmbientais dano) {
+    @Transactional
+    public Integer saveDanosAmbientais(Long danoPaiId, DanosAmbientais dano) {
+        var danoPai = findDanoById(danoPaiId);
+        dano.setDano(danoPai);
         return danosAmbientaisRepository.save(dano).getId();
     }
 
-    public Integer saveDanosHumanos(DanosHumanos dano) {
+    @Transactional
+    public Integer saveDanosHumanos(Long danoPaiId, DanosHumanos dano) {
+        var danoPai = findDanoById(danoPaiId);
+        dano.setDano(danoPai);
         return danosHumanosRepository.save(dano).getId();
     }
 

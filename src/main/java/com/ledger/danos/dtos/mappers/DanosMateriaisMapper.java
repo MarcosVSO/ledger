@@ -9,10 +9,8 @@ import org.mapstruct.Mapping;
 
 @Mapper(uses = {TipoMapper.class, DanoMapper.class})
 public interface DanosMateriaisMapper {
-    @Mapping(target = "tipo", source = "tipo.id")
     DanosMateriaisDTO toListDto(DanosMateriais danosMateriais);
 
-    @Mapping(target = "tipo.id", source = "tipo")
     DanosMateriais fromCreatetoEntity(DanosMateriaisCreateDTO danosMateriais);
 
 }
