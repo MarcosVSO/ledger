@@ -1,15 +1,13 @@
 package com.ledger.danos.repositories;
 
-import com.ledger.danos.dtos.DanosHumanosDTO;
 import com.ledger.danos.entities.DanosHumanos;
 import org.springframework.data.jpa.repository.JpaRepository;
-
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+import java.util.Optional;
 
 @Repository
 public interface DanosHumanosRepository extends JpaRepository<DanosHumanos, Integer> {
@@ -22,6 +20,6 @@ public interface DanosHumanosRepository extends JpaRepository<DanosHumanos, Inte
             nativeQuery = true)
     Integer getSomaDanosHumanos(@Param("danoTipo") Integer danoTipo, @Param("idOcorrencia") Integer idOcorrencia);
 
-    @Query(value = "SELECT d FROM DanosHumanos d WHERE d.dano.ocorrencia.id = :idOcorrencia")
-    List<DanosHumanosDTO> findAllDanosHumanosByOcorrencia(@Param("idOcorrencia") Integer idOcorrencia);
+    @Query("SELECT d FROM DanosHumanos d WHERE d.dano.id = :id")
+    List<DanosHumanos> findAllDanosHumanosByDanoId(@Param("id") Long id);
 }

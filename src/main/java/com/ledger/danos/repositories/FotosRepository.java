@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface DanosRepository extends JpaRepository<Dano, Long> {
-    List<Dano> findAllByOcorrencia_Id(Integer ocorrenciaId);
+public interface FotosRepository extends JpaRepository<Dano, Long> {
+    @Query("SELECT f FROM Foto f WHERE f.id = :id ")
+    Optional<Foto> findFotoById(@Param("id") Long fotoId);
 }

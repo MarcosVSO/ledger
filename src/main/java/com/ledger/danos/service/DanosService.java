@@ -5,10 +5,7 @@ import com.ledger.danos.dtos.DanosHumanosDTO;
 import com.ledger.danos.dtos.DanosMateriaisDTO;
 import com.ledger.danos.dtos.DanosMateriaisSomaDTO;
 import com.ledger.danos.entities.*;
-import com.ledger.danos.repositories.DanosAmbientaisRepository;
-import com.ledger.danos.repositories.DanosHumanosRepository;
-import com.ledger.danos.repositories.DanosMateriaisRepository;
-import com.ledger.danos.repositories.DanosRepository;
+import com.ledger.danos.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,14 +18,17 @@ public class DanosService {
     private DanosAmbientaisRepository danosAmbientaisRepository;
     private DanosHumanosRepository danosHumanosRepository;
     private DanosRepository danosRepository;
+    private FotosRepository fotosRepository;
 
     public DanosService(DanosMateriaisRepository danosMateriaisRepository,
                         DanosAmbientaisRepository danosAmbientaisRepository,
-                        DanosHumanosRepository danosHumanosRepository, DanosRepository danosRepository) {
+                        DanosHumanosRepository danosHumanosRepository, DanosRepository danosRepository,
+                        FotosRepository fotosRepository) {
         this.danosMateriaisRepository = danosMateriaisRepository;
         this.danosAmbientaisRepository = danosAmbientaisRepository;
         this.danosHumanosRepository = danosHumanosRepository;
         this.danosRepository = danosRepository;
+        this.fotosRepository = fotosRepository;
     }
 
     public List<Dano> findDanosByOcorrenciaId(Integer ocorrenciaId) {
@@ -40,57 +40,35 @@ public class DanosService {
     }
 
     public Optional<Foto> findFotoById(Long id) {
-        return danosRepository.findFotoById(id);
+        return fotosRepository.findFotoById(id);
     }
 
     public Long saveDano(Dano dano) {
         return danosRepository.save(dano).getId();
     }
 
-    public List<DanosAmbientais> findAllDanosAmbientais(){
-        return danosAmbientaisRepository.findAll();
+    public List<DanosAmbientais> findDanosAmbientaisByDanoId(Long id) {
+        return danosAmbientaisRepository.findAllDanosAmbientaisByDanoId(id);
     }
 
-    public List<DanosHumanos> findAllDanosHumanos(){
-        return danosHumanosRepository.findAll();
+    public List<DanosHumanos> findDanosHumanosByDanoId(Long id) {
+        return danosHumanosRepository.findAllDanosHumanosByDanoId(id);
     }
 
-    public List<DanosMateriais> findAllDanosMateriais(){
-        return danosMateriaisRepository.findAll();
+    public List<DanosMateriais> findDanosMateriaisByDanoId(Long id) {
+        return danosMateriaisRepository.findAllDanosMateriaisByDanoId(id);
     }
 
-    public Optional<DanosAmbientais> findDanosAmbientais(Integer id){
-        return danosAmbientaisRepository.findById(id);
-    }
-    public Optional<DanosMateriais> findDanosMateriais(Integer id){
-        return danosMateriaisRepository.findById(id);
-    }
-    public Optional<DanosHumanos> findDanosHumanos(Integer id){
-        return danosHumanosRepository.findById(id);
+    public Integer getSomaDanosHumanos(Integer danoTipo, Integer idOcorrencia) {
+        return danosHumanosRepository.getSomaDanosHumanos(danoTipo, idOcorrencia);
     }
 
-    public List<DanosAmbientaisDTO> findAllDanosAmbientaisByOcorrencia(Integer idOcorrencia){
-        return danosAmbientaisRepository.findAllDanosAmbientaisByOcorrencia(idOcorrencia);
+    public Integer getSomaDanosAmbientais(Integer danoTipo, Integer idOcorrencia) {
+        return danosAmbientaisRepository.getSomaDanosAmbientais(danoTipo, idOcorrencia);
     }
 
-    public List<DanosHumanosDTO> findAllDanosHumanosByOcorrencia(Integer idOcorrencia){
-        return danosHumanosRepository.findAllDanosHumanosByOcorrencia(idOcorrencia);
-    }
-
-    public List<DanosMateriaisDTO> findAllDanosMateriaisByOcorrencia(Integer idOcorrencia){
-        return danosMateriaisRepository.findAllDanosMateriaisByOcorrencia(idOcorrencia);
-    }
-
-    public Integer getSomaDanosHumanos(Integer danoTipo, Integer idOcorrencia){
-        return danosHumanosRepository.getSomaDanosHumanos(danoTipo,idOcorrencia);
-    }
-
-    public Integer getSomaDanosAmbientais(Integer danoTipo, Integer idOcorrencia){
-        return danosAmbientaisRepository.getSomaDanosAmbientais(danoTipo,idOcorrencia);
-    }
-
-    public DanosMateriaisSomaDTO getSomaDanosMateriais(Integer danoTipo, Integer idOcorrencia, String tipoDano){
-        return danosMateriaisRepository.getSomaDanosMateriais(danoTipo,idOcorrencia,tipoDano);
+    public DanosMateriaisSomaDTO getSomaDanosMateriais(Integer danoTipo, Integer idOcorrencia, String tipoDano) {
+        return danosMateriaisRepository.getSomaDanosMateriais(danoTipo, idOcorrencia, tipoDano);
     }
 
     public Integer saveDanosMateriais(DanosMateriais dano) {
@@ -119,6 +97,4 @@ public class DanosService {
         danosHumanosRepository.deleteById(danoId);
         return danoId;
     }
-    //TODO byId, insert, update, delete
-
 }

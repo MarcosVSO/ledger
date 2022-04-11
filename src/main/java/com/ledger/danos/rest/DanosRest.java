@@ -1,7 +1,9 @@
 package com.ledger.danos.rest;
 
-import com.ledger.danos.dtos.DanoCreateDTO;
 import com.ledger.danos.dtos.DanoDetailsDTO;
+import com.ledger.danos.dtos.DanosAmbientaisDTO;
+import com.ledger.danos.dtos.DanosHumanosDTO;
+import com.ledger.danos.dtos.DanosMateriaisDTO;
 import com.ledger.danos.dtos.mappers.DanoMapper;
 import com.ledger.rest.dto.IdResponseDTO;
 import com.ledger.danos.dtos.create.DanosAmbientaisCreateDTO;
@@ -24,18 +26,18 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/danos")
 @Validated
 public class DanosRest {
 
-    private DanosService danosService;
-    private DanosAmbientaisMapper danosAmbientaisMapper;
-    private DanosHumanosMapper danosHumanosMapper;
-    private DanosMateriaisMapper danosMateriaisMapper;
-    private DanoMapper danoMapper;
+    private final DanosService danosService;
+    private final DanosAmbientaisMapper danosAmbientaisMapper;
+    private final DanosHumanosMapper danosHumanosMapper;
+    private final DanosMateriaisMapper danosMateriaisMapper;
+    private final DanoMapper danoMapper;
     private IdResponseMapper idResponseMapper;
 
     @Autowired
@@ -45,8 +47,8 @@ public class DanosRest {
         this.danosService = danosService;
         this.danosAmbientaisMapper = danosAmbientaisMapper;
         this.danosHumanosMapper = danosHumanosMapper;
-        this.danoMapper = danoMapper;
         this.danosMateriaisMapper = danosMateriaisMapper;
+        this.danoMapper = danoMapper;
     }
 
     @GetMapping("/{id}")
@@ -73,76 +75,61 @@ public class DanosRest {
                 .body(response.get().getData());
     }
 
-    @GetMapping("/ambientais")
-    public ResponseEntity<List<DanosAmbientais>> findAllDanosAmbientais() {
-        var response = danosService.findAllDanosAmbientais();
-        return ResponseEntity.ok(response);
+    @GetMapping("/{id}/ambientais")
+    public ResponseEntity<List<DanosAmbientaisDTO>> findDanosAmbientaisByDanoId(@PathVariable("id") Long id) {
+        var response = danosService.findDanosAmbientaisByDanoId(id);
+        return ResponseEntity.ok(response.stream().map(danosAmbientaisMapper::toListDto).collect(Collectors.toList()));
     }
 
-    @GetMapping("/humanos")
-    public ResponseEntity<List<DanosHumanos>> findAllDanosHumanos() {
-        var response = danosService.findAllDanosHumanos();
-        return ResponseEntity.ok(response);
+    @GetMapping("/{id}/humanos")
+    public ResponseEntity<List<DanosHumanosDTO>> findDanosHumanosByDanoId(@PathVariable("id") Long id) {
+        var response = danosService.findDanosHumanosByDanoId(id);
+        return ResponseEntity.ok(response.stream().map(danosHumanosMapper::toListDto).collect(Collectors.toList()));
     }
 
-    @GetMapping("/materiais")
-    public ResponseEntity<List<DanosMateriais>> findAllDanosMateriais() {
-        var response = danosService.findAllDanosMateriais();
-        return ResponseEntity.ok(response);
+    @GetMapping("/{id}/materiais")
+    public ResponseEntity<List<DanosMateriaisDTO>> findDanosMateriaisByDanoId(@PathVariable("id") Long id) {
+        var response = danosService.findDanosMateriaisByDanoId(id);
+        return ResponseEntity.ok(response.stream().map(danosMateriaisMapper::toListDto).collect(Collectors.toList()));
     }
 
-    @GetMapping("/ambientais/{idDano}")
-    public ResponseEntity<DanosAmbientais> findDanosAmbientais(@PathVariable Integer idDano) {
-        Optional<DanosAmbientais> danosAmbientais = danosService.findDanosAmbientais(idDano);
-        return ResponseEntity.of(danosAmbientais);
-    }
-
-    @GetMapping("/humanos/{idDano}")
-    public ResponseEntity<DanosHumanos> findDanosHumanos(@PathVariable Integer idDano) {
-        Optional<DanosHumanos> danosHumanos = danosService.findDanosHumanos(idDano);
-        return ResponseEntity.of(danosHumanos);
-    }
-
-    @GetMapping("/materiais/{idDano}")
-    public ResponseEntity<DanosMateriais> findDanosMateriais(@PathVariable Integer idDano) {
-        Optional<DanosMateriais> danosMateriais = danosService.findDanosMateriais(idDano);
-        return ResponseEntity.of(danosMateriais);
-    }
-
-    @DeleteMapping("/ambientais/{idDano}")
-    public ResponseEntity<Integer> deleteDanosAmbientais(@PathVariable Integer idDano) {
-        Integer id = danosService.deleteDanosAmbientais(idDano);
-        return ResponseEntity.ok(id);
-    }
-
-    @DeleteMapping("/humanos/{idDano}")
-    public ResponseEntity<Integer> deleteDanosHumanos(@PathVariable Integer idDano) {
-        Integer id = danosService.deleteDanosHumanos(idDano);
-        return ResponseEntity.ok(id);
-    }
-
-    @DeleteMapping("/materiais/{idDano}")
-    public ResponseEntity<Integer> deleteDanosMateriais(@PathVariable Integer idDano) {
-        Integer id = danosService.deleteDanosMateriais(idDano);
-        return ResponseEntity.ok(id);
-    }
-
-    @PostMapping("ambientais")
+    @PostMapping("/{id}/ambientais")
     public ResponseEntity<IdResponseDTO> findAllDanosAmbientaisByOcorrencia(@Valid @RequestBody DanosAmbientaisCreateDTO dano) {
         var response = danosService.saveDanosAmbientais(danosAmbientaisMapper.fromCreatetoEntity(dano));
         return ResponseEntity.ok(idResponseMapper.toDto(response));
     }
 
-    @PostMapping("materiais")
+    @PostMapping("/{id}/materiais")
     public ResponseEntity<IdResponseDTO> findAllDanosMateriaisByOcorrencia(@Valid @RequestBody DanosMateriaisCreateDTO dano) {
         var response = danosService.saveDanosMateriais(danosMateriaisMapper.fromCreatetoEntity(dano));
         return ResponseEntity.ok(idResponseMapper.toDto(response));
     }
 
-    @PostMapping("humanos")
+    @PostMapping("/{id}/humanos")
     public ResponseEntity<IdResponseDTO> findAllDanosHumanosByOcorrencia(@Valid @RequestBody DanosHumanosCreateDTO dano) {
         var response = danosService.saveDanosHumanos(danosHumanosMapper.fromCreatetoEntity(dano));
         return ResponseEntity.ok(idResponseMapper.toDto(response));
+    }
+
+    @DeleteMapping("/{id}/ambientais/{idAmbiente}")
+    public ResponseEntity<Integer> deleteDanosAmbientais(@PathVariable("id") Integer idDano,
+                                                         @PathVariable("idAmbiente") Integer idAmbiente) {
+        Integer id = danosService.deleteDanosAmbientais(idDano);
+        return ResponseEntity.ok(id);
+    }
+
+    @DeleteMapping("/{id}/humanos/{idHumano}")
+    public ResponseEntity<Integer> deleteDanosHumanos(@PathVariable("id") Integer idDano,
+                                                      @PathVariable("idMaterial") Integer idHumano) {
+        Integer id = danosService.deleteDanosHumanos(idDano);
+        return ResponseEntity.ok(id);
+    }
+
+    @DeleteMapping("/{id}/materiais/{idMaterial}")
+    public ResponseEntity<Integer> deleteDanosMateriais(@PathVariable("id") Integer idDano,
+                                                        @PathVariable("idMaterial") Integer idMaterial) {
+        Integer id = danosService.deleteDanosMateriais(idDano);
+        return ResponseEntity.ok(id);
     }
 
 }

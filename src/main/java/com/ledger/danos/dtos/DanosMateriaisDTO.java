@@ -13,7 +13,7 @@ import java.math.BigInteger;
 @Builder
 public class DanosMateriaisDTO {
     private Integer id;
-    private Integer tipo;
+    private String tipo;
     private Boolean destruido;
     private String descricao;
     private BigInteger valor;

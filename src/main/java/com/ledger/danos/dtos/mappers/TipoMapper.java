@@ -14,6 +14,14 @@ public interface TipoMapper {
         return t.getId();
     }
 
+    default String toString(Tipo t) {
+        if (t == null) {
+            return null;
+        }
+
+        return t.getDescricao();
+    }
+
     default Tipo toEntity(Integer id) {
         var t = new Tipo();
         t.setId(id);
