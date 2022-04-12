@@ -31,6 +31,9 @@ public class Dano {
     @Embedded
     private Coordenadas coordenadas;
 
+    @Column(name = "descricao")
+    private String descricao;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "ocorrencia_id", nullable = false)
     private Ocorrencia ocorrencia;

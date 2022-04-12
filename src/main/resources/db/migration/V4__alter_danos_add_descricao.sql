@@ -1,0 +1,1 @@
+ALTER TABLE danos ADD COLUMN descricao VARCHAR(255)

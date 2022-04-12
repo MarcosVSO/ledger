@@ -15,6 +15,7 @@ import java.util.List;
 @Builder
 public class DanoCreateDTO {
     private Long id;
+    private String descricao;
     private List<MultipartFile> fotos = new ArrayList<>();
     private String latitude;
     private String longitude;
