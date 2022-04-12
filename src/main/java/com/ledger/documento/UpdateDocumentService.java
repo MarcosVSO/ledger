@@ -90,7 +90,7 @@ public class UpdateDocumentService {
             //instituições
             replacements.put("${inst_informante}",fideDTO.getDadosOcorrencia().getInstituicaoInformante().getNome());
             replacements.put("${inst_responsavel}",fideDTO.getDadosOcorrencia().getInstituicaoInformante().getResponsavel());
-//            replacements.put("${inst_telefones}",fideDTO.getTelefoneNums());
+            replacements.put("${inst_telefones}",fideDTO.getDadosOcorrencia().getInstituicaoInformante().getTelefonesString());
             replacements.put("${inf_defesa}",fideDTO.getInstInformadaOrgaoEstadual());
             replacements.put("${inf_sedec}",fideDTO.getInstituicaoInformanteSedec());
 
