@@ -8,8 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Blob;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -24,11 +25,8 @@ public class Dano {
     @Column(name = "id", nullable = false)
     private Long  id;
 
-    @Lob
-    @ElementCollection(fetch = FetchType.LAZY)
-    @Column(name = "foto")
-    @CollectionTable(name = "danos_fotos", joinColumns = @JoinColumn(name = "dano_id"))
-    private Set<Blob> fotos = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "dano", cascade = CascadeType.ALL)
+    private List<Foto> fotos = new ArrayList<>();
 
     @Embedded
     private Coordenadas coordenadas;

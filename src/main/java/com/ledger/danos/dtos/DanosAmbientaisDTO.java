@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class DanosAmbientaisDTO {
     private Integer id;
-    private Integer tipo;
+    private String tipo;
     private Integer populacaoAtingida;
 }

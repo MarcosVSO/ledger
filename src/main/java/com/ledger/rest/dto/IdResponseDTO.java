@@ -6,5 +6,5 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 public class IdResponseDTO {
-    private Integer id;
+    private Long id;
 }

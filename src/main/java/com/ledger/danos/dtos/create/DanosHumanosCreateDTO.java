@@ -14,8 +14,4 @@ import javax.validation.constraints.NotNull;
 public class DanosHumanosCreateDTO {
     @NotNull
     private Integer tipo;
-    @NotNull
-    private Integer numeroPessoas;
-    @NotNull
-    private Long dano;
 }

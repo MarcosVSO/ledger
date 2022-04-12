@@ -4,84 +4,102 @@ import com.ledger.danos.dtos.DanosAmbientaisDTO;
 import com.ledger.danos.dtos.DanosHumanosDTO;
 import com.ledger.danos.dtos.DanosMateriaisDTO;
 import com.ledger.danos.dtos.DanosMateriaisSomaDTO;
-import com.ledger.danos.entities.DanosAmbientais;
-import com.ledger.danos.entities.DanosHumanos;
-import com.ledger.danos.entities.DanosMateriais;
-import com.ledger.danos.repositories.DanosAmbientaisRepository;
-import com.ledger.danos.repositories.DanosHumanosRepository;
-import com.ledger.danos.repositories.DanosMateriaisRepository;
+import com.ledger.danos.entities.*;
+import com.ledger.danos.repositories.*;
+import com.ledger.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class DanosService {
-    @Autowired
     private DanosMateriaisRepository danosMateriaisRepository;
-
-    @Autowired
     private DanosAmbientaisRepository danosAmbientaisRepository;
-
-    @Autowired
     private DanosHumanosRepository danosHumanosRepository;
+    private DanosRepository danosRepository;
+    private FotosRepository fotosRepository;
 
-    public List<DanosAmbientais> findAllDanosAmbientais(){
-        return danosAmbientaisRepository.findAll();
-    }
-
-    public List<DanosHumanos> findAllDanosHumanos(){
-        return danosHumanosRepository.findAll();
-    }
-
-    public List<DanosMateriais> findAllDanosMateriais(){
-        return danosMateriaisRepository.findAll();
-    }
-
-    public Optional<DanosAmbientais> findDanosAmbientais(Integer id){
-        return danosAmbientaisRepository.findById(id);
-    }
-    public Optional<DanosMateriais> findDanosMateriais(Integer id){
-        return danosMateriaisRepository.findById(id);
-    }
-    public Optional<DanosHumanos> findDanosHumanos(Integer id){
-        return danosHumanosRepository.findById(id);
+    public DanosService(DanosMateriaisRepository danosMateriaisRepository,
+                        DanosAmbientaisRepository danosAmbientaisRepository,
+                        DanosHumanosRepository danosHumanosRepository, DanosRepository danosRepository,
+                        FotosRepository fotosRepository) {
+        this.danosMateriaisRepository = danosMateriaisRepository;
+        this.danosAmbientaisRepository = danosAmbientaisRepository;
+        this.danosHumanosRepository = danosHumanosRepository;
+        this.danosRepository = danosRepository;
+        this.fotosRepository = fotosRepository;
     }
 
-    public List<DanosAmbientaisDTO> findAllDanosAmbientaisByOcorrencia(Integer idOcorrencia){
-        return danosAmbientaisRepository.findAllDanosAmbientaisByOcorrencia(idOcorrencia);
+    public List<Dano> findDanosByOcorrenciaId(Integer ocorrenciaId) {
+        return danosRepository.findAllByOcorrencia_Id(ocorrenciaId);
     }
 
-    public List<DanosHumanosDTO> findAllDanosHumanosByOcorrencia(Integer idOcorrencia){
-        return danosHumanosRepository.findAllDanosHumanosByOcorrencia(idOcorrencia);
+    public Dano findDanoById(Long id) {
+        var danoOptional = danosRepository.findById(id);
+        if (danoOptional.isEmpty()) {
+            throw new EntityNotFoundException();
+        }
+        return danoOptional.get();
     }
 
-    public List<DanosMateriaisDTO> findAllDanosMateriaisByOcorrencia(Integer idOcorrencia){
-        return danosMateriaisRepository.findAllDanosMateriaisByOcorrencia(idOcorrencia);
+    public void deleteDanoById(Long id) {
+        danosRepository.deleteById(id);
     }
 
-    public Integer getSomaDanosHumanos(Integer danoTipo, Integer idOcorrencia){
-        return danosHumanosRepository.getSomaDanosHumanos(danoTipo,idOcorrencia);
+
+    public Optional<Foto> findFotoById(Long id) {
+        return fotosRepository.findFotoById(id);
     }
 
-    public Integer getSomaDanosAmbientais(Integer danoTipo, Integer idOcorrencia){
-        return danosAmbientaisRepository.getSomaDanosAmbientais(danoTipo,idOcorrencia);
+    public Long saveDano(Dano dano) {
+        return danosRepository.save(dano).getId();
     }
 
-    public DanosMateriaisSomaDTO getSomaDanosMateriais(Integer danoTipo, Integer idOcorrencia, String tipoDano){
-        return danosMateriaisRepository.getSomaDanosMateriais(danoTipo,idOcorrencia,tipoDano);
+    public List<DanosAmbientais> findDanosAmbientaisByDanoId(Long id) {
+        return danosAmbientaisRepository.findAllDanosAmbientaisByDanoId(id);
     }
 
-    public Integer saveDanosMateriais(DanosMateriais dano) {
+    public List<DanosHumanos> findDanosHumanosByDanoId(Long id) {
+        return danosHumanosRepository.findAllDanosHumanosByDanoId(id);
+    }
+
+    public List<DanosMateriais> findDanosMateriaisByDanoId(Long id) {
+        return danosMateriaisRepository.findAllDanosMateriaisByDanoId(id);
+    }
+
+    public Integer getSomaDanosHumanos(Integer danoTipo, Integer idOcorrencia) {
+        return danosHumanosRepository.getSomaDanosHumanos(danoTipo, idOcorrencia);
+    }
+
+    public Integer getSomaDanosAmbientais(Integer danoTipo, Integer idOcorrencia) {
+        return danosAmbientaisRepository.getSomaDanosAmbientais(danoTipo, idOcorrencia);
+    }
+
+    public DanosMateriaisSomaDTO getSomaDanosMateriais(Integer danoTipo, Integer idOcorrencia, String tipoDano) {
+        return danosMateriaisRepository.getSomaDanosMateriais(danoTipo, idOcorrencia, tipoDano);
+    }
+
+    @Transactional
+    public Integer saveDanosMateriais(Long danoPaiId, DanosMateriais dano) {
+        var danoPai = findDanoById(danoPaiId);
+        dano.setDano(danoPai);
         return danosMateriaisRepository.save(dano).getId();
     }
 
-    public Integer saveDanosAmbientais(DanosAmbientais dano) {
+    @Transactional
+    public Integer saveDanosAmbientais(Long danoPaiId, DanosAmbientais dano) {
+        var danoPai = findDanoById(danoPaiId);
+        dano.setDano(danoPai);
         return danosAmbientaisRepository.save(dano).getId();
     }
 
-    public Integer saveDanosHumanos(DanosHumanos dano) {
+    @Transactional
+    public Integer saveDanosHumanos(Long danoPaiId, DanosHumanos dano) {
+        var danoPai = findDanoById(danoPaiId);
+        dano.setDano(danoPai);
         return danosHumanosRepository.save(dano).getId();
     }
 
@@ -99,6 +117,4 @@ public class DanosService {
         danosHumanosRepository.deleteById(danoId);
         return danoId;
     }
-    //TODO byId, insert, update, delete
-
 }
