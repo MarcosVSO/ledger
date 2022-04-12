@@ -107,23 +107,26 @@ public class DanosRest {
         return ResponseEntity.ok(idResponseMapper.toDto(response));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<DanoDetailsDTO> deleteDanoById(@PathVariable("id") Long id) {
+        danosService.deleteDanoById(id);
+        return ResponseEntity.ok(null);
+    }
+
     @DeleteMapping("/{id}/ambientais/{idAmbiente}")
-    public ResponseEntity<Integer> deleteDanosAmbientais(@PathVariable("id") Integer idDano, @PathVariable(
-            "idAmbiente") Integer idAmbiente) {
+    public ResponseEntity<Integer> deleteDanosAmbientais(@PathVariable("idAmbiente") Integer idDano) {
         Integer id = danosService.deleteDanosAmbientais(idDano);
         return ResponseEntity.ok(id);
     }
 
     @DeleteMapping("/{id}/humanos/{idHumano}")
-    public ResponseEntity<Integer> deleteDanosHumanos(@PathVariable("id") Integer idDano,
-                                                      @PathVariable("idMaterial") Integer idHumano) {
+    public ResponseEntity<Integer> deleteDanosHumanos(@PathVariable("idMaterial") Integer idDano) {
         Integer id = danosService.deleteDanosHumanos(idDano);
         return ResponseEntity.ok(id);
     }
 
     @DeleteMapping("/{id}/materiais/{idMaterial}")
-    public ResponseEntity<Integer> deleteDanosMateriais(@PathVariable("id") Integer idDano, @PathVariable("idMaterial"
-    ) Integer idMaterial) {
+    public ResponseEntity<Integer> deleteDanosMateriais(@PathVariable("idMaterial") Integer idDano) {
         Integer id = danosService.deleteDanosMateriais(idDano);
         return ResponseEntity.ok(id);
     }

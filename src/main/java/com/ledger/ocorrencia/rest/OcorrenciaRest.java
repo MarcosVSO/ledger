@@ -9,6 +9,8 @@ import com.ledger.ocorrencia.dto.ListOcorrenciaDTO;
 import com.ledger.ocorrencia.dto.mapper.OcorrenciaMapper;
 import com.ledger.ocorrencia.entities.Ocorrencia;
 import com.ledger.ocorrencia.service.OcorrenciaService;
+import com.ledger.rest.dto.IdResponseDTO;
+import com.ledger.rest.dto.mappers.IdResponseMapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
@@ -21,17 +23,19 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value = "/ocorrencias")
 public class OcorrenciaRest {
-    private OcorrenciaService ocorrenciaService;
-    private UpdateDocumentService updateDocumentService;
-    private OcorrenciaMapper ocorrenciaMapper;
-    private DanoMapper danoMapper;
+    private final OcorrenciaService ocorrenciaService;
+    private final UpdateDocumentService updateDocumentService;
+    private final OcorrenciaMapper ocorrenciaMapper;
+    private final DanoMapper danoMapper;
+    private final IdResponseMapper idResponseMapper;
 
     public OcorrenciaRest(OcorrenciaService ocorrenciaService, UpdateDocumentService updateDocumentService,
-                          OcorrenciaMapper ocorrenciaMapper, DanoMapper danoMapper) {
+                          OcorrenciaMapper ocorrenciaMapper, DanoMapper danoMapper, IdResponseMapper idResponseMapper) {
         this.ocorrenciaService = ocorrenciaService;
         this.updateDocumentService = updateDocumentService;
         this.ocorrenciaMapper = ocorrenciaMapper;
         this.danoMapper = danoMapper;
+        this.idResponseMapper = idResponseMapper;
     }
 
     @GetMapping
@@ -56,15 +60,15 @@ public class OcorrenciaRest {
     }
 
     @PostMapping()
-    public ResponseEntity<Integer> saveOcorrencia(@RequestBody OcorrenciaDTO ocorrencia) {
+    public ResponseEntity<IdResponseDTO> saveOcorrencia(@RequestBody OcorrenciaDTO ocorrencia) {
         var ocorrenciaId = ocorrenciaService.salvarOcorrencia(ocorrenciaMapper.toEntity(ocorrencia));
-        return ResponseEntity.ok(ocorrenciaId);
+        return ResponseEntity.ok(idResponseMapper.toDto(ocorrenciaId));
     }
 
     @PatchMapping()
-    public ResponseEntity<Integer> updateOcorrencia(@RequestBody OcorrenciaDTO ocorrencia) {
+    public ResponseEntity<IdResponseDTO> updateOcorrencia(@RequestBody OcorrenciaDTO ocorrencia) {
         var ocorrenciaId = ocorrenciaService.atualizarOcorrencia(ocorrenciaMapper.toEntity(ocorrencia));
-        return ResponseEntity.ok(ocorrenciaId);
+        return ResponseEntity.ok(idResponseMapper.toDto(ocorrenciaId));
     }
 
     @GetMapping("/{idOcorrencia}/danos")
@@ -74,9 +78,10 @@ public class OcorrenciaRest {
     }
 
     @PostMapping(value = "/{idOcorrencia}/danos")
-    public ResponseEntity<Long> salvarDanoByOcorrencia(DanoCreateDTO danoCreateDTO, @PathVariable Integer idOcorrencia) {
+    public ResponseEntity<IdResponseDTO> salvarDanoByOcorrencia(DanoCreateDTO danoCreateDTO,
+                                                       @PathVariable Integer idOcorrencia) {
         var danoId = ocorrenciaService.salvarDano(idOcorrencia, danoMapper.toEntity(danoCreateDTO));
-        return ResponseEntity.ok(danoId);
+        return ResponseEntity.ok(idResponseMapper.toDto(danoId));
     }
 
     @GetMapping("/gerar-fide/{idOcorrencia}")

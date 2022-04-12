@@ -137,8 +137,8 @@ public class OcorrenciaService {
         ocorrenciaDb.setSedecInformado(ocorrencia.getSedecInformado());
         ocorrenciaDb.setMunicipio(ocorrencia.getMunicipio());
 
-        ocorrenciaDb.setAreaAfetada(atualizarAreaAfetada(ocorrencia, ocorrencia.getAreaAfetada()));
-        ocorrenciaDb.setInstituicaoInformante(atualizarInformante(ocorrencia, ocorrencia.getInstituicaoInformante()));
+        ocorrenciaDb.setAreaAfetada(atualizarAreaAfetada(ocorrenciaDb, ocorrencia.getAreaAfetada()));
+        ocorrenciaDb.setInstituicaoInformante(atualizarInformante(ocorrenciaDb, ocorrencia.getInstituicaoInformante()));
 
         ocorrenciaRepository.save(ocorrenciaDb);
 
@@ -146,25 +146,36 @@ public class OcorrenciaService {
     }
 
     private AreaAfetada atualizarAreaAfetada(Ocorrencia ocorrencia, AreaAfetada areaAfetada) {
-        var areaDb = areaAfetadaRepository.findByOcorrencia_Id(ocorrencia.getId()).get();
-        areaDb.setResidencial(areaAfetada.getResidencial());
-        areaDb.setComercial(areaAfetada.getComercial());
-        areaDb.setIndustrial(areaAfetada.getIndustrial());
-        areaDb.setAgricola(areaAfetada.getAgricola());
-        areaDb.setPecuaria(areaAfetada.getPecuaria());
-        areaDb.setExtrativismoVegetal(areaAfetada.getExtrativismoVegetal());
-        areaDb.setReservaFlorestal(areaAfetada.getReservaFlorestal());
-        areaDb.setMineracao(areaAfetada.getMineracao());
-        areaDb.setTurismoOutras(areaAfetada.getTurismoOutras());
-        return areaDb;
+        var areaDb = areaAfetadaRepository.findByOcorrencia_Id(ocorrencia.getId());
+        if (areaDb.isPresent()) {
+            var area = areaDb.get();
+            area.setResidencial(areaAfetada.getResidencial());
+            area.setComercial(areaAfetada.getComercial());
+            area.setIndustrial(areaAfetada.getIndustrial());
+            area.setAgricola(areaAfetada.getAgricola());
+            area.setPecuaria(areaAfetada.getPecuaria());
+            area.setExtrativismoVegetal(areaAfetada.getExtrativismoVegetal());
+            area.setReservaFlorestal(areaAfetada.getReservaFlorestal());
+            area.setMineracao(areaAfetada.getMineracao());
+            area.setTurismoOutras(areaAfetada.getTurismoOutras());
+            return area;
+        }
+        areaAfetada.setOcorrencia(ocorrencia);
+        return areaAfetada;
     }
 
     private InstituicaoInformante atualizarInformante(Ocorrencia ocorrencia,
                                                       InstituicaoInformante instituicaoInformante) {
-        var informanteDb = instituicaoInformanteRepository.findByOcorrencia_Id(ocorrencia.getId()).get();
-        informanteDb.setNome(instituicaoInformante.getNome());
-        informanteDb.setResponsavel(instituicaoInformante.getResponsavel());
-        informanteDb.setTelefones(instituicaoInformante.getTelefones());
-        return informanteDb;
+        var informanteDb = instituicaoInformanteRepository.findByOcorrencia_Id(ocorrencia.getId());
+        if (informanteDb.isPresent()) {
+            var informante = informanteDb.get();
+            informante.setNome(instituicaoInformante.getNome());
+            informante.setResponsavel(instituicaoInformante.getResponsavel());
+            informante.setTelefones(instituicaoInformante.getTelefones());
+            return informante;
+        }
+
+        instituicaoInformante.setOcorrencia(ocorrencia);
+        return instituicaoInformante;
     }
 }

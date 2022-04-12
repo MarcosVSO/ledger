@@ -45,6 +45,11 @@ public class DanosService {
         return danoOptional.get();
     }
 
+    public void deleteDanoById(Long id) {
+        danosRepository.deleteById(id);
+    }
+
+
     public Optional<Foto> findFotoById(Long id) {
         return fotosRepository.findFotoById(id);
     }
