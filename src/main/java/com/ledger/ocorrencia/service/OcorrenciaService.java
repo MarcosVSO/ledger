@@ -125,6 +125,11 @@ public class OcorrenciaService {
     }
 
     @Transactional
+    public void deleteById(Integer id) {
+        ocorrenciaRepository.deleteById(id);
+    }
+
+    @Transactional
     public Integer atualizarOcorrencia(Ocorrencia ocorrencia) {
         if (ocorrencia.getId() == null) {
             throw new RuntimeException();
