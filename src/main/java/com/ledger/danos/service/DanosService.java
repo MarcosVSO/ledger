@@ -78,8 +78,8 @@ public class DanosService {
         return danosAmbientaisRepository.getSomaDanosAmbientais(danoTipo, idOcorrencia);
     }
 
-    public DanosMateriaisSomaDTO getSomaDanosMateriais(Integer danoTipo, Integer idOcorrencia, String tipoDano) {
-        return danosMateriaisRepository.getSomaDanosMateriais(danoTipo, idOcorrencia, tipoDano);
+    public DanosMateriaisSomaDTO getSomaDanosMateriais(Integer danoTipo, Integer idOcorrencia){
+        return danosMateriaisRepository.getSomaDanosMateriais(danoTipo,idOcorrencia);
     }
 
     @Transactional

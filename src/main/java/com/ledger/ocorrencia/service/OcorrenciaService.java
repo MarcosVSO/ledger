@@ -8,6 +8,7 @@ import com.ledger.danos.service.DanosService;
 import com.ledger.danos.service.DanosTiposService;
 import com.ledger.localidades.service.LocalidadeService;
 import com.ledger.ocorrencia.dto.FideDTO;
+import com.ledger.ocorrencia.dto.mapper.OcorrenciaMapper;
 import com.ledger.ocorrencia.entities.AreaAfetada;
 import com.ledger.ocorrencia.entities.InstituicaoInformante;
 import com.ledger.ocorrencia.entities.Ocorrencia;
@@ -36,6 +37,9 @@ public class OcorrenciaService {
     private final LocalidadeService localidadeService;
 
     @Autowired
+    private OcorrenciaMapper ocorrenciaMapper;
+
+    @Autowired
     public OcorrenciaService(OcorrenciaRepository ocorrenciaRepository, AreaAfetadaRepository areaAfetadaRepository,
                              InstituicaoInformanteRepository instituicaoInformanteRepository,
                              DanosService danosService, DanosTiposService danosTiposService, ModelMapper modelMapper,
@@ -60,13 +64,8 @@ public class OcorrenciaService {
 
     public FideDTO gerarFIDEOcorrencia(Integer idOcorrencia) {
         Optional<Ocorrencia> ocorrencia = ocorrenciaRepository.findById(idOcorrencia);
-        FideDTO fideDTO = modelMapper.map(ocorrencia.get(), FideDTO.class);
-
-        Map<String, Integer> danosHumanosMapped = new HashMap<String, Integer>();
-        for (Tipo dt : danosTiposService.findAllDanoTipoByCategoria("humano")) {
-            danosHumanosMapped.put(dt.getDescricao(), danosService.getSomaDanosHumanos(dt.getId(), idOcorrencia));
-        }
-        fideDTO.setDanosHumanosMapped(danosHumanosMapped);
+        FideDTO fideDTO = new FideDTO();
+        fideDTO.setDadosOcorrencia(ocorrenciaMapper.toDTO(ocorrencia.get()));
 
         Map<String, Integer> danosAmbientaisMapped = new HashMap<String, Integer>();
         for (Tipo dt : danosTiposService.findAllDanoTipoByCategoria("ambiental")) {
@@ -76,11 +75,17 @@ public class OcorrenciaService {
 
         List<DanosMateriaisSomaDTO> danosMateriaisSomaDTOS = new ArrayList<DanosMateriaisSomaDTO>();
         for (Tipo dt : danosTiposService.findAllDanoTipoByCategoria("material")) {
-            DanosMateriaisSomaDTO danosMateriaisSomaDTO = danosService.getSomaDanosMateriais(dt.getId(), idOcorrencia
-                    , dt.getDescricao());
+            DanosMateriaisSomaDTO danosMateriaisSomaDTO = danosService.getSomaDanosMateriais(dt.getId(), idOcorrencia);
             danosMateriaisSomaDTOS.add(danosMateriaisSomaDTO);
         }
         fideDTO.setDanosMateriaisSoma(danosMateriaisSomaDTOS);
+
+
+        Map<String, Integer> danosHumanosMapped = new HashMap<String, Integer>();
+        for (Tipo dt : danosTiposService.findAllDanoTipoByCategoria("humano")) {
+            danosHumanosMapped.put(dt.getDescricao(), danosService.getSomaDanosHumanos(dt.getId(), idOcorrencia));
+        }
+        fideDTO.setDanosHumanosMapped(danosHumanosMapped);
 
         return fideDTO;
     }

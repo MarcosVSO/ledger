@@ -13,10 +13,10 @@ import java.util.Optional;
 public interface DanosHumanosRepository extends JpaRepository<DanosHumanos, Integer> {
 
     @Query(
-            value = "SELECT ISNULL(SUM(NUMERO_PESSOAS), 0)\n" +
-                    "FROM DANOS_HUMANOS dh\n" +
-                    "JOIN DANOS_TIPO dt ON dt.ID = dh.DANO_HUMANO_TIPO\n" +
-                    "WHERE dh.OCORRENCIA_ID = :idOcorrencia AND dh.DANO_HUMANO_TIPO = :danoTipo",
+            value = "select count(dh.id)\n" +
+                    "from danos_humanos dh\n" +
+                    "join danos d on d.id = dh.dano_id\n" +
+                    "where d.ocorrencia_id = :idOcorrencia and dh.tipo_id = :danoTipo\n",
             nativeQuery = true)
     Integer getSomaDanosHumanos(@Param("danoTipo") Integer danoTipo, @Param("idOcorrencia") Integer idOcorrencia);
 

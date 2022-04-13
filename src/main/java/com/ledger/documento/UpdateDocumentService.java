@@ -32,14 +32,14 @@ public class UpdateDocumentService {
 
         XWPFDocument doc = new XWPFDocument(Files.newInputStream(Paths.get(input)));
 
-            LocalDateTime localDate = LocalDateTime.ofInstant(fideDTO.getDataOcorrencia().toInstant(), ZoneId.of("America/Sao_Paulo"));
+            LocalDateTime localDate = LocalDateTime.ofInstant(fideDTO.getDadosOcorrencia().getData().toInstant(), ZoneId.of("America/Sao_Paulo"));
 
             Map<String, String> replacements = new LinkedHashMap<String,String>();
             //Dados da ocorrência
-            replacements.put("${uf}",fideDTO.getUf());
-            replacements.put("${municipio}",fideDTO.getMunicipio());
-            replacements.put("${cobrade}",fideDTO.getCodCobrade());
-            replacements.put("${cobradeDescricao}", cobradeService.findByCodigo(fideDTO.getCodCobrade()).getSubGrupo());
+            replacements.put("${uf}",fideDTO.getDadosOcorrencia().getUf().getSigla());
+            replacements.put("${municipio}",fideDTO.getDadosOcorrencia().getMunicipio().getNome());
+            replacements.put("${cobrade}",fideDTO.getDadosOcorrencia().getCobrade().getCodigo());
+            replacements.put("${cobradeDescricao}", fideDTO.getDadosOcorrencia().getCobrade().getCategoria());
             replacements.put("${oc_dia}", String.valueOf(localDate.getDayOfMonth()) );
             replacements.put("${oc_mes}", convertEngToPt(String.valueOf(localDate.getMonth())));
             replacements.put("${oc_ano}", String.valueOf(localDate.getYear()));
@@ -55,22 +55,22 @@ public class UpdateDocumentService {
             // Danos Materiais
             replacements.put("${hab_dest}",fideDTO.getDanosMateriaisSoma().get(0).getQuantidadeDestruida().toString());
             replacements.put("${hab_dani}",fideDTO.getDanosMateriaisSoma().get(0).getQuantidadeDanificada().toString());
-            replacements.put("${hab_valor}",fideDTO.getDanosMateriaisSoma().get(0).getValor().toString());
+            replacements.put("${hab_valor}", String.valueOf(fideDTO.getDanosMateriaisSoma().get(0).getValorDanificado()+fideDTO.getDanosMateriaisSoma().get(0).getValorDestruido()));
             replacements.put("${saude_dest}",fideDTO.getDanosMateriaisSoma().get(1).getQuantidadeDestruida().toString());
             replacements.put("${saude_dani}",fideDTO.getDanosMateriaisSoma().get(1).getQuantidadeDanificada().toString());
-            replacements.put("${saude_valor}",fideDTO.getDanosMateriaisSoma().get(1).getValor().toString());
+            replacements.put("${saude_valor}",String.valueOf(fideDTO.getDanosMateriaisSoma().get(1).getValorDanificado()+fideDTO.getDanosMateriaisSoma().get(1).getValorDestruido()));
             replacements.put("${ensino_dest}",fideDTO.getDanosMateriaisSoma().get(2).getQuantidadeDestruida().toString());
             replacements.put("${ensino_dani}",fideDTO.getDanosMateriaisSoma().get(2).getQuantidadeDanificada().toString());
-            replacements.put("${ensino_valor}",fideDTO.getDanosMateriaisSoma().get(2).getValor().toString());
+            replacements.put("${ensino_valor}",String.valueOf(fideDTO.getDanosMateriaisSoma().get(2).getValorDanificado()+fideDTO.getDanosMateriaisSoma().get(2).getValorDestruido()));
             replacements.put("${servicos_dest}",fideDTO.getDanosMateriaisSoma().get(3).getQuantidadeDestruida().toString());
             replacements.put("${servicos_dano}",fideDTO.getDanosMateriaisSoma().get(3).getQuantidadeDanificada().toString());
-            replacements.put("${servicos_valor}",fideDTO.getDanosMateriaisSoma().get(3).getValor().toString());
+            replacements.put("${servicos_valor}",String.valueOf(fideDTO.getDanosMateriaisSoma().get(3).getValorDanificado()+fideDTO.getDanosMateriaisSoma().get(3).getValorDestruido()));
             replacements.put("${comu_dest}",fideDTO.getDanosMateriaisSoma().get(4).getQuantidadeDestruida().toString());
             replacements.put("${comu_dani}",fideDTO.getDanosMateriaisSoma().get(4).getQuantidadeDanificada().toString());
-            replacements.put("${comu_valor}",fideDTO.getDanosMateriaisSoma().get(4).getValor().toString());
+            replacements.put("${comu_valor}",String.valueOf(fideDTO.getDanosMateriaisSoma().get(4).getValorDanificado()+fideDTO.getDanosMateriaisSoma().get(4).getValorDestruido()));
             replacements.put("${infra_dest}",fideDTO.getDanosMateriaisSoma().get(5).getQuantidadeDestruida().toString());
             replacements.put("${infra_dani}",fideDTO.getDanosMateriaisSoma().get(5).getQuantidadeDanificada().toString());
-            replacements.put("${infra_valor}",fideDTO.getDanosMateriaisSoma().get(5).getValor().toString());
+            replacements.put("${infra_valor}",String.valueOf(fideDTO.getDanosMateriaisSoma().get(5).getValorDanificado()+fideDTO.getDanosMateriaisSoma().get(5).getValorDestruido()));
             // Danos Ambientais
             replacements.put("${ambiental_ar}",fideDTO.getDanosAmbientaisMapped().get("Contaminação do Ar").toString());
             replacements.put("${ambiental_agua}",fideDTO.getDanosAmbientaisMapped().get("Contaminação do Água").toString());
@@ -78,19 +78,19 @@ public class UpdateDocumentService {
             replacements.put("${ambiental_hidrico}",fideDTO.getDanosAmbientaisMapped().get("Exaurimento Hídrico").toString());
             replacements.put("${ambiental_apa}",fideDTO.getDanosAmbientaisMapped().get("Incêndio APA").toString());
             // Areas afetadas
-            replacements.put("${area_afetada_residencial}",fideDTO.getAreaAfetada().getResidencial());
-            replacements.put("${area_afetada_comercial}",fideDTO.getAreaAfetada().getComercial());
-            replacements.put("${area_afetada_industrial}",fideDTO.getAreaAfetada().getIndustrial());
-            replacements.put("${area_afetada_agricola}",fideDTO.getAreaAfetada().getAgricola());
-            replacements.put("${area_afetada_pecuaria}",fideDTO.getAreaAfetada().getPecuaria());
-            replacements.put("${area_afetada_extratVegetal}",fideDTO.getAreaAfetada().getExtrativismoVegetal());
-            replacements.put("${area_afetada_apa}",fideDTO.getAreaAfetada().getReservaFlorestal());
-            replacements.put("${area_afetada_mineracao}",fideDTO.getAreaAfetada().getMineracao());
-            replacements.put("${area_afetada_turismo}",fideDTO.getAreaAfetada().getTurismoOutras());
+            replacements.put("${area_afetada_residencial}",fideDTO.getDadosOcorrencia().getAreaAfetada().getResidencial());
+            replacements.put("${area_afetada_comercial}",fideDTO.getDadosOcorrencia().getAreaAfetada().getComercial());
+            replacements.put("${area_afetada_industrial}",fideDTO.getDadosOcorrencia().getAreaAfetada().getIndustrial());
+            replacements.put("${area_afetada_agricola}",fideDTO.getDadosOcorrencia().getAreaAfetada().getAgricola());
+            replacements.put("${area_afetada_pecuaria}",fideDTO.getDadosOcorrencia().getAreaAfetada().getPecuaria());
+            replacements.put("${area_afetada_extratVegetal}",fideDTO.getDadosOcorrencia().getAreaAfetada().getExtrativismoVegetal());
+            replacements.put("${area_afetada_apa}",fideDTO.getDadosOcorrencia().getAreaAfetada().getReservaFlorestal());
+            replacements.put("${area_afetada_mineracao}",fideDTO.getDadosOcorrencia().getAreaAfetada().getMineracao());
+            replacements.put("${area_afetada_turismo}",fideDTO.getDadosOcorrencia().getAreaAfetada().getTurismoOutras());
             //instituições
-            replacements.put("${inst_informante}",fideDTO.getInstInformanteNome());
-            replacements.put("${inst_responsavel}",fideDTO.getInstInformanteResponsavel());
-//            replacements.put("${inst_telefones}",fideDTO.getTelefoneNums());
+            replacements.put("${inst_informante}",fideDTO.getDadosOcorrencia().getInstituicaoInformante().getNome());
+            replacements.put("${inst_responsavel}",fideDTO.getDadosOcorrencia().getInstituicaoInformante().getResponsavel());
+            replacements.put("${inst_telefones}",fideDTO.getDadosOcorrencia().getInstituicaoInformante().getTelefonesString());
             replacements.put("${inf_defesa}",fideDTO.getInstInformadaOrgaoEstadual());
             replacements.put("${inf_sedec}",fideDTO.getInstituicaoInformanteSedec());
 
