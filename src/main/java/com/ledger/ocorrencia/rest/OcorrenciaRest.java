@@ -58,6 +58,12 @@ public class OcorrenciaRest {
         }
         return ResponseEntity.ok(ocorrenciaMapper.toDTO(ocorrencia.get()));
     }
+    
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping("/{idOcorrencia}")
+    public void deleteById(@PathVariable Integer idOcorrencia) {
+        ocorrenciaService.deleteById(idOcorrencia);
+    }
 
     @PostMapping()
     public ResponseEntity<IdResponseDTO> saveOcorrencia(@RequestBody OcorrenciaDTO ocorrencia) {
