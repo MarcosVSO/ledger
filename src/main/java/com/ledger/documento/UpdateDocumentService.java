@@ -45,13 +45,13 @@ public class UpdateDocumentService {
             replacements.put("${oc_ano}", String.valueOf(localDate.getYear()));
             replacements.put("${oc_hr}", localDate.getHour()+":"+localDate.getMinute());
             //  Danos Humanos, Materiais ou Ambientais
-            /*replacements.put("${mortos}",fideDTO.getDanosHumanosMapped().get("Mortos").toString());
+            replacements.put("${mortos}",fideDTO.getDanosHumanosMapped().get("Mortos").toString());
             replacements.put("${feridos}",fideDTO.getDanosHumanosMapped().get("Feridos").toString());
             replacements.put("${enfermos}",fideDTO.getDanosHumanosMapped().get("Enfermos").toString());
             replacements.put("${desabrigados}",fideDTO.getDanosHumanosMapped().get("Desabrigados").toString());
             replacements.put("${desalojados}",fideDTO.getDanosHumanosMapped().get("Desalojados").toString());
             replacements.put("${desaparecidos}",fideDTO.getDanosHumanosMapped().get("Desaparecidos").toString());
-            replacements.put("${outrosAfetados}",fideDTO.getDanosHumanosMapped().get("Outros Afetados").toString());*/
+            replacements.put("${outrosAfetados}",fideDTO.getDanosHumanosMapped().get("Outros Afetados").toString());
             // Danos Materiais
             replacements.put("${hab_dest}",fideDTO.getDanosMateriaisSoma().get(0).getQuantidadeDestruida().toString());
             replacements.put("${hab_dani}",fideDTO.getDanosMateriaisSoma().get(0).getQuantidadeDanificada().toString());

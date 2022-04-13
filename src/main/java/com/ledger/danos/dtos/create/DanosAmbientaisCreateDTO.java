@@ -16,6 +16,4 @@ public class DanosAmbientaisCreateDTO {
     private Integer tipo;
     @NotNull
     private Integer populacaoAtingida;
-    @NotNull
-    private Long dano;
 }

@@ -1,6 +1,5 @@
 package com.ledger.danos.repositories;
 
-import com.ledger.danos.dtos.DanosMateriaisDTO;
 import com.ledger.danos.dtos.DanosMateriaisSomaDTO;
 import com.ledger.danos.entities.DanosMateriais;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface DanosMateriaisRepository extends JpaRepository<DanosMateriais, Integer> {
 
@@ -59,6 +59,6 @@ public interface DanosMateriaisRepository extends JpaRepository<DanosMateriais, 
             nativeQuery = true)
     DanosMateriaisSomaDTO getSomaDanosMateriais(@Param("danoTipo") Integer danoTipo, @Param("idOcorrencia") Integer idOcorrencia);
 
-    @Query(value = "SELECT d FROM DanosMateriais d WHERE d.dano.ocorrencia.id = :idOcorrencia")
-    List<DanosMateriaisDTO> findAllDanosMateriaisByOcorrencia(@Param("idOcorrencia") Integer idOcorrencia);
+    @Query("SELECT d FROM DanosMateriais d WHERE d.dano.id = :id")
+    List<DanosMateriais> findAllDanosMateriaisByDanoId(@Param("id") Long id);
 }

@@ -1,9 +1,7 @@
 package com.ledger.ocorrencia.rest;
 
-import com.ledger.danos.dtos.DanosAmbientaisDTO;
-import com.ledger.danos.dtos.DanosMateriaisDTO;
-import com.ledger.danos.service.DanosService;
-import com.ledger.danos.dtos.DanosHumanosDTO;
+import com.ledger.danos.dtos.DanoCreateDTO;
+import com.ledger.danos.dtos.mappers.DanoMapper;
 import com.ledger.documento.UpdateDocumentService;
 import com.ledger.ocorrencia.dto.FideDTO;
 import com.ledger.ocorrencia.dto.OcorrenciaDTO;
@@ -11,7 +9,8 @@ import com.ledger.ocorrencia.dto.ListOcorrenciaDTO;
 import com.ledger.ocorrencia.dto.mapper.OcorrenciaMapper;
 import com.ledger.ocorrencia.entities.Ocorrencia;
 import com.ledger.ocorrencia.service.OcorrenciaService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ledger.rest.dto.IdResponseDTO;
+import com.ledger.rest.dto.mappers.IdResponseMapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
@@ -19,22 +18,25 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/ocorrencias")
 public class OcorrenciaRest {
+    private final OcorrenciaService ocorrenciaService;
+    private final UpdateDocumentService updateDocumentService;
+    private final OcorrenciaMapper ocorrenciaMapper;
+    private final DanoMapper danoMapper;
+    private final IdResponseMapper idResponseMapper;
 
-    @Autowired
-    private OcorrenciaService ocorrenciaService;
-
-    @Autowired
-    private DanosService danosService;
-
-    @Autowired
-    private UpdateDocumentService updateDocumentService;
-
-    @Autowired
-    private OcorrenciaMapper ocorrenciaMapper;
+    public OcorrenciaRest(OcorrenciaService ocorrenciaService, UpdateDocumentService updateDocumentService,
+                          OcorrenciaMapper ocorrenciaMapper, DanoMapper danoMapper, IdResponseMapper idResponseMapper) {
+        this.ocorrenciaService = ocorrenciaService;
+        this.updateDocumentService = updateDocumentService;
+        this.ocorrenciaMapper = ocorrenciaMapper;
+        this.danoMapper = danoMapper;
+        this.idResponseMapper = idResponseMapper;
+    }
 
     @GetMapping
     public ResponseEntity<List<Ocorrencia>> findAll() {
@@ -57,55 +59,34 @@ public class OcorrenciaRest {
         return ResponseEntity.ok(ocorrenciaMapper.toDTO(ocorrencia.get()));
     }
 
+    @PostMapping()
+    public ResponseEntity<IdResponseDTO> saveOcorrencia(@RequestBody OcorrenciaDTO ocorrencia) {
+        var ocorrenciaId = ocorrenciaService.salvarOcorrencia(ocorrenciaMapper.toEntity(ocorrencia));
+        return ResponseEntity.ok(idResponseMapper.toDto(ocorrenciaId));
+    }
+
     @PatchMapping()
-    public ResponseEntity<Integer> updateOcorrencia(@RequestBody OcorrenciaDTO ocorrencia) throws Exception {
+    public ResponseEntity<IdResponseDTO> updateOcorrencia(@RequestBody OcorrenciaDTO ocorrencia) {
         var ocorrenciaId = ocorrenciaService.atualizarOcorrencia(ocorrenciaMapper.toEntity(ocorrencia));
-        return ResponseEntity.ok(ocorrenciaId);
+        return ResponseEntity.ok(idResponseMapper.toDto(ocorrenciaId));
     }
 
-    @GetMapping("/cobrade/{cobrade}")
-    public ResponseEntity<List<Ocorrencia>> findAllByCobrade(@PathVariable String cobrade) {
-        return ocorrenciaService.findAllByCobrade(cobrade);
+    @GetMapping("/{idOcorrencia}/danos")
+    public ResponseEntity<List<DanoCreateDTO>> findAllDanosByOcorrencia(@PathVariable Integer idOcorrencia) {
+        var response = ocorrenciaService.findDanos(idOcorrencia);
+        return ResponseEntity.ok(response.stream().map(danoMapper::toSimpleDTO).collect(Collectors.toList()));
     }
 
-    @GetMapping("/uf/{uf}")
-    public ResponseEntity<List<Ocorrencia>> findAllByUf(@PathVariable String uf) {
-        return ocorrenciaService.findAllByUf(uf);
-    }
-
-    @GetMapping("/municipio/{municipio}")
-    public ResponseEntity<List<Ocorrencia>> findAllByMunicipio(@PathVariable String municipio) {
-        return ocorrenciaService.findAllByMunicipio(municipio);
+    @PostMapping(value = "/{idOcorrencia}/danos")
+    public ResponseEntity<IdResponseDTO> salvarDanoByOcorrencia(DanoCreateDTO danoCreateDTO,
+                                                       @PathVariable Integer idOcorrencia) {
+        var danoId = ocorrenciaService.salvarDano(idOcorrencia, danoMapper.toEntity(danoCreateDTO));
+        return ResponseEntity.ok(idResponseMapper.toDto(danoId));
     }
 
     @GetMapping("/gerar-fide/{idOcorrencia}")
     public ResponseEntity<FideDTO> gerarFIDEOcorrencia(@PathVariable Integer idOcorrencia) {
         return new ResponseEntity<FideDTO>(ocorrenciaService.gerarFIDEOcorrencia(idOcorrencia), HttpStatus.OK);
-    }
-
-
-    @PostMapping()
-    public ResponseEntity<Integer> saveOcorrencia(@RequestBody OcorrenciaDTO ocorrencia) {
-        var ocorrenciaId = ocorrenciaService.salvarOcorrencia(ocorrenciaMapper.toEntity(ocorrencia));
-        return ResponseEntity.ok(ocorrenciaId);
-    }
-
-    @GetMapping("/{idOcorrencia}/danos-ambientais")
-    public ResponseEntity<List<DanosAmbientaisDTO>> findAllDanosAmbientaisByOcorrencia(@PathVariable Integer idOcorrencia) {
-        var response = danosService.findAllDanosAmbientaisByOcorrencia(idOcorrencia);
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/{idOcorrencia}/danos-materiais")
-    public ResponseEntity<List<DanosMateriaisDTO>> findAllDanosMateriaisByOcorrencia(@PathVariable Integer idOcorrencia) {
-        var response = danosService.findAllDanosMateriaisByOcorrencia(idOcorrencia);
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/{idOcorrencia}/danos-humanos")
-    public ResponseEntity<List<DanosHumanosDTO>> findAllDanosHumanosByOcorrencia(@PathVariable Integer idOcorrencia) {
-        var response = danosService.findAllDanosHumanosByOcorrencia(idOcorrencia);
-        return ResponseEntity.ok(response);
     }
 
     @RequestMapping(value = "/gerar-documento/{idOcorrencia}", method = RequestMethod.GET, produces =
@@ -115,8 +96,4 @@ public class OcorrenciaRest {
         FideDTO fideDto = ocorrenciaService.gerarFIDEOcorrencia(idOcorrencia);
         return updateDocumentService.updateDocument(fideDto);
     }
-
-    //TODO  update, delete
-
-
 }

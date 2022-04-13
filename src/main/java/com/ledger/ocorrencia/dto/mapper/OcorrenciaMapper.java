@@ -2,9 +2,8 @@ package com.ledger.ocorrencia.dto.mapper;
 
 import com.ledger.cobrade.dto.mapper.CobradeMapper;
 import com.ledger.localidades.dtos.mappers.MunicipioMapper;
-import com.ledger.ocorrencia.dto.OcorrenciaDTO;
 import com.ledger.ocorrencia.dto.ListOcorrenciaDTO;
-import com.ledger.ocorrencia.entities.AreaAfetada;
+import com.ledger.ocorrencia.dto.OcorrenciaDTO;
 import com.ledger.ocorrencia.entities.Ocorrencia;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
