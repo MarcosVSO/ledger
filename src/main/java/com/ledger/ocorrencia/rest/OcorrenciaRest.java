@@ -13,6 +13,7 @@ import com.ledger.rest.dto.IdResponseDTO;
 import com.ledger.rest.dto.mappers.IdResponseMapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -58,7 +59,7 @@ public class OcorrenciaRest {
         }
         return ResponseEntity.ok(ocorrenciaMapper.toDTO(ocorrencia.get()));
     }
-    
+
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{idOcorrencia}")
     public void deleteById(@PathVariable Integer idOcorrencia) {
@@ -85,7 +86,7 @@ public class OcorrenciaRest {
 
     @PostMapping(value = "/{idOcorrencia}/danos")
     public ResponseEntity<IdResponseDTO> salvarDanoByOcorrencia(DanoCreateDTO danoCreateDTO,
-                                                       @PathVariable Integer idOcorrencia) {
+                                                                @PathVariable Integer idOcorrencia) {
         var danoId = ocorrenciaService.salvarDano(idOcorrencia, danoMapper.toEntity(danoCreateDTO));
         return ResponseEntity.ok(idResponseMapper.toDto(danoId));
     }
@@ -97,9 +98,12 @@ public class OcorrenciaRest {
 
     @RequestMapping(value = "/gerar-documento/{idOcorrencia}", method = RequestMethod.GET, produces =
             "application" + "/vnd.openxmlformats-officedocument.wordprocessingml.document")
-    public @ResponseBody
-    byte[] getDoc(@PathVariable Integer idOcorrencia) {
+    public ResponseEntity<byte[]> getDoc(@PathVariable Integer idOcorrencia) {
         FideDTO fideDto = ocorrenciaService.gerarFIDEOcorrencia(idOcorrencia);
-        return updateDocumentService.updateDocument(fideDto);
+        String fileName =
+                "ocorrencia-" + fideDto.getDadosOcorrencia().getUf().getNome() + "-" + fideDto.getDadosOcorrencia().getData().toString() + ".docx";
+        var docBytes = updateDocumentService.updateDocument(fideDto);
+
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "filename=\"" + fileName + "\"").body(docBytes);
     }
 }
